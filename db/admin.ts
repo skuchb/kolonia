@@ -1,33 +1,6 @@
-import { eq } from "drizzle-orm";
-import { bearerToken, verifyToken } from "./auth";
-import { getDb } from "./index";
-import { users } from "./schema";
+import { getUserFromRequest, isBootstrapAdmin } from "./user-from-request";
 
-function adminGoogleSubs(): Set<string> {
-  const raw = process.env.ADMIN_GOOGLE_SUBS ?? "";
-  return new Set(
-    raw
-      .split(",")
-      .map((value) => value.trim())
-      .filter(Boolean),
-  );
-}
-
-export async function getUserFromRequest(request: Request) {
-  const token = bearerToken(request);
-  if (!token) return null;
-
-  const userId = await verifyToken(token);
-  if (!userId) return null;
-
-  try {
-    const db = getDb();
-    const [user] = await db.select().from(users).where(eq(users.id, userId)).limit(1);
-    return user ?? null;
-  } catch {
-    return null;
-  }
-}
+export { getUserFromRequest } from "./user-from-request";
 
 export async function requireAdmin(request: Request) {
   const user = await getUserFromRequest(request);
@@ -35,8 +8,7 @@ export async function requireAdmin(request: Request) {
     return { error: Response.json({ error: "unauthorized" }, { status: 401 }) };
   }
 
-  const bootstrapAdmins = adminGoogleSubs();
-  const isAdmin = user.role === "admin" || bootstrapAdmins.has(user.googleSub);
+  const isAdmin = user.role === "admin" || isBootstrapAdmin(user.googleSub);
   if (!isAdmin) {
     return { error: Response.json({ error: "forbidden" }, { status: 403 }) };
   }
@@ -52,7 +24,7 @@ export async function auditLog(
   details?: unknown,
 ) {
   try {
-    const db = getDb();
+    const db = (await import("./index")).getDb();
     const { adminAuditLog } = await import("./schema");
     await db.insert(adminAuditLog).values({
       userId,

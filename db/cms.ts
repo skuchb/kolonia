@@ -8,7 +8,7 @@ import {
   type maps as MapsTable,
 } from "./schema";
 import cmsFallback from "../data-src/cms-fallback.json";
-import { readCmsFallback } from "./cms-fallback-io";
+import { resolveCmsFallback } from "./cms-fallback-io";
 import type { CmsFallbackState } from "./cms-snapshot";
 import { cmsSnapshotEmpty } from "./cms-snapshot";
 import { listAdminSnapshot } from "./cms-write";
@@ -34,7 +34,7 @@ async function contentSnapshot(): Promise<CmsFallbackState> {
   } catch {
     // fall through
   }
-  return readCmsFallback();
+  return resolveCmsFallback();
 }
 
 export async function listContentNpcs(enabledOnly = false): Promise<Npc[]> {

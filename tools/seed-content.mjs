@@ -96,7 +96,7 @@ const cmsMaps = [
   {
     id: "kolonia",
     name: "Kolonia",
-    imageUrl: "/maps/kolonia.png",
+    imageUrl: "/maps/kolonia.svg",
     imageWidth: 1024,
     imageHeight: 782,
     metersPerPixel: 2.5,

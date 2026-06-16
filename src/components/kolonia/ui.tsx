@@ -39,7 +39,7 @@ export function Corners() {
 export function ParchmentPanel({ children }: { children: ReactNode }) {
   return (
     <div
-      className="relative overflow-hidden p-4 shadow-2xl sm:p-6 lg:p-8 2xl:p-10"
+      className="relative p-4 shadow-2xl sm:p-6 lg:p-8 2xl:p-10"
       style={{
         background:
           "radial-gradient(circle at 18% 12%, rgba(255,255,255,0.18), transparent 34%), linear-gradient(180deg, oklch(0.88 0.052 78) 0%, oklch(0.78 0.065 70) 100%)",

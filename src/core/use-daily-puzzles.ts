@@ -5,6 +5,7 @@ import type { DailyMapPuzzle, ModeId, Npc, Quote } from "./types";
 import {
   fallbackDailyCard,
   fallbackDailyClassic,
+  fallbackDailyMap,
   fallbackDailyQuote,
   fetchDailyPuzzle,
   type DailyCardResponse,
@@ -40,7 +41,8 @@ export function useDailyPuzzles(puzzle: number) {
           : fallbackDailyClassic(puzzle);
       const quoteItem =
         quoteRes?.mode === "quote" ? (quoteRes as DailyQuoteResponse).quote : fallbackDailyQuote(puzzle);
-      const mapItem = mapRes?.mode === "map" ? (mapRes as DailyMapResponse) : null;
+      const mapItem =
+        mapRes?.mode === "map" ? (mapRes as DailyMapResponse) : fallbackDailyMap(puzzle);
       const cardItem =
         cardRes?.mode === "card" ? (cardRes as DailyCardResponse).npc : fallbackDailyCard(puzzle);
 

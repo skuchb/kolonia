@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
-import { bearerToken, verifyToken } from "../../../db/auth";
 import { getDb } from "../../../db";
 import { userProgress, users } from "../../../db/schema";
+import { getUserFromRequest } from "../../../db/user-from-request";
 import {
   mergeUserState,
   parseUserState,
@@ -9,22 +9,6 @@ import {
   type StoredUserState,
 } from "../../../db/user-state";
 import { rankForXp } from "@/src/core/xp";
-
-async function getUserFromRequest(request: Request) {
-  const token = bearerToken(request);
-  if (!token) return null;
-
-  const userId = await verifyToken(token);
-  if (!userId) return null;
-
-  try {
-    const db = getDb();
-    const [user] = await db.select().from(users).where(eq(users.id, userId)).limit(1);
-    return user ?? null;
-  } catch {
-    return null;
-  }
-}
 
 async function readTotalXp(userId: string): Promise<number> {
   try {

@@ -15,6 +15,7 @@ import {
 import { fetchDayStats, type DayStats } from "@/src/core/day-stats";
 import { dailyItem, formatCountdown, msUntilReset, puzzleNumber } from "@/src/core/daily";
 import {
+  fallbackDailyMap,
   submitMapGuess,
 } from "@/src/core/daily-api";
 import { classicFeedback, quoteFeedback } from "@/src/core/feedback";
@@ -114,7 +115,10 @@ export default function KoloniaGame() {
     }
     return scheduledQuote ?? dailyItem(quotePool, puzzle, "quote");
   }, [activeTestRound, puzzle, scheduledQuote]);
-  const mapTarget = useMemo(() => mapPuzzle, [mapPuzzle]);
+  const mapTarget = useMemo(
+    () => mapPuzzle ?? fallbackDailyMap(puzzle),
+    [mapPuzzle, puzzle],
+  );
   const cardTarget = useMemo(() => {
     if (activeTestRound?.mode === "card") {
       return getNpcById(activeTestRound.targetId) ?? scheduledCard ?? dailyItem(npcPool, puzzle, "card");
@@ -467,7 +471,7 @@ export default function KoloniaGame() {
     }
   }
 
-  if (!hydrated || dailyLoading || !targetNpc || (mode === "map" && !mapTarget)) {
+  if (!hydrated || dailyLoading || !targetNpc) {
     return <div className="min-h-screen bg-[var(--background)]" />;
   }
 
@@ -712,7 +716,7 @@ export default function KoloniaGame() {
                   </div>
 
                   {suggestions.length > 0 ? (
-                    <ul className="absolute z-20 mt-1 max-h-[min(24rem,50vh)] w-full overflow-y-auto border border-[var(--panel-ink)]/30 bg-[var(--panel)] shadow-lg">
+                    <ul className="kolonia-scroll absolute z-50 mt-1 max-h-[min(24rem,50vh)] w-full overflow-y-auto border border-[var(--panel-ink)]/30 bg-[var(--panel)] shadow-lg">
                       {suggestions.map((npc, index) => (
                         <li key={npc.id}>
                           <button

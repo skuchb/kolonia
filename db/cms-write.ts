@@ -8,7 +8,7 @@ import {
   mapPuzzles,
   maps,
 } from "./schema";
-import { readCmsFallback, writeCmsFallback, isNodeRuntime } from "./cms-fallback-io";
+import { readCmsFallback, resolveCmsFallback, writeCmsFallback, isNodeRuntime } from "./cms-fallback-io";
 import type { CmsFallbackState } from "./cms-snapshot";
 import { cmsSnapshotEmpty } from "./cms-snapshot";
 
@@ -275,9 +275,9 @@ export async function listAdminSnapshot(): Promise<CmsFallbackState> {
       })),
     };
 
-    if (cmsSnapshotEmpty(snapshot)) return readCmsFallback();
+    if (cmsSnapshotEmpty(snapshot)) return resolveCmsFallback();
     return snapshot;
   } catch {
-    return readCmsFallback();
+    return resolveCmsFallback();
   }
 }
