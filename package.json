@@ -13,7 +13,9 @@
     "db:generate": "drizzle-kit generate",
     "build:data": "node tools/build-data.mjs",
     "seed:content": "node tools/seed-content.mjs",
-    "seed:d1": "node tools/seed-d1.mjs"
+    "seed:d1": "node tools/seed-d1.mjs",
+    "d1:create": "wrangler d1 create kolonia-db",
+    "d1:migrate:remote": "wrangler d1 execute kolonia-db --remote --file=drizzle/0000_lucky_blur.sql && wrangler d1 execute kolonia-db --remote --file=drizzle/0001_dry_young_avengers.sql && wrangler d1 execute kolonia-db --remote --file=drizzle/0002_telemetry_event.sql && wrangler d1 execute kolonia-db --remote --file=drizzle/0003_cms_admin.sql"
   },
   "dependencies": {
     "drizzle-orm": "0.45.2",

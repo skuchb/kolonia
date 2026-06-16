@@ -7,7 +7,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const data = JSON.parse(readFileSync(join(root, "data-src/cms-fallback.json"), "utf8"));
 const sqlPath = join(root, "data-src/seed-d1.sql");
 const persistTo = join(root, ".wrangler/state");
-const wranglerConfig = join(root, "dist/server/wrangler.json");
+const wranglerConfig = join(root, "wrangler.jsonc");
 
 function sqlText(value) {
   return `'${String(value).replace(/'/g, "''")}'`;
@@ -58,7 +58,7 @@ const result = spawnSync(
     "wrangler",
     "d1",
     "execute",
-    "site-creator-d1",
+    "kolonia-db",
     "--local",
     "--config",
     wranglerConfig,
