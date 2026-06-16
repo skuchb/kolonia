@@ -1,0 +1,16 @@
+{
+  "source": "https://github.com/VaanaCZ/gothic-1-classic-scripts",
+  "branches": {
+    "pl": "Unified-PL",
+    "en": "Unified-EN",
+    "de": "Unified-DE"
+  },
+  "generatedAt": "2026-06-15T12:55:16.851Z",
+  "npcCount": 132,
+  "quoteCount": 1372,
+  "rawNpcCount": 565,
+  "rawQuoteCount": 1618,
+  "removedNpcCount": 433,
+  "removedQuoteCount": 246,
+  "duplicateNameCount": 22
+}

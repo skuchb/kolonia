@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#1a1410"/>
+  <rect x="80" y="80" width="1040" height="640" fill="#2a2218" stroke="#8b6914" stroke-width="4"/>
+  <text x="600" y="60" text-anchor="middle" fill="#c9a227" font-family="serif" font-size="36">KOLONIA</text>
+  <ellipse cx="260" cy="300" rx="180" ry="120" fill="#3d4a2a" opacity="0.7"/>
+  <text x="260" y="305" text-anchor="middle" fill="#d4c4a0" font-family="serif" font-size="18">Stary Obóz</text>
+  <ellipse cx="600" cy="480" rx="200" ry="140" fill="#2a3a4a" opacity="0.7"/>
+  <text x="600" y="485" text-anchor="middle" fill="#d4c4a0" font-family="serif" font-size="18">Nowy Obóz</text>
+  <ellipse cx="860" cy="420" rx="160" ry="110" fill="#2a4a3a" opacity="0.7"/>
+  <text x="860" y="425" text-anchor="middle" fill="#d4c4a0" font-family="serif" font-size="18">Bractwo</text>
+</svg>

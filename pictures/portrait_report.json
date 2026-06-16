@@ -1,0 +1,1677 @@
+﻿[
+    {
+        "title":  "Aaron",
+        "status":  "downloaded",
+        "summon_code":  "Grd_262_Aaron",
+        "id":  "262",
+        "image":  "Aaron_(Gothic_I).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/a/a5/Aaron_%28Gothic_I%29.png/revision/latest?cb=20230709110227\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\262.jpg"
+    },
+    {
+        "title":  "Aidan",
+        "status":  "downloaded",
+        "summon_code":  "Org_859_Aidan",
+        "id":  "859",
+        "image":  "Aidan_(Gothic_I).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/8/8d/Aidan_%28Gothic_I%29.png/revision/latest?cb=20230708211418\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\859.jpg"
+    },
+    {
+        "title":  "Alberto",
+        "status":  "downloaded",
+        "summon_code":  "Stt_300_Alberto",
+        "id":  "300",
+        "image":  "Alberto_(Gothic_I).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/3/3b/Alberto_%28Gothic_I%29.png/revision/latest?cb=20230709110237\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\300.jpg"
+    },
+    {
+        "title":  "Aleph",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_585_Aleph",
+        "id":  "585",
+        "image":  "Aleph_(GI).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/c/c5/Aleph_%28GI%29.png/revision/latest?cb=20230709110246\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\585.jpg"
+    },
+    {
+        "title":  "Apokaliptyczni strażnicy świątynni",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Arto",
+        "status":  "downloaded",
+        "summon_code":  "Ebr_102_Arto",
+        "id":  "102",
+        "image":  "Arto_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/f/fb/Arto_%28Gothic%29.png/revision/latest?cb=20230915125557\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\102.jpg"
+    },
+    {
+        "title":  "Asghan",
+        "status":  "downloaded",
+        "summon_code":  "Grd_263_Asghan",
+        "id":  "263",
+        "image":  "Asghan_(G1)_(by_Kubar906).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/8/86/Asghan_%28G1%29_%28by_Kubar906%29.png/revision/latest?cb=20230709113859\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\263.jpg"
+    },
+    {
+        "title":  "Baal Cadar",
+        "status":  "downloaded",
+        "summon_code":  "Gur_1208_BaalCadar",
+        "id":  "1208",
+        "image":  "Cadar_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/d/de/Cadar_%28Gothic%29.png/revision/latest?cb=20240121133743\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1208.jpg"
+    },
+    {
+        "title":  "Baal Isidro",
+        "status":  "downloaded",
+        "summon_code":  "Nov_1333_BaalIsidro",
+        "id":  "1333",
+        "image":  "Baal_Isidro_(Jakimix135xd).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/2/2f/Baal_Isidro_%28Jakimix135xd%29.png/revision/latest?cb=20240108202412\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1333.jpg"
+    },
+    {
+        "title":  "Baal Kagan",
+        "status":  "downloaded",
+        "summon_code":  "Nov_1332_BaalKagan",
+        "id":  "1332",
+        "image":  "Baal_Kagan_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/d/d3/Baal_Kagan_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20240108202359\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1332.jpg"
+    },
+    {
+        "title":  "Baal Lukor",
+        "status":  "downloaded",
+        "summon_code":  "Gur_1211_BaalLukor",
+        "id":  "1211",
+        "image":  "Baal_Lukor_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/e/e8/Baal_Lukor_%28Gothic%29.png/revision/latest?cb=20230708211431\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1211.jpg"
+    },
+    {
+        "title":  "Baal Namib",
+        "status":  "downloaded",
+        "summon_code":  "Gur_1204_BaalNamib",
+        "id":  "1204",
+        "image":  "Baal_Namib_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/1/11/Baal_Namib_%28Gothic%29.png/revision/latest?cb=20240121133752\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1204.jpg"
+    },
+    {
+        "title":  "Baal Netbek",
+        "status":  "downloaded",
+        "summon_code":  "Nov_1371_BaalNetbek",
+        "id":  "1371",
+        "image":  "Baal_Netbek_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/1/10/Baal_Netbek_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20240207122614\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1371.jpg"
+    },
+    {
+        "title":  "Baal Orun",
+        "status":  "downloaded",
+        "summon_code":  "Gur_1209_BaalOrun",
+        "id":  "1209",
+        "image":  "Orun_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/1/1d/Orun_%28Gothic%29.png/revision/latest?cb=20240121133803\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1209.jpg"
+    },
+    {
+        "title":  "Baal Parvez",
+        "status":  "downloaded",
+        "summon_code":  "Nov_1330_BaalParvez",
+        "id":  "1330",
+        "image":  "Parvez_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/0/09/Parvez_%28Gothic%29.png/revision/latest?cb=20230916154416\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1330.jpg"
+    },
+    {
+        "title":  "Baal Taran",
+        "status":  "downloaded",
+        "summon_code":  "Nov_1331_BaalTaran",
+        "id":  "1331",
+        "image":  "Baal_Taran_(G1)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/7/75/Baal_Taran_%28G1%29_%28by_Gothicfan94%29.png/revision/latest?cb=20230916154431\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1331.jpg"
+    },
+    {
+        "title":  "Baal Tondral",
+        "status":  "downloaded",
+        "summon_code":  "Gur_1203_BaalTondral",
+        "id":  "1203",
+        "image":  "Tondral_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/1/1b/Tondral_%28Gothic%29.png/revision/latest?cb=20240121133814\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1203.jpg"
+    },
+    {
+        "title":  "Baal Tyon",
+        "status":  "downloaded",
+        "summon_code":  "Gur_1210_BaalTyon",
+        "id":  "1210",
+        "image":  "Baal_Tyon_(by_Wojciech_Wawrzyńczak).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/6/68/Baal_Tyon_%28by_Wojciech_Wawrzy%C5%84czak%29.png/revision/latest?cb=20240121133826\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1210.jpg"
+    },
+    {
+        "title":  "Balam",
+        "status":  "downloaded",
+        "summon_code":  "Stt_324_Balam",
+        "id":  "324",
+        "image":  "Balam_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/6/61/Balam_%28Gothic%29.png/revision/latest?cb=20230825103529\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\324.jpg"
+    },
+    {
+        "title":  "Balor",
+        "status":  "downloaded",
+        "summon_code":  "Nov_1304_Balor",
+        "id":  "1304",
+        "image":  "Balor_(G1)_(by_Kubar906).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/7/75/Balor_%28G1%29_%28by_Kubar906%29.png/revision/latest?cb=20240207122939\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1304.jpg"
+    },
+    {
+        "title":  "Baloro",
+        "status":  "downloaded",
+        "summon_code":  "Sld_753_Baloro",
+        "id":  "753",
+        "image":  "Baloro_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/3/3e/Baloro_%28Gothic%29.png/revision/latest?cb=20230709104048\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\753.jpg"
+    },
+    {
+        "title":  "Bandziory",
+        "status":  "downloaded",
+        "summon_code":  "Org_845_Schlaeger",
+        "id":  "845",
+        "image":  "G1_Bandzior_845.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/3/32/G1_Bandzior_845.png/revision/latest?cb=20230711134537\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\845.jpg"
+    },
+    {
+        "title":  "Bartholo",
+        "status":  "downloaded",
+        "summon_code":  "Ebr_106_Bartholo",
+        "id":  "106",
+        "image":  "Bartholo_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/d/d0/Bartholo_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20230915125607\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\106.jpg"
+    },
+    {
+        "title":  "Barthos",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Bergmar",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Bezimienny",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Blizna",
+        "status":  "downloaded",
+        "summon_code":  "Ebr_101_Scar",
+        "id":  "101",
+        "image":  "Blizna_(Gothic_I)_(by_SpY).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/8/85/Blizna_%28Gothic_I%29_%28by_SpY%29.png/revision/latest?cb=20230915125616\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\101.jpg"
+    },
+    {
+        "title":  "Bloodwyn",
+        "status":  "downloaded",
+        "summon_code":  "Grd_233_Bloodwyn",
+        "id":  "233",
+        "image":  "Bloodwyn_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/a/aa/Bloodwyn_%28Gothic%29.png/revision/latest?cb=20230916154539\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\233.jpg"
+    },
+    {
+        "title":  "Brandick",
+        "status":  "downloaded",
+        "summon_code":  "Grd_261_Brandick",
+        "id":  "261",
+        "image":  "Brandick_(Gothic_I)(by_Lother).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/0/0e/Brandick_%28Gothic_I%29%28by_Lother%29.png/revision/latest?cb=20230709110257\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\261.jpg"
+    },
+    {
+        "title":  "Bruce",
+        "status":  "downloaded",
+        "summon_code":  "Org_828_Bruce",
+        "id":  "828",
+        "image":  "Bruce_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/e/ea/Bruce_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20240112190822\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\828.jpg"
+    },
+    {
+        "title":  "Bullit",
+        "status":  "downloaded",
+        "summon_code":  "Grd_203_Bullit",
+        "id":  "203",
+        "image":  "Bullit_(Jakimix135xd).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/2/2f/Bullit_%28Jakimix135xd%29.png/revision/latest?cb=20230916154634\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\203.jpg"
+    },
+    {
+        "title":  "Buster",
+        "status":  "downloaded",
+        "summon_code":  "Org_833_Buster",
+        "id":  "833",
+        "image":  "Buster_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/5/5a/Buster_%28Gothic%29.png/revision/latest?cb=20240112190832\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\833.jpg"
+    },
+    {
+        "title":  "Butch",
+        "status":  "downloaded",
+        "summon_code":  "Org_851_Butch",
+        "id":  "851",
+        "image":  "Butch_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/e/ea/Butch_%28Gothic%29.png/revision/latest?cb=20240112190847\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\851.jpg"
+    },
+    {
+        "title":  "Caine",
+        "status":  "downloaded",
+        "summon_code":  "Nov_1301_Caine",
+        "id":  "1301",
+        "image":  "Caine_(Gothic_I)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/5/52/Caine_%28Gothic_I%29_%28by_Jao98%29.png/revision/latest?cb=20230809184137\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1301.jpg"
+    },
+    {
+        "title":  "Cavalorn",
+        "status":  "downloaded",
+        "summon_code":  "Stt_336_Cavalorn",
+        "id":  "336",
+        "image":  "Cavalorn_(Gothic_I)_(by_SpY).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/4/41/Cavalorn_%28Gothic_I%29_%28by_SpY%29.png/revision/latest?cb=20230708211408\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\336.jpg"
+    },
+    {
+        "title":  "Chani",
+        "status":  "downloaded",
+        "summon_code":  "Gur_1205_Chani",
+        "id":  "1205",
+        "image":  "Chani_(GI).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/8/82/Chani_%28GI%29.png/revision/latest?cb=20240121122919\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1205.jpg"
+    },
+    {
+        "title":  "Charlotte",
+        "status":  "downloaded",
+        "summon_code":  "TomPutzki_13_02_2021_Part1",
+        "id":  "13",
+        "image":  "Charlotte_(Gothic_I)_(by_SpY).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/c/cd/Charlotte_%28Gothic_I%29_%28by_SpY%29.png/revision/latest?cb=20240225161135\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\13.jpg"
+    },
+    {
+        "title":  "Cipher",
+        "status":  "downloaded",
+        "summon_code":  "Org_873_Cipher",
+        "id":  "873",
+        "image":  "Cipher_g1_(by_Ossowski21).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/b/bc/Cipher_g1_%28by_Ossowski21%29.png/revision/latest?cb=20240112190855\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\873.jpg"
+    },
+    {
+        "title":  "Cor Angar",
+        "status":  "downloaded",
+        "summon_code":  "Gur_1202_CorAngar",
+        "id":  "1202",
+        "image":  "Cor_Angar.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/2/2f/Cor_Angar.png/revision/latest?cb=20240127124537\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1202.jpg"
+    },
+    {
+        "title":  "Cor Kalom",
+        "status":  "downloaded",
+        "summon_code":  "Gur_1201_CorKalom",
+        "id":  "1201",
+        "image":  "Kalom.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/5/5e/Kalom.png/revision/latest?cb=20230709113433\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1201.jpg"
+    },
+    {
+        "title":  "Cord",
+        "status":  "downloaded",
+        "summon_code":  "Sld_709_Cord",
+        "id":  "709",
+        "image":  "Cord_(Gothic_I)_(by_SpY).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/8/85/Cord_%28Gothic_I%29_%28by_SpY%29.png/revision/latest?cb=20231011121722\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\709.jpg"
+    },
+    {
+        "title":  "Corristo",
+        "status":  "downloaded",
+        "summon_code":  "Kdf_402_Corristo",
+        "id":  "402",
+        "image":  "Corristo2.0.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/a/a3/Corristo2.0.png/revision/latest?cb=20230708182106\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\402.jpg"
+    },
+    {
+        "title":  "Cronos",
+        "status":  "downloaded",
+        "summon_code":  "Kdw_604_Cronos",
+        "id":  "604",
+        "image":  "Cronos_(G1)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/4/4f/Cronos_%28G1%29_%28by_Gothicfan94%29.png/revision/latest?cb=20231009102808\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\604.jpg"
+    },
+    {
+        "title":  "Damarok",
+        "status":  "downloaded",
+        "summon_code":  "Kdf_401_Damarok",
+        "id":  "401",
+        "image":  "Damarok_(by_Ossowski21).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/c/ce/Damarok_%28by_Ossowski21%29.png/revision/latest?cb=20230708182520\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\401.jpg"
+    },
+    {
+        "title":  "Darrion",
+        "status":  "downloaded",
+        "summon_code":  "Nov_1312_Darrion",
+        "id":  "1312",
+        "image":  "Darrion_(GI).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/2/2b/Darrion_%28GI%29.png/revision/latest?cb=20240207122653\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1312.jpg"
+    },
+    {
+        "title":  "Dexter",
+        "status":  "downloaded",
+        "summon_code":  "Stt_329_Dexter",
+        "id":  "329",
+        "image":  "Dexter_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/f/f4/Dexter_%28Gothic%29.png/revision/latest?cb=20230826174923\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\329.jpg"
+    },
+    {
+        "title":  "Diego",
+        "status":  "downloaded",
+        "summon_code":  "MikeHoge_30_01_2021_Part2",
+        "id":  "30",
+        "image":  "Diego_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/6/67/Diego_%28Gothic%29.png/revision/latest?cb=20230826175401\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\30.jpg"
+    },
+    {
+        "title":  "Dr Pymonte",
+        "status":  "downloaded",
+        "summon_code":  "Pir_1390_Addon_InExtremo_DrPymonte",
+        "id":  "1390",
+        "image":  "Dr_Pymonte_(Gothic_I).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/b/b3/Dr_Pymonte_%28Gothic_I%29.png/revision/latest?cb=20240226200550\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1390.jpg"
+    },
+    {
+        "title":  "Drago",
+        "status":  "downloaded",
+        "summon_code":  "Kdf_403_Drago",
+        "id":  "403",
+        "image":  "Drago_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/4/43/Drago_%28by_Jao98%29.png/revision/latest?cb=20230708182513\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\403.jpg"
+    },
+    {
+        "title":  "Drake",
+        "status":  "downloaded",
+        "summon_code":  "Grd_260_Drake",
+        "id":  "260",
+        "image":  "Drake_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/3/30/Drake_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20230709110307\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\260.jpg"
+    },
+    {
+        "title":  "Drax",
+        "status":  "downloaded",
+        "summon_code":  "Org_819_Drax",
+        "id":  "819",
+        "image":  "Drax_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/4/4a/Drax_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20230708211400\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\819.jpg"
+    },
+    {
+        "title":  "Dusty",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_524_Dusty",
+        "id":  "524",
+        "image":  "G1_Dusty.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/0/08/G1_Dusty.png/revision/latest?cb=20230902155913\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\524.jpg"
+    },
+    {
+        "title":  "Fanatyczni strażnicy świątynni",
+        "status":  "downloaded",
+        "summon_code":  "Tpl_1447_Templer",
+        "id":  "1447",
+        "image":  "Fanatyczny_strażnik_G1.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/f/f6/Fanatyczny_stra%C5%BCnik_G1.png/revision/latest?cb=20230711134642\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1447.jpg"
+    },
+    {
+        "title":  "Fisk",
+        "status":  "downloaded",
+        "summon_code":  "Stt_311_Fisk",
+        "id":  "311",
+        "image":  "Fisk_g1_(by_Ossowski21).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/4/43/Fisk_g1_%28by_Ossowski21%29.png/revision/latest?cb=20230826175034\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\311.jpg"
+    },
+    {
+        "title":  "Fletcher",
+        "status":  "downloaded",
+        "summon_code":  "Grd_255_Fletcher",
+        "id":  "255",
+        "image":  "Fletcher_(Gothic_I).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/1/16/Fletcher_%28Gothic_I%29.png/revision/latest?cb=20230708182405\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\255.jpg"
+    },
+    {
+        "title":  "Flex",
+        "status":  "downloaded",
+        "summon_code":  "Pir_1396_Addon_InExtremo_Flex",
+        "id":  "1396",
+        "image":  "Flex_(Gothic_I).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/9/98/Flex_%28Gothic_I%29.png/revision/latest?cb=20240226201414\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1396.jpg"
+    },
+    {
+        "title":  "Fortuno",
+        "status":  "downloaded",
+        "summon_code":  "Nov_1357_Fortuno",
+        "id":  "1357",
+        "image":  "Fortuno_(Gothic_I)_(by_SpY).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/d/de/Fortuno_%28Gothic_I%29_%28by_SpY%29.png/revision/latest?cb=20240207122702\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1357.jpg"
+    },
+    {
+        "title":  "Garp",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_587_Garp",
+        "id":  "587",
+        "image":  "Garp_(GI).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/6/64/Garp_%28GI%29.png/revision/latest?cb=20230709113907\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\587.jpg"
+    },
+    {
+        "title":  "Gellon",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Generał (właściciel Uriziela)",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Ghorim",
+        "status":  "downloaded",
+        "summon_code":  "Nov_1310_Ghorim",
+        "id":  "1310",
+        "image":  "Ghorim_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/8/84/Ghorim_%28Gothic%29.png/revision/latest?cb=20240207143002\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1310.jpg"
+    },
+    {
+        "title":  "Gilbert (Gothic)",
+        "status":  "downloaded",
+        "summon_code":  "Non_1500_Gilbert",
+        "id":  "1500",
+        "image":  "Gilbert_GI_(by_Wedkarski).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/7/7e/Gilbert_GI_%28by_Wedkarski%29.png/revision/latest?cb=20230708211351\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1500.jpg"
+    },
+    {
+        "title":  "Glen",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_583_Glen",
+        "id":  "583",
+        "image":  "Glen_(GI).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/6/6b/Glen_%28GI%29.png/revision/latest?cb=20230709110319\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\583.jpg"
+    },
+    {
+        "title":  "Gomez",
+        "status":  "downloaded",
+        "summon_code":  "Ebr_100_Gomez",
+        "id":  "100",
+        "image":  "Gomez_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/d/d3/Gomez_%28Gothic%29.png/revision/latest?cb=20230915125753\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\100.jpg"
+    },
+    {
+        "title":  "Gor Boba",
+        "status":  "downloaded",
+        "summon_code":  "Tpl_1455_GorBoba",
+        "id":  "1455",
+        "image":  "Boba_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/8/8e/Boba_%28by_Jao98%29.png/revision/latest?cb=20230708210455\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1455.jpg"
+    },
+    {
+        "title":  "Gor Hanis",
+        "status":  "downloaded",
+        "summon_code":  "Tpl_1422_GorHanis",
+        "id":  "1422",
+        "image":  "Hanis_(Gothic_I)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/7/70/Hanis_%28Gothic_I%29_%28by_Jao98%29.png/revision/latest?cb=20230708182537\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1422.jpg"
+    },
+    {
+        "title":  "Gor Na Bar",
+        "status":  "downloaded",
+        "summon_code":  "Tpl_1400_GorNaBar",
+        "id":  "1400",
+        "image":  "Gor_Na_Bar_(Jakimix).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/c/c4/Gor_Na_Bar_%28Jakimix%29.png/revision/latest?cb=20230709110328\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1400.jpg"
+    },
+    {
+        "title":  "Gor Na Drak",
+        "status":  "downloaded",
+        "summon_code":  "Tpl_1439_GorNaDrak",
+        "id":  "1439",
+        "image":  "Drak_(GI)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/8/8c/Drak_%28GI%29_%28by_Jao98%29.png/revision/latest?cb=20240208110646\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1439.jpg"
+    },
+    {
+        "title":  "Gor Na Kosh",
+        "status":  "downloaded",
+        "summon_code":  "Tpl_1401_GorNaKosh",
+        "id":  "1401",
+        "image":  "Kosh_(GI)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/3/3b/Kosh_%28GI%29_%28by_Jao98%29.png/revision/latest?cb=20230709114237\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1401.jpg"
+    },
+    {
+        "title":  "Gor Na Ran",
+        "status":  "downloaded",
+        "summon_code":  "Tpl_1405_GorNaRan",
+        "id":  "1405",
+        "image":  "Ran_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/c/cc/Ran_%28by_Jao98%29.png/revision/latest?cb=20240208110655\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1405.jpg"
+    },
+    {
+        "title":  "Gor Na Toth",
+        "status":  "downloaded",
+        "summon_code":  "Tpl_1402_GorNaToth",
+        "id":  "1402",
+        "image":  "Gor_Na_Toth_(Gothic_I)_(by_SpY).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/8/8a/Gor_Na_Toth_%28Gothic_I%29_%28by_SpY%29.png/revision/latest?cb=20240208110703\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1402.jpg"
+    },
+    {
+        "title":  "Gor Na Vid",
+        "status":  "downloaded",
+        "summon_code":  "Tpl_1433_GorNaVid",
+        "id":  "1433",
+        "image":  "Vid_(GI).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/2/2d/Vid_%28GI%29.png/revision/latest?cb=20230709114251\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1433.jpg"
+    },
+    {
+        "title":  "Gorn",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Graham",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_573_Graham",
+        "id":  "573",
+        "image":  "Graham_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/2/27/Graham_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20230905130922\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\573.jpg"
+    },
+    {
+        "title":  "Grash-Varrag-Arushat",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Gravo",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_572_Gravo",
+        "id":  "572",
+        "image":  "Gravo_(Gothic_I)_(by_Migulo).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/4/49/Gravo_%28Gothic_I%29_%28by_Migulo%29.png/revision/latest?cb=20230902155941\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\572.jpg"
+    },
+    {
+        "title":  "Grim (Gothic)",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_580_Grim",
+        "id":  "580",
+        "image":  "Grim_Gothic.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/1/1d/Grim_Gothic.png/revision/latest?cb=20230708182112\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\580.jpg"
+    },
+    {
+        "title":  "Grimes",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_586_Grimes",
+        "id":  "586",
+        "image":  "Grimes_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/b/b3/Grimes_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20230709110338\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\586.jpg"
+    },
+    {
+        "title":  "Guy",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_530_Guy",
+        "id":  "530",
+        "image":  "Guy_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/4/4a/Guy_%28Gothic%29.png/revision/latest?cb=20230708182336\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\530.jpg"
+    },
+    {
+        "title":  "Harlok",
+        "status":  "downloaded",
+        "summon_code":  "Nov_1358_Harlok",
+        "id":  "1358",
+        "image":  "Harlok_(G).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/f/ff/Harlok_%28G%29.png/revision/latest?cb=20240207143011\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1358.jpg"
+    },
+    {
+        "title":  "Herek",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_511_Herek",
+        "id":  "511",
+        "image":  "Herek_(Gothic_I)_(by_Wojciech_Wawrzyńczak).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/f/fb/Herek_%28Gothic_I%29_%28by_Wojciech_Wawrzy%C5%84czak%29.png/revision/latest?cb=20230902155952\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\511.jpg"
+    },
+    {
+        "title":  "Homer",
+        "status":  "downloaded",
+        "summon_code":  "Bau_935_Homer",
+        "id":  "935",
+        "image":  "Homer_(GI)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/4/4a/Homer_%28GI%29_%28by_Jao98%29.png/revision/latest?cb=20231008172912\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\935.jpg"
+    },
+    {
+        "title":  "Horacy",
+        "status":  "downloaded",
+        "summon_code":  "Bau_901_Horatio",
+        "id":  "901",
+        "image":  "Horacy_GI.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/2/2d/Horacy_GI.png/revision/latest?cb=20231007231644\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\901.jpg"
+    },
+    {
+        "title":  "Huno",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_538_Huno",
+        "id":  "538",
+        "image":  "Huno.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/8/8b/Huno.png/revision/latest?cb=20230708182357\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\538.jpg"
+    },
+    {
+        "title":  "Ian",
+        "status":  "downloaded",
+        "summon_code":  "Stt_301_Ian",
+        "id":  "301",
+        "image":  "Ian_(GI).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/c/c0/Ian_%28GI%29.png/revision/latest?cb=20230709110348\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\301.jpg"
+    },
+    {
+        "title":  "In Extremo",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Jacko",
+        "status":  "downloaded",
+        "summon_code":  "Org_862_Jacko",
+        "id":  "862",
+        "image":  "Jacko_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/a/ae/Jacko_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20230708211341\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\862.jpg"
+    },
+    {
+        "title":  "Jarvis",
+        "status":  "downloaded",
+        "summon_code":  "Sld_728_Jarvis",
+        "id":  "728",
+        "image":  "Jarvis_(G1)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/9/95/Jarvis_%28G1%29_%28by_Gothicfan94%29.png/revision/latest?cb=20231216125310\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\728.jpg"
+    },
+    {
+        "title":  "Jednorożec",
+        "status":  "downloaded",
+        "summon_code":  "Pir_1393_Addon_InExtremo_Unicorn",
+        "id":  "1393",
+        "image":  "Unicorn_(Gothic_I).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/3/31/Unicorn_%28Gothic_I%29.png/revision/latest?cb=20240226202233\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1393.jpg"
+    },
+    {
+        "title":  "Jeremiasz",
+        "status":  "downloaded",
+        "summon_code":  "Bau_912_Jeremiah",
+        "id":  "912",
+        "image":  "Jeremiasz_(Gothic_I)_(by_Migulo).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/0/03/Jeremiasz_%28Gothic_I%29_%28by_Migulo%29.png/revision/latest?cb=20231008172936\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\912.jpg"
+    },
+    {
+        "title":  "Jesse",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_564_Jesse",
+        "id":  "564",
+        "image":  "Jesse_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/d/d1/Jesse_%28Gothic%29.png/revision/latest?cb=20230902160002\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\564.jpg"
+    },
+    {
+        "title":  "Joru",
+        "status":  "downloaded",
+        "summon_code":  "Nov_1305_Joru",
+        "id":  "1305",
+        "image":  "Joru_(GI)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/d/db/Joru_%28GI%29_%28by_Jao98%29.png/revision/latest?cb=20240207143023\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1305.jpg"
+    },
+    {
+        "title":  "Kharim",
+        "status":  "downloaded",
+        "summon_code":  "Sld_729_Kharim",
+        "id":  "729",
+        "image":  "Kharim_(G1).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/f/f3/Kharim_%28G1%29.png/revision/latest?cb=20230708182959\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\729.jpg"
+    },
+    {
+        "title":  "Kirgo",
+        "status":  "downloaded",
+        "summon_code":  "Grd_251_Kirgo",
+        "id":  "251",
+        "image":  "Kirgo_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/6/66/Kirgo_%28Gothic%29.png/revision/latest?cb=20230708182737\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\251.jpg"
+    },
+    {
+        "title":  "Klin",
+        "status":  "downloaded",
+        "summon_code":  "Org_850_Wedge",
+        "id":  "850",
+        "image":  "Klin_(Gothic_I)(by_Lother).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/a/ae/Klin_%28Gothic_I%29%28by_Lother%29.png/revision/latest?cb=20240112190934\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\850.jpg"
+    },
+    {
+        "title":  "Kopacze przed Starym Obozem",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_520_Buddler",
+        "id":  "520",
+        "image":  "Kopacz_sprzed_obozu_2_G.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/1/14/Kopacz_sprzed_obozu_2_G.png/revision/latest?cb=20241001185537\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\520.jpg"
+    },
+    {
+        "title":  "Korbacz",
+        "status":  "downloaded",
+        "summon_code":  "Pir_1391_Addon_InExtremo_TheFlail",
+        "id":  "1391",
+        "image":  "Flail_(Gothic_I).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/6/64/Flail_%28Gothic_I%29.png/revision/latest?cb=20240225162054\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1391.jpg"
+    },
+    {
+        "title":  "Korgur Trzy Palce",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Kosa (najemnik)",
+        "status":  "downloaded",
+        "summon_code":  "Sld_704_Blade",
+        "id":  "704",
+        "image":  "Kosa_(GI)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/7/7b/Kosa_%28GI%29_%28by_Jao98%29.png/revision/latest?cb=20231011121811\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\704.jpg"
+    },
+    {
+        "title":  "Kowal Tomasz",
+        "status":  "downloaded",
+        "summon_code":  "Pir_1392_Addon_InExtremo_ThomasTheForger",
+        "id":  "1392",
+        "image":  "Thomas_the_Forger_(Gothic_I).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/1/1c/Thomas_the_Forger_%28Gothic_I%29.png/revision/latest?cb=20240226202413\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1392.jpg"
+    },
+    {
+        "title":  "Kruk",
+        "status":  "downloaded",
+        "summon_code":  "Ebr_105_Raven",
+        "id":  "105",
+        "image":  "Kruk_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/1/18/Kruk_%28Gothic%29.png/revision/latest?cb=20230821163853\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\105.jpg"
+    },
+    {
+        "title":  "Krzykacz",
+        "status":  "downloaded",
+        "summon_code":  "Org_842_Shrike",
+        "id":  "842",
+        "image":  "Krzykacz_(GI)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/8/8a/Krzykacz_%28GI%29_%28by_Jao98%29.png/revision/latest?cb=20240113215034\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\842.jpg"
+    },
+    {
+        "title":  "Kyle",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_536_Kyle",
+        "id":  "536",
+        "image":  "Kyle_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/2/2e/Kyle_%28Gothic%29.png/revision/latest?cb=20230902160014\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\536.jpg"
+    },
+    {
+        "title":  "Lares",
+        "status":  "downloaded",
+        "summon_code":  "Org_801_Lares",
+        "id":  "801",
+        "image":  "Lares_(Gothic_I)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/9/9a/Lares_%28Gothic_I%29_%28by_Jao98%29.png/revision/latest?cb=20240113215042\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\801.jpg"
+    },
+    {
+        "title":  "Lee",
+        "status":  "downloaded",
+        "summon_code":  "Sld_700_Lee",
+        "id":  "700",
+        "image":  "Lee_(Gothic_I)_(by_SpY).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/1/1f/Lee_%28Gothic_I%29_%28by_SpY%29.png/revision/latest?cb=20231011121920\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\700.jpg"
+    },
+    {
+        "title":  "Lester",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Lewus",
+        "status":  "downloaded",
+        "summon_code":  "Org_844_Lefty",
+        "id":  "844",
+        "image":  "Lewus_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/6/62/Lewus_%28Gothic%29.png/revision/latest?cb=20231007231709\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\844.jpg"
+    },
+    {
+        "title":  "Lord Tymorisin",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Lukkor",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Lutter",
+        "status":  "downloaded",
+        "summon_code":  "Pir_1395_Addon_InExtremo_Lutter",
+        "id":  "1395",
+        "image":  "Lutter_(Gothic_I).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/d/d3/Lutter_%28Gothic_I%29.png/revision/latest?cb=20240226203305\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1395.jpg"
+    },
+    {
+        "title":  "Melvin",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_582_Melvin",
+        "id":  "582",
+        "image":  "Melvin_G.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/d/dc/Melvin_G.png/revision/latest?cb=20240207123116\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\582.jpg"
+    },
+    {
+        "title":  "Merdarion",
+        "status":  "downloaded",
+        "summon_code":  "Kdw_602_Merdarion",
+        "id":  "602",
+        "image":  "Merdarion_(GI)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/f/f5/Merdarion_%28GI%29_%28by_Jao98%29.png/revision/latest?cb=20231009102824\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\602.jpg"
+    },
+    {
+        "title":  "Mieszacze",
+        "status":  "downloaded",
+        "summon_code":  "Org_860_Renyu",
+        "id":  "860",
+        "image":  "Renyu.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/a/a6/Renyu.png/revision/latest?cb=20240220165833\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\860.jpg"
+    },
+    {
+        "title":  "Milten",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Mordrag",
+        "status":  "downloaded",
+        "summon_code":  "Org_826_Mordrag",
+        "id":  "826",
+        "image":  "Mordrag_(by_Wojciech_Wawrzyńczak).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/d/d1/Mordrag_%28by_Wojciech_Wawrzy%C5%84czak%29.png/revision/latest?cb=20230916160252\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\826.jpg"
+    },
+    {
+        "title":  "Myxir",
+        "status":  "downloaded",
+        "summon_code":  "Kdw_601_Myxir",
+        "id":  "601",
+        "image":  "Myxir_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/7/74/Myxir_%28Gothic%29.png/revision/latest?cb=20231009102836\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\601.jpg"
+    },
+    {
+        "title":  "Nadzorca",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Natalia",
+        "status":  "downloaded",
+        "summon_code":  "Gur_1207_Natalia",
+        "id":  "1207",
+        "image":  "Natalia_GI_(by_Wedkarski).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/f/f5/Natalia_GI_%28by_Wedkarski%29.png/revision/latest?cb=20240121122910\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1207.jpg"
+    },
+    {
+        "title":  "Nefarius",
+        "status":  "downloaded",
+        "summon_code":  "Kdw_603_Nefarius",
+        "id":  "603",
+        "image":  "Nefarius_(G1).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/e/ef/Nefarius_%28G1%29.png/revision/latest?cb=20231009102904\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\603.jpg"
+    },
+    {
+        "title":  "Nek",
+        "status":  "downloaded",
+        "summon_code":  "Grd_282_Nek",
+        "id":  "282",
+        "image":  "Nek_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/a/ac/Nek_%28Gothic%29.png/revision/latest?cb=20230708211304\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\282.jpg"
+    },
+    {
+        "title":  "Niewolnik ze świątyni Śniącego",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Nieznajomy (postać)",
+        "status":  "downloaded",
+        "summon_code":  "Bau_940_Riddler",
+        "id":  "940",
+        "image":  "Martwy_zbieracz_(gothic_I)_(by_Ossowski21).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/5/5b/Martwy_zbieracz_%28gothic_I%29_%28by_Ossowski21%29.png/revision/latest?cb=20230708211209\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\940.jpg"
+    },
+    {
+        "title":  "Nyras",
+        "status":  "downloaded",
+        "summon_code":  "Nov_1303_Nyras",
+        "id":  "1303",
+        "image":  "Nyras_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/e/e5/Nyras_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20230902160104\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1303.jpg"
+    },
+    {
+        "title":  "Ochroniarz Kaloma",
+        "status":  "downloaded",
+        "summon_code":  "Tpl_1406_Templer",
+        "id":  "1406",
+        "image":  "Ochroniarz_Kaloma_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/b/b9/Ochroniarz_Kaloma_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20230809184129\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1406.jpg"
+    },
+    {
+        "title":  "Okyl",
+        "status":  "downloaded",
+        "summon_code":  "Sld_752_Okyl",
+        "id":  "752",
+        "image":  "Okyl_(GI)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/6/68/Okyl_%28GI%29_%28by_Jao98%29.png/revision/latest?cb=20230709104056\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\752.jpg"
+    },
+    {
+        "title":  "Omid",
+        "status":  "downloaded",
+        "summon_code":  "Stt_325_Omid",
+        "id":  "325",
+        "image":  "Omid_(Gothic_I)_(by_Migulo).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/9/9b/Omid_%28Gothic_I%29_%28by_Migulo%29.png/revision/latest?cb=20230825103537\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\325.jpg"
+    },
+    {
+        "title":  "Opętani nowicjusze",
+        "status":  "downloaded",
+        "summon_code":  "NOV_1359_Novize",
+        "id":  "1359",
+        "image":  "Opętany_nowicjusz_Ossowski21.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/7/79/Op%C4%99tany_nowicjusz_Ossowski21.png/revision/latest?cb=20240217134542\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1359.jpg"
+    },
+    {
+        "title":  "Orik (Gothic)",
+        "status":  "downloaded",
+        "summon_code":  "Sld_701_Orik",
+        "id":  "701",
+        "image":  "Orik_(G1).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/d/df/Orik_%28G1%29.png/revision/latest?cb=20231011121836\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\701.jpg"
+    },
+    {
+        "title":  "Orry",
+        "status":  "downloaded",
+        "summon_code":  "Grd_254_Orry",
+        "id":  "254",
+        "image":  "Orry_(by_Wojciech_Wawrzyńczak).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/0/0d/Orry_%28by_Wojciech_Wawrzy%C5%84czak%29.png/revision/latest?cb=20230708211200\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\254.jpg"
+    },
+    {
+        "title":  "Pacho",
+        "status":  "downloaded",
+        "summon_code":  "Grd_224_Pacho",
+        "id":  "224",
+        "image":  "Pacho_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/d/d8/Pacho_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20230708211148\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\224.jpg"
+    },
+    {
+        "title":  "Pock",
+        "status":  "downloaded",
+        "summon_code":  "Bau_902_Pock",
+        "id":  "902",
+        "image":  "Pock_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/b/b5/Pock_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20231008110102\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\902.jpg"
+    },
+    {
+        "title":  "Postacie w Gothic",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Pyrokar",
+        "status":  "downloaded",
+        "summon_code":  "Kdf_500_Pyrokar",
+        "id":  "500",
+        "image":  "Pyrokar_intro.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/a/a6/Pyrokar_intro.png/revision/latest?cb=20160717092816\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\500.jpg"
+    },
+    {
+        "title":  "Quentin",
+        "status":  "downloaded",
+        "summon_code":  "Org_858_Quentin",
+        "id":  "858",
+        "image":  "Quentin_(GI).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/6/68/Quentin_%28GI%29.png/revision/latest?cb=20230708211140\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\858.jpg"
+    },
+    {
+        "title":  "Ratford",
+        "status":  "downloaded",
+        "summon_code":  "Org_818_Ratford",
+        "id":  "818",
+        "image":  "Ratford_(GI)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/8/8d/Ratford_%28GI%29_%28by_Jao98%29.png/revision/latest?cb=20230708211109\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\818.jpg"
+    },
+    {
+        "title":  "Rhobar II",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Riordian",
+        "status":  "downloaded",
+        "summon_code":  "Kdw_605_Riordian",
+        "id":  "605",
+        "image":  "Riordian_(GI)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/b/b1/Riordian_%28GI%29_%28by_Jao98%29.png/revision/latest?cb=20231009102854\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\605.jpg"
+    },
+    {
+        "title":  "Rodriguez",
+        "status":  "downloaded",
+        "summon_code":  "Kdf_400_Rodriguez",
+        "id":  "400",
+        "image":  "Rodriguez_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/3/37/Rodriguez_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20230708182419\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\400.jpg"
+    },
+    {
+        "title":  "Roscoe",
+        "status":  "downloaded",
+        "summon_code":  "Org_840_Roscoe",
+        "id":  "840",
+        "image":  "Roscoe_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/e/ee/Roscoe_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20240113215052\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\840.jpg"
+    },
+    {
+        "title":  "Rufus (Gothic)",
+        "status":  "downloaded",
+        "summon_code":  "Bau_903_Rufus",
+        "id":  "903",
+        "image":  "Rufus_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/9/98/Rufus_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20231007231726\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\903.jpg"
+    },
+    {
+        "title":  "Ryżowy Książę",
+        "status":  "downloaded",
+        "summon_code":  "Bau_900_Ricelord",
+        "id":  "900",
+        "image":  "Ryżowy_Ksiażę_(GI).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/5/56/Ry%C5%BCowy_Ksia%C5%BC%C4%99_%28GI%29.png/revision/latest?cb=20231007231624\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\900.jpg"
+    },
+    {
+        "title":  "Rączka",
+        "status":  "downloaded",
+        "summon_code":  "Stt_331_Fingers",
+        "id":  "331",
+        "image":  "Rączka_(Gothic_I)(by_Lother).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/0/0d/R%C4%85czka_%28Gothic_I%29%28by_Lother%29.png/revision/latest?cb=20230708182041\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\331.jpg"
+    },
+    {
+        "title":  "Santino",
+        "status":  "downloaded",
+        "summon_code":  "Stt_335_Santino",
+        "id":  "335",
+        "image":  "Santino_(GI)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/7/71/Santino_%28GI%29_%28by_Jao98%29.png/revision/latest?cb=20230709110438\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\335.jpg"
+    },
+    {
+        "title":  "Saturas",
+        "status":  "downloaded",
+        "summon_code":  "Kdw_600_Saturas",
+        "id":  "600",
+        "image":  "Saturas_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/f/f0/Saturas_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20231009102746\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\600.jpg"
+    },
+    {
+        "title":  "Scatty",
+        "status":  "downloaded",
+        "summon_code":  "Grd_210_Scatty",
+        "id":  "210",
+        "image":  "Scatty_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/2/23/Scatty_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20230708182330\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\210.jpg"
+    },
+    {
+        "title":  "Senyan (Gothic)",
+        "status":  "downloaded",
+        "summon_code":  "Sfb_1000_Senyan",
+        "id":  "1000",
+        "image":  "Senyan_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/7/79/Senyan_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20231009102756\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1000.jpg"
+    },
+    {
+        "title":  "Serafia",
+        "status":  "downloaded",
+        "summon_code":  "Ebr_110_Seraphia",
+        "id":  "110",
+        "image":  "Serafia_(G1).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/9/98/Serafia_%28G1%29.png/revision/latest?cb=20230825103646\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\110.jpg"
+    },
+    {
+        "title":  "Sharky",
+        "status":  "downloaded",
+        "summon_code":  "Org_843_Sharky",
+        "id":  "843",
+        "image":  "Sharky_(Gothic_I)(by_Lother).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/3/37/Sharky_%28Gothic_I%29%28by_Lother%29.png/revision/latest?cb=20240113215103\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\843.jpg"
+    },
+    {
+        "title":  "Shrat",
+        "status":  "downloaded",
+        "summon_code":  "Nov_1356_Shrat",
+        "id":  "1356",
+        "image":  "Shrat_GI_(by_Wedkarski).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/6/6d/Shrat_GI_%28by_Wedkarski%29.png/revision/latest?cb=20240207143035\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1356.jpg"
+    },
+    {
+        "title":  "Siekacz (strażnik)",
+        "status":  "downloaded",
+        "summon_code":  "Grd_208_Cutter",
+        "id":  "208",
+        "image":  "Siekacz_g1.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/6/6e/Siekacz_g1.png/revision/latest?cb=20230916154746\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\208.jpg"
+    },
+    {
+        "title":  "Silas (Gothic)",
+        "status":  "downloaded",
+        "summon_code":  "Org_841_Silas",
+        "id":  "841",
+        "image":  "Silas_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/d/db/Silas_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20240113215114\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\841.jpg"
+    },
+    {
+        "title":  "Sira",
+        "status":  "downloaded",
+        "summon_code":  "Ebr_109_Syra",
+        "id":  "109",
+        "image":  "Sira_(GI)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/9/9b/Sira_%28GI%29_%28by_Jao98%29.png/revision/latest?cb=20230825103657\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\109.jpg"
+    },
+    {
+        "title":  "Skip (Gothic)",
+        "status":  "downloaded",
+        "summon_code":  "Grd_211_Skip",
+        "id":  "211",
+        "image":  "Skip_(strażnik).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/9/9b/Skip_%28stra%C5%BCnik%29.png/revision/latest?cb=20230916154844\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\211.jpg"
+    },
+    {
+        "title":  "Skorpion",
+        "status":  "downloaded",
+        "summon_code":  "Grd_205_Scorpio",
+        "id":  "205",
+        "image":  "Skorpion_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/8/81/Skorpion_%28Gothic%29.png/revision/latest?cb=20230916155010\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\205.jpg"
+    },
+    {
+        "title":  "Snaf",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_581_Snaf",
+        "id":  "581",
+        "image":  "Snaf_G.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/f/fe/Snaf_G.png/revision/latest?cb=20230708172657\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\581.jpg"
+    },
+    {
+        "title":  "Snipes",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_584_Snipes",
+        "id":  "584",
+        "image":  "Snipes.PNG",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/4/4c/Snipes.PNG/revision/latest?cb=20230709110445\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\584.jpg"
+    },
+    {
+        "title":  "Steve (In Extremo)",
+        "status":  "downloaded",
+        "summon_code":  "IE_397_Announcer",
+        "id":  "397",
+        "image":  "Steve_(Gothic_I).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/7/74/Steve_%28Gothic_I%29.png/revision/latest?cb=20240225160722\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\397.jpg"
+    },
+    {
+        "title":  "Stone",
+        "status":  "downloaded",
+        "summon_code":  "Grd_219_Stone",
+        "id":  "219",
+        "image":  "Stone_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/8/82/Stone_%28Gothic%29.png/revision/latest?cb=20230708182548\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\219.jpg"
+    },
+    {
+        "title":  "Strażnicy bram",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Strażnicy mostu",
+        "status":  "downloaded",
+        "summon_code":  "Grd_275_Brueckenwache",
+        "id":  "275",
+        "image":  "Strażnik_mostu_1_G.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/e/ea/Stra%C5%BCnik_mostu_1_G.png/revision/latest?cb=20240220205412\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\275.jpg"
+    },
+    {
+        "title":  "Strażnik przejścia na ziemie orków",
+        "status":  "downloaded",
+        "summon_code":  "Grd_237_Gardist",
+        "id":  "237",
+        "image":  "Strażnik_przejścia_na_tereny_orków_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/7/7d/Stra%C5%BCnik_przej%C5%9Bcia_na_tereny_ork%C3%B3w_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20240219113544\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\237.jpg"
+    },
+    {
+        "title":  "Strażnik świątynny (Gothic)",
+        "status":  "downloaded",
+        "summon_code":  "Tpl_1438_Templer",
+        "id":  "1438",
+        "image":  "Strażnik_świątynny_z_kopalni_(Gothic_I)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/3/3f/Stra%C5%BCnik_%C5%9Bwi%C4%85tynny_z_kopalni_%28Gothic_I%29_%28by_Jao98%29.png/revision/latest?cb=20230709110456\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1438.jpg"
+    },
+    {
+        "title":  "Swiney",
+        "status":  "downloaded",
+        "summon_code":  "Sfb_1037_Swiney",
+        "id":  "1037",
+        "image":  "Swiney_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/f/f4/Swiney_%28Gothic%29.png/revision/latest?cb=20230709104104\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1037.jpg"
+    },
+    {
+        "title":  "Szakal (Gothic)",
+        "status":  "downloaded",
+        "summon_code":  "Grd_201_Jackal",
+        "id":  "201",
+        "image":  "Szakal_(Gothic_I)_(by_Gothicfan94).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/6/65/Szakal_%28Gothic_I%29_%28by_Gothicfan94%29.png/revision/latest?cb=20230924130757\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\201.jpg"
+    },
+    {
+        "title":  "Sędzia",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_402_Richter",
+        "id":  "402",
+        "image":  "Sędzia_(G1).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/5/53/S%C4%99dzia_%28G1%29.png/revision/latest?cb=20240221131019\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\402.jpg"
+    },
+    {
+        "title":  "Talas",
+        "status":  "downloaded",
+        "summon_code":  "Nov_1300_Talas",
+        "id":  "1300",
+        "image":  "Talas_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/4/48/Talas_%28Gothic%29.png/revision/latest?cb=20240207143045\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1300.jpg"
+    },
+    {
+        "title":  "Tarrok",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Thorus",
+        "status":  "downloaded",
+        "summon_code":  "Grd_200_Thorus",
+        "id":  "200",
+        "image":  "Thorus_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/c/c2/Thorus_%28Gothic%29.png/revision/latest?cb=20230916160305\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\200.jpg"
+    },
+    {
+        "title":  "Torlof",
+        "status":  "downloaded",
+        "summon_code":  "Sld_737_Torlof",
+        "id":  "737",
+        "image":  "Torlof_(GI)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/a/a6/Torlof_%28GI%29_%28by_Jao98%29.png/revision/latest?cb=20231011121846\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\737.jpg"
+    },
+    {
+        "title":  "Torrez",
+        "status":  "downloaded",
+        "summon_code":  "Kdf_405_Torrez",
+        "id":  "405",
+        "image":  "Torrez_(by_Ossowski21).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/f/f2/Torrez_%28by_Ossowski21%29.png/revision/latest?cb=20230708182412\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\405.jpg"
+    },
+    {
+        "title":  "Ulbert",
+        "status":  "downloaded",
+        "summon_code":  "Grd_271_Ulbert",
+        "id":  "271",
+        "image":  "Ulbert_(GI)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/b/b6/Ulbert_%28GI%29_%28by_Jao98%29.png/revision/latest?cb=20230709110504\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\271.jpg"
+    },
+    {
+        "title":  "Ur-Shak",
+        "status":  "downloaded",
+        "summon_code":  "Orc_2200_Shaman",
+        "id":  "2200",
+        "image":  "Ur-Shak_(GI)_(by_Jao98).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/d/de/Ur-Shak_%28GI%29_%28by_Jao98%29.png/revision/latest?cb=20230708211047\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\2200.jpg"
+    },
+    {
+        "title":  "Varrag-Hashor",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Varrag-Kasorg",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Varrag-Ruuushk",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Varrag-Unhilqt",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Velaya",
+        "status":  "downloaded",
+        "summon_code":  "Ebr_108_Velaya",
+        "id":  "108",
+        "image":  "Velaya_G.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/3/34/Velaya_G.png/revision/latest?cb=20230825143329\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\108.jpg"
+    },
+    {
+        "title":  "Viran",
+        "status":  "downloaded",
+        "summon_code":  "Nov_1302_Viran",
+        "id":  "1302",
+        "image":  "Viran_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/4/42/Viran_%28Gothic%29.png/revision/latest?cb=20240207122715\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1302.jpg"
+    },
+    {
+        "title":  "Wilk (postać)",
+        "status":  "downloaded",
+        "summon_code":  "Org_855_Wolf",
+        "id":  "855",
+        "image":  "Wilk_(szkodnik).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/9/9b/Wilk_%28szkodnik%29.png/revision/latest?cb=20240113215125\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\855.jpg"
+    },
+    {
+        "title":  "Wrzód",
+        "status":  "downloaded",
+        "summon_code":  "Vlk_574_Mud",
+        "id":  "574",
+        "image":  "Wrzód_G.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/f/f5/Wrz%C3%B3d_G.png/revision/latest?cb=20230825103425\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\574.jpg"
+    },
+    {
+        "title":  "Wykidajła",
+        "status":  "downloaded",
+        "summon_code":  "Org_876_Tuersteher",
+        "id":  "876",
+        "image":  "Wykidajło_1_G.png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/0/00/Wykidaj%C5%82o_1_G.png/revision/latest?cb=20240220164314\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\876.jpg"
+    },
+    {
+        "title":  "Wąż (Gothic)",
+        "status":  "downloaded",
+        "summon_code":  "Stt_302_Viper",
+        "id":  "302",
+        "image":  "Wąż_(by_Wojciech_Wawrzyńczak).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/a/ad/W%C4%85%C5%BC_%28by_Wojciech_Wawrzy%C5%84czak%29.png/revision/latest?cb=20230709113914\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\302.jpg"
+    },
+    {
+        "title":  "Xardas",
+        "status":  "downloaded",
+        "summon_code":  "Kdf_404_Xardas",
+        "id":  "404",
+        "image":  "Xardas_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/a/a3/Xardas_%28Gothic%29.png/revision/latest?cb=20230708210856\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\404.jpg"
+    },
+    {
+        "title":  "Y\u0027Berion",
+        "status":  "downloaded",
+        "summon_code":  "Gur_1200_YBerion",
+        "id":  "1200",
+        "image":  "Y\u0027Berion(by_Lother).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/9/98/Y%27Berion%28by_Lother%29.png/revision/latest?cb=20240207122554\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1200.jpg"
+    },
+    {
+        "title":  "Zły",
+        "status":  "downloaded",
+        "summon_code":  "Stt_315_Sly",
+        "id":  "315",
+        "image":  "Zły_(Gothic).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/3/34/Z%C5%82y_%28Gothic%29.png/revision/latest?cb=20230826175228\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\315.jpg"
+    },
+    {
+        "title":  "Łowca trolli",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Świstak",
+        "status":  "downloaded",
+        "summon_code":  "Stt_309_Whistler",
+        "id":  "309",
+        "image":  "Świstak_(Gothic_I)(by_Lother).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/1/1a/%C5%9Awistak_%28Gothic_I%29%28by_Lother%29.png/revision/latest?cb=20230826175053\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\309.jpg"
+    },
+    {
+        "title":  "Żona Rhobara II",
+        "status":  "id_not_found",
+        "summon_code":  null,
+        "image":  null,
+        "url":  null,
+        "path":  null
+    },
+    {
+        "title":  "Żółty Pfeiffer",
+        "status":  "downloaded",
+        "summon_code":  "Pir_1394_Addon_InExtremo_YellowPfeiffer",
+        "id":  "1394",
+        "image":  "Yellow_Pfeiffer_(Gothic_I).png",
+        "url":  "https://static.wikia.nocookie.net/gothic/images/2/2d/Yellow_Pfeiffer_%28Gothic_I%29.png/revision/latest?cb=20240225183752\u0026path-prefix=pl",
+        "path":  "C:\\Users\\skucharski\\Documents\\claude\\gothic\\pictures\\portraits_gothic1\\1394.jpg"
+    }
+]
