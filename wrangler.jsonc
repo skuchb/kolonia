@@ -1,16 +1,51 @@
 {
+
   "$schema": "node_modules/wrangler/config-schema.json",
+
   "name": "kolonia",
+
   "compatibility_date": "2026-05-15",
+
   "compatibility_flags": ["nodejs_compat"],
+
   "main": "./worker/index.ts",
+
   // Utwórz bazę: npx wrangler d1 create kolonia-db
+
   // Wklej prawdziwe database_id z outputu (Dashboard → D1 → kolonia-db też działa).
+
   "d1_databases": [
+
     {
+
       "binding": "DB",
+
       "database_name": "kolonia-db",
+
       "database_id": "113bfdc9-a00e-4943-9a62-42373a81973e"
+
     }
-  ]
+
+  ],
+
+  // Publiczne zmienne — commituj do gita. Przetrwają każdy deploy z wrangler.jsonc.
+
+  "vars": {
+
+    "NEXT_PUBLIC_SITE_URL": "https://kolonia.app",
+
+    "ADMIN_GOOGLE_SUBS": "100306515230770973675"
+
+  },
+
+  // Sekrety NIE wpisuj tutaj. To jest Worker (nie Pages): npx wrangler secret put <KEY>
+
+  "secrets": {
+
+    "required": ["AUTH_SECRET", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"]
+
+  }
+
 }
+
+
