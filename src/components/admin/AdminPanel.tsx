@@ -127,12 +127,12 @@ export default function AdminPanel() {
   }, [refresh]);
 
   useEffect(() => {
-    if (!headers || !authorized || (tab !== "npcs" && tab !== "quotes" && tab !== "cards")) return;
+    if (!headers || !authorized || (tab !== "npcs" && tab !== "quotes" && tab !== "cards" && tab !== "map")) return;
 
     let cancelled = false;
     const timeoutId = window.setTimeout(() => {
       void (async () => {
-        if (tab === "npcs" || tab === "cards") {
+        if (tab === "npcs" || tab === "cards" || tab === "map") {
           const npcRes = await fetch(`/api/admin/npcs?q=${encodeURIComponent(search)}`, { headers });
           if (npcRes.ok && !cancelled) {
             const data = (await npcRes.json()) as { npcs: AdminNpc[] };
@@ -156,17 +156,6 @@ export default function AdminPanel() {
     };
   }, [authorized, headers, search, tab]);
 
-  useEffect(() => {
-    if (!headers || !authorized || tab !== "map") return;
-    void (async () => {
-      const npcRes = await fetch(`/api/admin/npcs?q=${encodeURIComponent(search)}`, { headers });
-      if (npcRes.ok) {
-        const data = (await npcRes.json()) as { npcs: AdminNpc[] };
-        setNpcs(data.npcs);
-      }
-    })();
-  }, [authorized, headers, search, tab]);
-
   const scheduleForDay = useMemo(() => {
     if (!snapshot) return [];
     return snapshot.dailyPuzzles.filter((row) => row.puzzle === puzzle);
@@ -179,62 +168,8 @@ export default function AdminPanel() {
 
   const today = puzzleNumber();
 
-  const assignedClassicNpcIdsForDay = useMemo(() => {
-    if (!snapshot) return new Set<string>();
-    return new Set(
-      snapshot.dailyPuzzles
-        .filter((row) => row.mode === "classic" && row.npcId && row.puzzle !== selectedNpcDay)
-        .map((row) => row.npcId as string),
-    );
-  }, [selectedNpcDay, snapshot]);
-
-  const assignedCardNpcIdsForDay = useMemo(() => {
-    if (!snapshot) return new Set<string>();
-    return new Set(
-      snapshot.dailyPuzzles
-        .filter((row) => row.mode === "card" && row.npcId && row.puzzle !== selectedCardDay)
-        .map((row) => row.npcId as string),
-    );
-  }, [selectedCardDay, snapshot]);
-
-  const assignedQuoteIdsForDay = useMemo(() => {
-    if (!snapshot) return new Set<string>();
-    return new Set(
-      snapshot.dailyPuzzles
-        .filter((row) => row.mode === "quote" && row.quoteId && row.puzzle !== selectedQuoteDay)
-        .map((row) => row.quoteId as string),
-    );
-  }, [selectedQuoteDay, snapshot]);
-
-  const availableQuotes = useMemo(
-    () =>
-      quotes.filter((quote) => {
-        if (!quote.enabled) return false;
-        if (selectedQuoteDay === today) return true;
-        return !assignedQuoteIdsForDay.has(quote.id);
-      }),
-    [assignedQuoteIdsForDay, quotes, selectedQuoteDay, today],
-  );
-
-  const availableClassicNpcs = useMemo(
-    () =>
-      npcs.filter((npc) => {
-        if (!npc.enabled) return false;
-        if (selectedNpcDay === today) return true;
-        return !assignedClassicNpcIdsForDay.has(npc.id);
-      }),
-    [assignedClassicNpcIdsForDay, npcs, selectedNpcDay, today],
-  );
-
-  const availableCardNpcs = useMemo(
-    () =>
-      npcs.filter((npc) => {
-        if (!npc.enabled) return false;
-        if (selectedCardDay === today) return true;
-        return !assignedCardNpcIdsForDay.has(npc.id);
-      }),
-    [assignedCardNpcIdsForDay, npcs, selectedCardDay, today],
-  );
+  const enabledNpcs = useMemo(() => npcs.filter((npc) => npc.enabled), [npcs]);
+  const enabledQuotes = useMemo(() => quotes.filter((quote) => quote.enabled), [quotes]);
 
   const mapPuzzleByNpcId = useMemo(
     () => new Map((snapshot?.mapPuzzles ?? []).map((entry) => [entry.npcId, entry])),
@@ -261,6 +196,47 @@ export default function AdminPanel() {
     return Array.from({ length: maxDay + 1 }, (_, day) => day);
   }, [puzzle, snapshot]);
 
+  function mapScheduleRow(day: number) {
+    return snapshot?.dailyPuzzles.find((entry) => entry.puzzle === day && entry.mode === "map");
+  }
+
+  function resolveMapPuzzleEditId(day: number, npcId: string): number | undefined {
+    const row = mapScheduleRow(day);
+    if (row?.npcId === npcId && row.mapPuzzleId) {
+      return row.mapPuzzleId;
+    }
+    return mapPuzzleByNpcId.get(npcId)?.id;
+  }
+
+  function loadMapEditorForDay(day: number) {
+    setSelectedMapDay(day);
+    setPuzzle(day);
+    const row = mapScheduleRow(day);
+    if (!row?.npcId) {
+      setMapNpcId("");
+      setMapPoint(null);
+      setChapterPl("");
+      setChapterEn("");
+      setChapterDe("");
+      return;
+    }
+    setMapNpcId(row.npcId);
+    const point = row.mapPuzzleId
+      ? mapPuzzleById.get(row.mapPuzzleId)
+      : mapPuzzleByNpcId.get(row.npcId);
+    if (point) {
+      setMapPoint({ x: point.x, y: point.y });
+      setChapterPl(point.chapterPl ?? "");
+      setChapterEn(point.chapterEn ?? "");
+      setChapterDe(point.chapterDe ?? "");
+    } else {
+      setMapPoint(null);
+      setChapterPl("");
+      setChapterEn("");
+      setChapterDe("");
+    }
+  }
+
   function setActivePuzzle(value: number) {
     const safeValue = Math.max(0, value);
     setPuzzle(safeValue);
@@ -268,6 +244,7 @@ export default function AdminPanel() {
     setSelectedQuoteDay(safeValue);
     setSelectedMapDay(safeValue);
     setSelectedCardDay(safeValue);
+    loadMapEditorForDay(safeValue);
   }
 
   function dateForPuzzle(day: number) {
@@ -291,61 +268,56 @@ export default function AdminPanel() {
   }
 
   async function saveScheduleForPuzzle(targetPuzzle: number, mode: ModeId, payload: Record<string, unknown>) {
-    if (!headers) return;
+    if (!headers) return false;
     const response = await fetch("/api/admin/schedule", {
       method: "PUT",
       headers,
       body: JSON.stringify({ puzzle: targetPuzzle, mode, ...payload }),
     });
-    setMessage(response.ok ? "Zapisano harmonogram." : "Błąd zapisu harmonogramu.");
-    await refresh();
+    if (response.ok) {
+      setMessage(`Zapisano harmonogram: dzień ${targetPuzzle}, tryb ${mode}.`);
+      await refresh();
+      return true;
+    }
+    let detail = "";
+    try {
+      const body = (await response.json()) as { error?: string };
+      if (body.error) detail = ` (${body.error})`;
+    } catch {
+      // ignore
+    }
+    setMessage(`Błąd zapisu harmonogramu${detail}.`);
+    return false;
   }
 
-  async function assignQuoteToDay(targetPuzzle: number, quote: Quote) {
+  async function assignQuoteToDay(targetPuzzle: number, quoteOrId: Quote | string) {
+    const quoteId = typeof quoteOrId === "string" ? quoteOrId : quoteOrId.id;
+    const quote = typeof quoteOrId === "string" ? quoteById.get(quoteOrId) : quoteOrId;
     setSelectedQuoteDay(targetPuzzle);
     setPuzzle(targetPuzzle);
-    await saveScheduleForPuzzle(targetPuzzle, "quote", { quoteId: quote.id, npcId: quote.npcId });
+    await saveScheduleForPuzzle(targetPuzzle, "quote", {
+      quoteId,
+      npcId: quote?.npcId ?? null,
+    });
   }
 
-  async function assignNpcToDay(targetPuzzle: number, npc: Npc) {
+  async function assignNpcToDay(targetPuzzle: number, npcOrId: Npc | string) {
+    const npcId = typeof npcOrId === "string" ? npcOrId : npcOrId.id;
     setSelectedNpcDay(targetPuzzle);
     setPuzzle(targetPuzzle);
-    await saveScheduleForPuzzle(targetPuzzle, "classic", { npcId: npc.id });
+    await saveScheduleForPuzzle(targetPuzzle, "classic", { npcId });
   }
 
-  async function assignCardNpcToDay(targetPuzzle: number, npc: Npc) {
+  async function assignCardNpcToDay(targetPuzzle: number, npcOrId: Npc | string) {
+    const npcId = typeof npcOrId === "string" ? npcOrId : npcOrId.id;
     setSelectedCardDay(targetPuzzle);
     setPuzzle(targetPuzzle);
-    await saveScheduleForPuzzle(targetPuzzle, "card", { npcId: npc.id });
-  }
-
-  function loadMapEditorForDay(day: number) {
-    setSelectedMapDay(day);
-    setPuzzle(day);
-    const row = snapshot?.dailyPuzzles.find((entry) => entry.puzzle === day && entry.mode === "map");
-    if (!row?.npcId) return;
-    setMapNpcId(row.npcId);
-    const point = row.mapPuzzleId
-      ? mapPuzzleById.get(row.mapPuzzleId)
-      : mapPuzzleByNpcId.get(row.npcId);
-    if (point) {
-      setMapPoint({ x: point.x, y: point.y });
-      setChapterPl(point.chapterPl ?? "");
-      setChapterEn(point.chapterEn ?? "");
-      setChapterDe(point.chapterDe ?? "");
-    } else {
-      setMapPoint(null);
-      setChapterPl("");
-      setChapterEn("");
-      setChapterDe("");
-    }
+    await saveScheduleForPuzzle(targetPuzzle, "card", { npcId });
   }
 
   function resolveMapNpcIdForClick(): string | null {
     if (mapNpcId) return mapNpcId;
-    const row = snapshot?.dailyPuzzles.find(
-      (entry) => entry.puzzle === selectedMapDay && entry.mode === "map",
-    );
+    const row = mapScheduleRow(selectedMapDay);
     if (row?.npcId) {
       setMapNpcId(row.npcId);
       return row.npcId;
@@ -353,24 +325,27 @@ export default function AdminPanel() {
     return null;
   }
 
-  async function assignMapNpcToDay(targetPuzzle: number, npc: Npc) {
+  async function assignMapNpcToDay(targetPuzzle: number, npcOrId: Npc | string) {
+    const npcId = typeof npcOrId === "string" ? npcOrId : npcOrId.id;
     setSelectedMapDay(targetPuzzle);
     setPuzzle(targetPuzzle);
-    setMapNpcId(npc.id);
-    const existingPoint = mapPuzzleByNpcId.get(npc.id);
+    setMapNpcId(npcId);
+    const existingPoint = mapPuzzleByNpcId.get(npcId);
     if (!existingPoint) {
       setMapPoint(null);
       setChapterPl("");
       setChapterEn("");
       setChapterDe("");
-      setMessage("Najpierw ustaw punkt tej osoby na mapie, potem zapisz dzień.");
+      setMessage(
+        `Osoba bez punktu na mapie — kliknij mapę i użyj „Zapisz punkt i przypisz do dnia ${targetPuzzle}".`,
+      );
       return;
     }
     setMapPoint({ x: existingPoint.x, y: existingPoint.y });
     setChapterPl(existingPoint.chapterPl ?? "");
     setChapterEn(existingPoint.chapterEn ?? "");
     setChapterDe(existingPoint.chapterDe ?? "");
-    await saveScheduleForPuzzle(targetPuzzle, "map", { npcId: npc.id, mapPuzzleId: existingPoint.id });
+    await saveScheduleForPuzzle(targetPuzzle, "map", { npcId, mapPuzzleId: existingPoint.id });
   }
 
   async function toggleNpc(id: string, enabled: boolean) {
@@ -388,13 +363,24 @@ export default function AdminPanel() {
   }
 
   async function saveMapPuzzle() {
-    if (!headers || !activeMap || !mapNpcId || !mapPoint) return;
-    const existingPoint = mapPuzzleByNpcId.get(mapNpcId);
+    if (!headers || !activeMap) {
+      setMessage("Brak mapy w CMS.");
+      return;
+    }
+    if (!mapNpcId) {
+      setMessage("Najpierw wybierz osobę z listy po prawej.");
+      return;
+    }
+    if (!mapPoint) {
+      setMessage("Kliknij mapę, aby ustawić punkt.");
+      return;
+    }
+    const mapPuzzleId = resolveMapPuzzleEditId(selectedMapDay, mapNpcId);
     const response = await fetch("/api/admin/map-puzzles", {
       method: "PUT",
       headers,
       body: JSON.stringify({
-        id: existingPoint?.id,
+        id: mapPuzzleId,
         mapId: activeMap.id,
         npcId: mapNpcId,
         x: mapPoint.x,
@@ -406,14 +392,26 @@ export default function AdminPanel() {
       }),
     });
     if (!response.ok) {
-      setMessage("Błąd zapisu punktu mapy.");
+      let detail = "";
+      try {
+        const body = (await response.json()) as { error?: string };
+        if (body.error) detail = ` (${body.error})`;
+      } catch {
+        // ignore
+      }
+      setMessage(`Błąd zapisu punktu mapy${detail}.`);
       return;
     }
     const data = (await response.json()) as { id: number };
-    await saveScheduleForPuzzle(selectedMapDay, "map", { npcId: mapNpcId, mapPuzzleId: data.id });
-    setMessage("Zapisano punkt mapy i harmonogram.");
-    await refresh();
+    const saved = await saveScheduleForPuzzle(selectedMapDay, "map", { npcId: mapNpcId, mapPuzzleId: data.id });
+    if (saved) setMessage("Zapisano punkt mapy i harmonogram.");
   }
+
+  useEffect(() => {
+    if (!headers || !authorized || tab !== "map" || !snapshot) return;
+    loadMapEditorForDay(selectedMapDay);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- reload editor when opening map tab or refreshing snapshot
+  }, [authorized, headers, snapshot, tab]);
 
   if (!sessionChecked || authorized === null) {
     return <div className="min-h-screen bg-black p-8 text-[var(--bone)]">Ładowanie panelu…</div>;
@@ -495,7 +493,7 @@ export default function AdminPanel() {
             Dzisiaj ({dateForPuzzle(today)})
           </button>
           <span className="text-xs text-[var(--bone-dim)]">
-            Dzień {today} = dziś. Harmonogram na dziś możesz swobodnie podmieniać.
+            Dzień {today} = dziś. Każdy dzień możesz podmienić — pełna lista postaci i dialogów.
           </span>
         </div>
 
@@ -527,7 +525,7 @@ export default function AdminPanel() {
               <div>
                 <h2 className="text-xl">NPC po dniach</h2>
                 <p className="text-sm text-[var(--bone-dim)]">
-                  Upuść osobę z prawej strony na wybrany dzień. Po przypisaniu znika z listy dostępnych.
+                  Upuść osobę z prawej strony na wybrany dzień. Możesz nadpisać dowolny dzień, także przeszły.
                 </p>
               </div>
               <div className="max-h-[72vh] space-y-3 overflow-y-auto pr-2">
@@ -551,9 +549,8 @@ export default function AdminPanel() {
                       onDrop={(event) => {
                         event.preventDefault();
                         const npcId = event.dataTransfer.getData("text/plain");
-                        const npc = npcById.get(npcId);
                         setDragOverDay(null);
-                        if (npc) void assignNpcToDay(day, npc);
+                        if (npcId) void assignNpcToDay(day, npcId);
                       }}
                     >
                       <div className="mb-2 flex items-center justify-between gap-3">
@@ -588,7 +585,7 @@ export default function AdminPanel() {
               <div>
                 <h2 className="text-xl">Dostępne osoby</h2>
                 <p className="text-sm text-[var(--bone-dim)]">
-                  Pokazuję osoby nieprzypisane do innych dni. Na dziś ({today}) dostępna jest pełna lista.
+                  Pełna lista włączonych postaci — także już użytych w innych dniach.
                 </p>
               </div>
               <input
@@ -598,7 +595,7 @@ export default function AdminPanel() {
                 value={search}
               />
               <ul className="max-h-[64vh] divide-y divide-[var(--hairline)] overflow-y-auto border border-[var(--hairline)]">
-                {availableClassicNpcs.map((npc) => (
+                {enabledNpcs.map((npc) => (
                   <li
                     className="flex cursor-grab flex-wrap items-center justify-between gap-3 p-3 active:cursor-grabbing"
                     draggable
@@ -631,7 +628,7 @@ export default function AdminPanel() {
                   </li>
                 ))}
               </ul>
-              {availableClassicNpcs.length === 0 ? (
+              {enabledNpcs.length === 0 ? (
                 <p className="text-sm text-[var(--bone-dim)]">Brak dostępnych osób dla aktualnego wyszukiwania.</p>
               ) : null}
             </div>
@@ -644,7 +641,7 @@ export default function AdminPanel() {
               <div>
                 <h2 className="text-xl">Karty po dniach</h2>
                 <p className="text-sm text-[var(--bone-dim)]">
-                  Upuść osobę z prawej strony na wybrany dzień. To będzie dzienna karta postaci.
+                  Upuść osobę z prawej strony na wybrany dzień. Możesz nadpisać dowolny dzień, także przeszły.
                 </p>
               </div>
               <div className="max-h-[72vh] space-y-3 overflow-y-auto pr-2">
@@ -668,9 +665,8 @@ export default function AdminPanel() {
                       onDrop={(event) => {
                         event.preventDefault();
                         const npcId = event.dataTransfer.getData("text/plain");
-                        const npc = npcById.get(npcId);
                         setDragOverDay(null);
-                        if (npc) void assignCardNpcToDay(day, npc);
+                        if (npcId) void assignCardNpcToDay(day, npcId);
                       }}
                     >
                       <div className="mb-2 flex items-center justify-between gap-3">
@@ -707,7 +703,7 @@ export default function AdminPanel() {
               <div>
                 <h2 className="text-xl">Dostępne karty</h2>
                 <p className="text-sm text-[var(--bone-dim)]">
-                  Pokazuję osoby nieprzypisane do innych dni kart. Na dziś ({today}) dostępna jest pełna lista.
+                  Pełna lista włączonych postaci — także już użytych w innych dniach.
                 </p>
               </div>
               <input
@@ -717,7 +713,7 @@ export default function AdminPanel() {
                 value={search}
               />
               <ul className="max-h-[64vh] divide-y divide-[var(--hairline)] overflow-y-auto border border-[var(--hairline)]">
-                {availableCardNpcs.map((npc) => (
+                {enabledNpcs.map((npc) => (
                   <li
                     className="flex cursor-grab flex-wrap items-center justify-between gap-3 p-3 active:cursor-grabbing"
                     draggable
@@ -752,7 +748,7 @@ export default function AdminPanel() {
                   </li>
                 ))}
               </ul>
-              {availableCardNpcs.length === 0 ? (
+              {enabledNpcs.length === 0 ? (
                 <p className="text-sm text-[var(--bone-dim)]">Brak dostępnych kart dla aktualnego wyszukiwania.</p>
               ) : null}
             </div>
@@ -765,7 +761,7 @@ export default function AdminPanel() {
               <div>
                 <h2 className="text-xl">Dialogi po dniach</h2>
                 <p className="text-sm text-[var(--bone-dim)]">
-                  Upuść dialog z prawej strony na wybrany dzień. Dzień 0 to {dateForPuzzle(0)}.
+                  Upuść dialog z prawej strony na wybrany dzień. Możesz nadpisać dowolny dzień, także przeszły.
                 </p>
               </div>
               <div className="max-h-[72vh] space-y-3 overflow-y-auto pr-2">
@@ -789,9 +785,8 @@ export default function AdminPanel() {
                       onDrop={(event) => {
                         event.preventDefault();
                         const quoteId = event.dataTransfer.getData("text/plain");
-                        const quote = quoteById.get(quoteId);
                         setDragOverDay(null);
-                        if (quote) void assignQuoteToDay(day, quote);
+                        if (quoteId) void assignQuoteToDay(day, quoteId);
                       }}
                     >
                       <div className="mb-2 flex items-center justify-between gap-3">
@@ -828,7 +823,7 @@ export default function AdminPanel() {
               <div>
                 <h2 className="text-xl">Dostępne dialogi</h2>
                 <p className="text-sm text-[var(--bone-dim)]">
-                  Pokazuję dialogi nieprzypisane do innych dni. Na dziś ({today}) dostępna jest pełna lista.
+                  Pełna lista włączonych dialogów — także już użytych w innych dniach.
                 </p>
               </div>
               <input
@@ -838,7 +833,7 @@ export default function AdminPanel() {
                 value={search}
               />
               <ul className="max-h-[64vh] divide-y divide-[var(--hairline)] overflow-y-auto border border-[var(--hairline)]">
-                {availableQuotes.map((quote) => (
+                {enabledQuotes.map((quote) => (
                   <li
                     className="cursor-grab space-y-3 p-3 active:cursor-grabbing"
                     draggable
@@ -875,7 +870,7 @@ export default function AdminPanel() {
                   </li>
                 ))}
               </ul>
-              {availableQuotes.length === 0 ? (
+              {enabledQuotes.length === 0 ? (
                 <p className="text-sm text-[var(--bone-dim)]">Brak dostępnych dialogów dla aktualnego wyszukiwania.</p>
               ) : null}
             </div>
@@ -888,7 +883,7 @@ export default function AdminPanel() {
               <div>
                 <h2 className="text-xl">Mapa po dniach</h2>
                 <p className="text-sm text-[var(--bone-dim)]">
-                  Upuść osobę z prawej na dzień. Jeśli nie ma punktu, wybierz ją i kliknij mapę.
+                  Upuść osobę z prawej na dzień. Możesz nadpisać dowolny dzień, także przeszły.
                 </p>
               </div>
               <div className="max-h-[72vh] space-y-3 overflow-y-auto pr-2">
@@ -910,9 +905,8 @@ export default function AdminPanel() {
                       onDrop={(event) => {
                         event.preventDefault();
                         const npcId = event.dataTransfer.getData("text/plain");
-                        const droppedNpc = npcById.get(npcId);
                         setDragOverDay(null);
-                        if (droppedNpc) void assignMapNpcToDay(day, droppedNpc);
+                        if (npcId) void assignMapNpcToDay(day, npcId);
                       }}
                     >
                       <div className="mb-2 flex items-center justify-between gap-3">
@@ -950,11 +944,7 @@ export default function AdminPanel() {
               <div>
                 <h2 className="text-xl">Punkt na mapie — dzień {selectedMapDay}</h2>
                 <p className="text-sm text-[var(--bone-dim)]">
-                  Wybrana osoba:{" "}
-                  {mapNpcId && npcById.get(mapNpcId)
-                    ? npcDisplayName(npcById.get(mapNpcId)!, "pl" as Locale)
-                    : "brak — wybierz osobę z listy po prawej"}
-                  . Kliknij mapę, aby ustawić albo przesunąć punkt.
+                  Wybierz dzień po lewej, osobę po prawej, kliknij mapę i zapisz. Możesz nadpisać dowolny dzień.
                 </p>
               </div>
               <div className="relative w-full border border-[var(--hairline)]">
