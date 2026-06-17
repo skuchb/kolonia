@@ -34,6 +34,7 @@ dev-server.err
 !.env.example
 .dev.vars
 .dev.vars.*
+data-src/seed-d1.sql
 
 # vercel
 .vercel

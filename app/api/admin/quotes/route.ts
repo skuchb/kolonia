@@ -56,7 +56,12 @@ export async function PATCH(request: Request) {
     return Response.json({ error: "invalid_request" }, { status: 400 });
   }
 
-  await setQuoteEnabled(body.id, body.enabled);
-  await auditLog(auth.user.id, "set_quote_enabled", "content_quote", body.id, body);
-  return Response.json({ ok: true });
+  try {
+    await setQuoteEnabled(body.id, body.enabled);
+    await auditLog(auth.user.id, "set_quote_enabled", "content_quote", body.id, body);
+    return Response.json({ ok: true });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "cms_write_failed";
+    return Response.json({ error: message }, { status: 503 });
+  }
 }

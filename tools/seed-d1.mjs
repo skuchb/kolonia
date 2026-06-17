@@ -49,6 +49,8 @@ for (const row of data.dailyPuzzles) {
   );
 }
 
+const remote = process.argv.includes("--remote");
+
 writeFileSync(sqlPath, lines.join("\n"), "utf8");
 console.log(`seed-d1: wrote ${lines.length} statements to ${sqlPath}`);
 
@@ -59,11 +61,7 @@ const result = spawnSync(
     "d1",
     "execute",
     "kolonia-db",
-    "--local",
-    "--config",
-    wranglerConfig,
-    "--persist-to",
-    persistTo,
+    ...(remote ? ["--remote"] : ["--local", "--config", wranglerConfig, "--persist-to", persistTo]),
     "--file",
     sqlPath,
   ],
@@ -74,4 +72,4 @@ if (result.status !== 0) {
   process.exit(result.status ?? 1);
 }
 
-console.log("seed-d1: import complete");
+console.log(`seed-d1: import complete (${remote ? "remote" : "local"})`);

@@ -16,12 +16,27 @@ function now() {
   return Date.now();
 }
 
-async function withFallback<T>(dbFn: () => Promise<T>, fallbackFn: () => T): Promise<T> {
+async function withD1Write<T>(dbFn: () => Promise<T>, nodeFallbackFn: () => T): Promise<T> {
   try {
     getDb();
-    return await dbFn();
   } catch {
-    return fallbackFn();
+    if (!isNodeRuntime()) {
+      throw new Error("d1_unavailable");
+    }
+    return nodeFallbackFn();
+  }
+
+  try {
+    return await dbFn();
+  } catch (error) {
+    if (isNodeRuntime()) {
+      try {
+        return nodeFallbackFn();
+      } catch {
+        throw error;
+      }
+    }
+    throw error;
   }
 }
 
@@ -34,7 +49,7 @@ export async function upsertDailyPuzzle(input: {
   published?: number;
 }) {
   const ts = now();
-  return withFallback(
+  return withD1Write(
     async () => {
       const db = getDb();
       const [existing] = await db
@@ -96,7 +111,7 @@ export async function upsertDailyPuzzle(input: {
 
 export async function setNpcEnabled(id: string, enabled: boolean) {
   const ts = now();
-  return withFallback(
+  return withD1Write(
     async () => {
       const db = getDb();
       await db.update(contentNpcs).set({ enabled: enabled ? 1 : 0, updatedAt: ts }).where(eq(contentNpcs.id, id));
@@ -114,7 +129,7 @@ export async function setNpcEnabled(id: string, enabled: boolean) {
 
 export async function setQuoteEnabled(id: string, enabled: boolean) {
   const ts = now();
-  return withFallback(
+  return withD1Write(
     async () => {
       const db = getDb();
       await db
@@ -146,7 +161,7 @@ export async function upsertMapPuzzle(input: {
   label?: string | null;
 }) {
   const ts = now();
-  return withFallback(
+  return withD1Write(
     async () => {
       const db = getDb();
       if (input.id) {
