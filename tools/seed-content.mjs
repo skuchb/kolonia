@@ -39,8 +39,11 @@ function now() {
   return Date.now();
 }
 
-function ensureMapSvg() {
+function ensureMapAsset() {
   mkdirSync(mapsDir, { recursive: true });
+  const pngPath = join(mapsDir, "kolonia.png");
+  if (existsSync(pngPath)) return;
+
   const svgPath = join(mapsDir, "kolonia.svg");
   if (existsSync(svgPath)) return;
 
@@ -72,7 +75,9 @@ function quoteForNpc(npcId) {
 
 const npcById = new Map(npcs.map((npc) => [npc.id, npc]));
 
-ensureMapSvg();
+ensureMapAsset();
+
+const mapImageUrl = existsSync(join(mapsDir, "kolonia.png")) ? "/maps/kolonia.png" : "/maps/kolonia.svg";
 
 const cmsNpcs = npcs.map((npc) => ({
   id: npc.id,
@@ -96,7 +101,7 @@ const cmsMaps = [
   {
     id: "kolonia",
     name: "Kolonia",
-    imageUrl: "/maps/kolonia.svg",
+    imageUrl: mapImageUrl,
     imageWidth: 1024,
     imageHeight: 782,
     metersPerPixel: 2.5,

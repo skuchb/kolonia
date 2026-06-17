@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import Analytics from "@/src/components/kolonia/Analytics";
+import { siteUrl } from "@/src/core/site";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://kolonia.gg";
+const metadataBase = siteUrl();
 
 export const metadata: Metadata = {
   title: "KOLONIA — codzienna zagadka z Górniczej Doliny",
   description:
     "Jedna postać, jeden cytat, jedno miejsce. Codzienna gra-zagadka dla fanów Gothica. Reset o północy.",
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(metadataBase),
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

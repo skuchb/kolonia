@@ -1,4 +1,5 @@
 import { feedbackToEmoji } from "./feedback";
+import { shareDomain } from "./site";
 import type { FeedbackCell, Locale, ModeId, ModeStats } from "./types";
 
 export function buildShareText(options: {
@@ -57,7 +58,7 @@ export function buildShareText(options: {
     "",
     ...visibleRows,
     "",
-    options.domain ?? "kolonia.gg",
+    options.domain ?? shareDomain(),
   ].join("\n");
 }
 

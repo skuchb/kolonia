@@ -288,7 +288,7 @@ Zgadnięte w 4 | seria: 7🔥
 🟩🟨🟩🟩🟩🟩
 🟩🟩🟩🟩🟩🟩
 
-kolonia.gg
+kolonia.app
 ```
 
 Zasady: kolejność kolumn = kolejność atrybutów z tabeli 3.1; przy >8 próbach pokazujemy ostatnie 8 + linijkę `(+N wcześniejszych)`. Bez spoilera (nigdy nie wklejamy imienia NPC).

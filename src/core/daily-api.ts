@@ -4,7 +4,7 @@ import { getNpcById, npcPool, quotePool } from "@/src/data";
 
 const FALLBACK_MAP = {
   id: "kolonia",
-  imageUrl: "/maps/kolonia.svg",
+  imageUrl: "/maps/kolonia.png",
   imageWidth: 1024,
   imageHeight: 782,
   metersPerPixel: 2.5,

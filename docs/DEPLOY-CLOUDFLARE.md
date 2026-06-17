@@ -59,7 +59,7 @@ Skopiuj z `.env.example`:
 
 - `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`
 - `AUTH_SECRET`
-- `NEXT_PUBLIC_SITE_URL` (np. `https://kolonia.pages.dev`)
+- `NEXT_PUBLIC_SITE_URL` = `https://kolonia.app` (Production)
 - `ADMIN_GOOGLE_SUBS`
 - opcjonalnie: `IP_HASH_SALT`, `NEXT_PUBLIC_CF_BEACON_TOKEN`
 

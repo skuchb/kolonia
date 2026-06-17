@@ -177,46 +177,63 @@ export default function AdminPanel() {
   const npcById = useMemo(() => new Map(npcs.map((npc) => [npc.id, npc])), [npcs]);
   const quoteById = useMemo(() => new Map(quotes.map((quote) => [quote.id, quote])), [quotes]);
 
-  const assignedClassicNpcIds = useMemo(() => {
+  const today = puzzleNumber();
+
+  const assignedClassicNpcIdsForDay = useMemo(() => {
     if (!snapshot) return new Set<string>();
     return new Set(
       snapshot.dailyPuzzles
-        .filter((row) => row.mode === "classic" && row.npcId)
+        .filter((row) => row.mode === "classic" && row.npcId && row.puzzle !== selectedNpcDay)
         .map((row) => row.npcId as string),
     );
-  }, [snapshot]);
+  }, [selectedNpcDay, snapshot]);
 
-  const assignedCardNpcIds = useMemo(() => {
+  const assignedCardNpcIdsForDay = useMemo(() => {
     if (!snapshot) return new Set<string>();
     return new Set(
       snapshot.dailyPuzzles
-        .filter((row) => row.mode === "card" && row.npcId)
+        .filter((row) => row.mode === "card" && row.npcId && row.puzzle !== selectedCardDay)
         .map((row) => row.npcId as string),
     );
-  }, [snapshot]);
+  }, [selectedCardDay, snapshot]);
 
-  const assignedQuoteIds = useMemo(() => {
+  const assignedQuoteIdsForDay = useMemo(() => {
     if (!snapshot) return new Set<string>();
     return new Set(
       snapshot.dailyPuzzles
-        .filter((row) => row.mode === "quote" && row.quoteId)
+        .filter((row) => row.mode === "quote" && row.quoteId && row.puzzle !== selectedQuoteDay)
         .map((row) => row.quoteId as string),
     );
-  }, [snapshot]);
+  }, [selectedQuoteDay, snapshot]);
 
   const availableQuotes = useMemo(
-    () => quotes.filter((quote) => quote.enabled && !assignedQuoteIds.has(quote.id)),
-    [assignedQuoteIds, quotes],
+    () =>
+      quotes.filter((quote) => {
+        if (!quote.enabled) return false;
+        if (selectedQuoteDay === today) return true;
+        return !assignedQuoteIdsForDay.has(quote.id);
+      }),
+    [assignedQuoteIdsForDay, quotes, selectedQuoteDay, today],
   );
 
   const availableClassicNpcs = useMemo(
-    () => npcs.filter((npc) => npc.enabled && !assignedClassicNpcIds.has(npc.id)),
-    [assignedClassicNpcIds, npcs],
+    () =>
+      npcs.filter((npc) => {
+        if (!npc.enabled) return false;
+        if (selectedNpcDay === today) return true;
+        return !assignedClassicNpcIdsForDay.has(npc.id);
+      }),
+    [assignedClassicNpcIdsForDay, npcs, selectedNpcDay, today],
   );
 
   const availableCardNpcs = useMemo(
-    () => npcs.filter((npc) => npc.enabled && !assignedCardNpcIds.has(npc.id)),
-    [assignedCardNpcIds, npcs],
+    () =>
+      npcs.filter((npc) => {
+        if (!npc.enabled) return false;
+        if (selectedCardDay === today) return true;
+        return !assignedCardNpcIdsForDay.has(npc.id);
+      }),
+    [assignedCardNpcIdsForDay, npcs, selectedCardDay, today],
   );
 
   const mapPuzzleByNpcId = useMemo(
@@ -257,6 +274,13 @@ export default function AdminPanel() {
     const date = new Date(`${LAUNCH_DAY}T00:00:00.000Z`);
     date.setUTCDate(date.getUTCDate() + day);
     return new Intl.DateTimeFormat("pl-PL", { day: "2-digit", month: "2-digit", year: "numeric" }).format(date);
+  }
+
+  function dayCardClass(day: number, selected: boolean) {
+    if (selected) return "border-[var(--ember)]";
+    if (dragOverDay === day) return "border-[var(--ember-bright)] bg-[var(--ember)]/10";
+    if (day === today) return "border-[var(--ember)]/60 bg-[var(--ember)]/5";
+    return "border-[var(--hairline)]";
   }
 
   function quoteLinePreview(quote: Quote) {
@@ -452,7 +476,7 @@ export default function AdminPanel() {
           ))}
         </div>
 
-        <div className="mb-6 flex items-center gap-3">
+        <div className="mb-6 flex flex-wrap items-center gap-3">
           <label className="text-xs uppercase tracking-widest text-[var(--bone-dim)]">Dzień</label>
           <input
             className="w-24 border border-[var(--hairline)] bg-black px-3 py-2"
@@ -461,6 +485,18 @@ export default function AdminPanel() {
             type="number"
             value={puzzle}
           />
+          <button
+            className={`border px-3 py-2 text-xs uppercase tracking-widest ${
+              puzzle === today ? "border-[var(--ember)] text-[var(--ember-bright)]" : "border-[var(--hairline)]"
+            }`}
+            onClick={() => setActivePuzzle(today)}
+            type="button"
+          >
+            Dzisiaj ({dateForPuzzle(today)})
+          </button>
+          <span className="text-xs text-[var(--bone-dim)]">
+            Dzień {today} = dziś. Harmonogram na dziś możesz swobodnie podmieniać.
+          </span>
         </div>
 
         {tab === "schedule" ? (
@@ -500,13 +536,7 @@ export default function AdminPanel() {
                   const assignedNpc = row?.npcId ? npcById.get(row.npcId) : undefined;
                   return (
                     <article
-                      className={`border p-3 transition-colors ${
-                        selectedNpcDay === day
-                          ? "border-[var(--ember)]"
-                          : dragOverDay === day
-                            ? "border-[var(--ember-bright)] bg-[var(--ember)]/10"
-                            : "border-[var(--hairline)]"
-                      }`}
+                      className={`border p-3 transition-colors ${dayCardClass(day, selectedNpcDay === day)}`}
                       key={day}
                       onClick={() => {
                         setSelectedNpcDay(day);
@@ -528,7 +558,12 @@ export default function AdminPanel() {
                     >
                       <div className="mb-2 flex items-center justify-between gap-3">
                         <div>
-                          <div className="text-sm uppercase tracking-widest text-[var(--ember)]">Dzień {day}</div>
+                          <div className="text-sm uppercase tracking-widest text-[var(--ember)]">
+                            Dzień {day}
+                            {day === today ? (
+                              <span className="ml-2 text-[var(--ember-bright)]">· dziś</span>
+                            ) : null}
+                          </div>
                           <div className="text-xs text-[var(--bone-dim)]">{dateForPuzzle(day)}</div>
                         </div>
                         <span className="text-xs text-[var(--bone-dim)]">{row?.published === 0 ? "draft" : "live"}</span>
@@ -553,7 +588,7 @@ export default function AdminPanel() {
               <div>
                 <h2 className="text-xl">Dostępne osoby</h2>
                 <p className="text-sm text-[var(--bone-dim)]">
-                  Pokazuję osoby nieprzypisane do żadnego dnia w trybie klasycznym.
+                  Pokazuję osoby nieprzypisane do innych dni. Na dziś ({today}) dostępna jest pełna lista.
                 </p>
               </div>
               <input
@@ -618,13 +653,7 @@ export default function AdminPanel() {
                   const assignedNpc = row?.npcId ? npcById.get(row.npcId) : undefined;
                   return (
                     <article
-                      className={`border p-3 transition-colors ${
-                        selectedCardDay === day
-                          ? "border-[var(--ember)]"
-                          : dragOverDay === day
-                            ? "border-[var(--ember-bright)] bg-[var(--ember)]/10"
-                            : "border-[var(--hairline)]"
-                      }`}
+                      className={`border p-3 transition-colors ${dayCardClass(day, selectedCardDay === day)}`}
                       key={day}
                       onClick={() => {
                         setSelectedCardDay(day);
@@ -646,7 +675,12 @@ export default function AdminPanel() {
                     >
                       <div className="mb-2 flex items-center justify-between gap-3">
                         <div>
-                          <div className="text-sm uppercase tracking-widest text-[var(--ember)]">Dzień {day}</div>
+                          <div className="text-sm uppercase tracking-widest text-[var(--ember)]">
+                            Dzień {day}
+                            {day === today ? (
+                              <span className="ml-2 text-[var(--ember-bright)]">· dziś</span>
+                            ) : null}
+                          </div>
                           <div className="text-xs text-[var(--bone-dim)]">{dateForPuzzle(day)}</div>
                         </div>
                         <span className="text-xs text-[var(--bone-dim)]">{row?.published === 0 ? "draft" : "live"}</span>
@@ -673,7 +707,7 @@ export default function AdminPanel() {
               <div>
                 <h2 className="text-xl">Dostępne karty</h2>
                 <p className="text-sm text-[var(--bone-dim)]">
-                  Pokazuję osoby nieprzypisane do żadnego dnia w trybie Karta.
+                  Pokazuję osoby nieprzypisane do innych dni kart. Na dziś ({today}) dostępna jest pełna lista.
                 </p>
               </div>
               <input
@@ -740,15 +774,12 @@ export default function AdminPanel() {
                   const assignedQuote = row?.quoteId ? quoteById.get(row.quoteId) : undefined;
                   return (
                     <article
-                      className={`border p-3 transition-colors ${
-                        selectedQuoteDay === day
-                          ? "border-[var(--ember)]"
-                          : dragOverDay === day
-                            ? "border-[var(--ember-bright)] bg-[var(--ember)]/10"
-                            : "border-[var(--hairline)]"
-                      }`}
+                      className={`border p-3 transition-colors ${dayCardClass(day, selectedQuoteDay === day)}`}
                       key={day}
-                      onClick={() => setActivePuzzle(day)}
+                      onClick={() => {
+                        setSelectedQuoteDay(day);
+                        setPuzzle(day);
+                      }}
                       onDragLeave={() => setDragOverDay(null)}
                       onDragOver={(event) => {
                         event.preventDefault();
@@ -765,7 +796,12 @@ export default function AdminPanel() {
                     >
                       <div className="mb-2 flex items-center justify-between gap-3">
                         <div>
-                          <div className="text-sm uppercase tracking-widest text-[var(--ember)]">Dzień {day}</div>
+                          <div className="text-sm uppercase tracking-widest text-[var(--ember)]">
+                            Dzień {day}
+                            {day === today ? (
+                              <span className="ml-2 text-[var(--ember-bright)]">· dziś</span>
+                            ) : null}
+                          </div>
                           <div className="text-xs text-[var(--bone-dim)]">{dateForPuzzle(day)}</div>
                         </div>
                         <span className="text-xs text-[var(--bone-dim)]">{row?.published === 0 ? "draft" : "live"}</span>
@@ -792,7 +828,7 @@ export default function AdminPanel() {
               <div>
                 <h2 className="text-xl">Dostępne dialogi</h2>
                 <p className="text-sm text-[var(--bone-dim)]">
-                  Pokazuję tylko dialogi nieprzypisane do żadnego dnia. Po przypisaniu znikają z tej listy.
+                  Pokazuję dialogi nieprzypisane do innych dni. Na dziś ({today}) dostępna jest pełna lista.
                 </p>
               </div>
               <input
@@ -862,13 +898,7 @@ export default function AdminPanel() {
                   const npc = row?.npcId ? npcById.get(row.npcId) : undefined;
                   return (
                     <article
-                      className={`border p-3 transition-colors ${
-                        selectedMapDay === day
-                          ? "border-[var(--ember)]"
-                          : dragOverDay === day
-                            ? "border-[var(--ember-bright)] bg-[var(--ember)]/10"
-                            : "border-[var(--hairline)]"
-                      }`}
+                      className={`border p-3 transition-colors ${dayCardClass(day, selectedMapDay === day)}`}
                       key={day}
                       onClick={() => loadMapEditorForDay(day)}
                       onDragLeave={() => setDragOverDay(null)}
@@ -887,7 +917,12 @@ export default function AdminPanel() {
                     >
                       <div className="mb-2 flex items-center justify-between gap-3">
                         <div>
-                          <div className="text-sm uppercase tracking-widest text-[var(--ember)]">Dzień {day}</div>
+                          <div className="text-sm uppercase tracking-widest text-[var(--ember)]">
+                            Dzień {day}
+                            {day === today ? (
+                              <span className="ml-2 text-[var(--ember-bright)]">· dziś</span>
+                            ) : null}
+                          </div>
                           <div className="text-xs text-[var(--bone-dim)]">{dateForPuzzle(day)}</div>
                         </div>
                         {point ? <span className="text-xs text-[var(--ember-bright)]">CHECKED</span> : null}
