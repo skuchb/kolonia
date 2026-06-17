@@ -331,21 +331,26 @@ export default function AdminPanel() {
     setPuzzle(targetPuzzle);
     setMapNpcId(npcId);
     const existingPoint = mapPuzzleByNpcId.get(npcId);
-    if (!existingPoint) {
+    if (existingPoint) {
+      setMapPoint({ x: existingPoint.x, y: existingPoint.y });
+      setChapterPl(existingPoint.chapterPl ?? "");
+      setChapterEn(existingPoint.chapterEn ?? "");
+      setChapterDe(existingPoint.chapterDe ?? "");
+    } else {
       setMapPoint(null);
       setChapterPl("");
       setChapterEn("");
       setChapterDe("");
-      setMessage(
-        `Osoba bez punktu na mapie — kliknij mapę i użyj „Zapisz punkt i przypisz do dnia ${targetPuzzle}".`,
-      );
-      return;
     }
-    setMapPoint({ x: existingPoint.x, y: existingPoint.y });
-    setChapterPl(existingPoint.chapterPl ?? "");
-    setChapterEn(existingPoint.chapterEn ?? "");
-    setChapterDe(existingPoint.chapterDe ?? "");
-    await saveScheduleForPuzzle(targetPuzzle, "map", { npcId, mapPuzzleId: existingPoint.id });
+    const saved = await saveScheduleForPuzzle(targetPuzzle, "map", {
+      npcId,
+      mapPuzzleId: existingPoint?.id ?? null,
+    });
+    if (saved && !existingPoint) {
+      setMessage(
+        `Przypisano do dnia ${targetPuzzle}. Kliknij mapę, ustaw punkt i użyj „Zapisz punkt i przypisz do dnia ${targetPuzzle}".`,
+      );
+    }
   }
 
   async function toggleNpc(id: string, enabled: boolean) {
@@ -904,6 +909,7 @@ export default function AdminPanel() {
                       }}
                       onDrop={(event) => {
                         event.preventDefault();
+                        event.stopPropagation();
                         const npcId = event.dataTransfer.getData("text/plain");
                         setDragOverDay(null);
                         if (npcId) void assignMapNpcToDay(day, npcId);
@@ -1070,6 +1076,7 @@ export default function AdminPanel() {
                       </div>
                       <button
                         className="border border-[var(--ember)] px-3 py-1 text-xs"
+                        draggable={false}
                         onClick={(event) => {
                           event.stopPropagation();
                           void assignMapNpcToDay(selectedMapDay, npc);
