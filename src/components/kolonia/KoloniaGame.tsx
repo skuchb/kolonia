@@ -30,7 +30,6 @@ import {
   markHelpSeen,
   recordGuess,
   recordMapGuess,
-  resetProgress,
   setCamp,
   setLanguage,
 } from "@/src/core/storage";
@@ -400,14 +399,6 @@ export default function KoloniaGame() {
     setPersisted((current) => setCamp(current, camp));
   }
 
-  function handleProgressReset() {
-    setPersisted((current) => resetProgress(current));
-    setTestRound(null);
-    setInput("");
-    setActiveSuggestion(0);
-    showToast(dict.ui.progressReset);
-  }
-
   function handleRandomizePuzzle() {
     const target =
       mode === "classic" || mode === "card"
@@ -429,11 +420,6 @@ export default function KoloniaGame() {
   function closeHelp() {
     setHelpManualOpen(false);
     setPersisted((current) => markHelpSeen(current));
-  }
-
-  function handleSettingsReset() {
-    handleProgressReset();
-    setShowSettings(false);
   }
 
   function handleGoogleLogin() {
@@ -809,13 +795,6 @@ export default function KoloniaGame() {
                 value={averageAttempts(quoteStats).toFixed(1).replace(".", ",")}
                 bar={Math.min(averageAttempts(quoteStats) / 6, 1)}
               />
-              <button
-                className="border-b border-[var(--ember)]/60 pb-0.5 font-mono text-xs uppercase tracking-[0.16em] text-[var(--ember-bright)]"
-                onClick={handleProgressReset}
-                type="button"
-              >
-                {dict.ui.resetProgress}
-              </button>
             </Panel>
 
             <Panel title={dict.ui.friendsLeague} subtitle={weekLabel.toUpperCase()}>
@@ -894,7 +873,6 @@ export default function KoloniaGame() {
           onGoogleLogin={handleGoogleLogin}
           onLanguageChange={handleLanguageChange}
           onLogout={handleLogout}
-          onResetProgress={handleSettingsReset}
           session={authSession}
         />
       ) : null}

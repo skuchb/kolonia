@@ -168,15 +168,6 @@ export function setCamp(state: Persisted, camp: PlayerCamp): Persisted {
   return { ...state, camp };
 }
 
-export function resetProgress(state: Persisted): Persisted {
-  return {
-    ...state,
-    totalXp: 0,
-    modes: {},
-    stats: {},
-  };
-}
-
 export function markHelpSeen(state: Persisted): Persisted {
   return { ...state, seenHelp: true };
 }

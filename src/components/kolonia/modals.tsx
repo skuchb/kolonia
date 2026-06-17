@@ -102,7 +102,6 @@ export function SettingsModal({
   session,
   onClose,
   onLanguageChange,
-  onResetProgress,
   onGoogleLogin,
   onLogout,
 }: {
@@ -111,7 +110,6 @@ export function SettingsModal({
   session: AuthSession | null;
   onClose: () => void;
   onLanguageChange: (lang: Locale) => void;
-  onResetProgress: () => void;
   onGoogleLogin: () => void;
   onLogout: () => void;
 }) {
@@ -174,18 +172,6 @@ export function SettingsModal({
               {settings.googleLogin}
             </button>
           )}
-        </section>
-
-        <section>
-          <h3 className="mb-2 text-[var(--bone)]">{settings.data}</h3>
-          <p className="mb-3 normal-case leading-relaxed tracking-normal">{settings.dataBody}</p>
-          <button
-            className="border border-[var(--rust)]/50 px-4 py-2 text-[var(--rust)] hover:border-[var(--rust)]"
-            onClick={onResetProgress}
-            type="button"
-          >
-            {dict.ui.resetProgress}
-          </button>
         </section>
       </div>
     </ModalShell>
