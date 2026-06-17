@@ -4,7 +4,7 @@ import type { ModeId } from "@/src/core/types";
 import { requireAdmin } from "../../../../db/admin";
 import { listAdminSnapshot } from "../../../../db/cms-write";
 import { getDb } from "../../../../db";
-import { results, userSolves } from "../../../../db/schema";
+import { results, userSolves, users } from "../../../../db/schema";
 
 const MODES: ModeId[] = ["classic", "quote", "map", "card"];
 
@@ -16,6 +16,11 @@ function dateForPuzzle(day: number) {
     month: "2-digit",
     year: "numeric",
   }).format(date);
+}
+
+async function countRegisteredUsers(db: ReturnType<typeof getDb>) {
+  const [row] = await db.select({ count: sql<number>`count(*)`.mapWith(Number) }).from(users);
+  return row?.count ?? 0;
 }
 
 async function statsForMode(db: ReturnType<typeof getDb>, puzzle: number, mode: ModeId) {
@@ -108,6 +113,7 @@ export async function GET(request: Request) {
         .orderBy(desc(results.puzzle), results.mode);
 
       return Response.json({
+        registeredUsers: await countRegisteredUsers(db),
         overview: rows.map((row) => ({
           puzzle: row.puzzle,
           date: dateForPuzzle(row.puzzle),
@@ -133,6 +139,7 @@ export async function GET(request: Request) {
     return Response.json({
       puzzle,
       date: dateForPuzzle(puzzle),
+      registeredUsers: await countRegisteredUsers(db),
       schedule,
       modes,
       telemetryNote:

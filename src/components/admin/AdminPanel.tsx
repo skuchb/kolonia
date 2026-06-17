@@ -72,6 +72,7 @@ interface AdminStatsMode {
 interface AdminStatsDetail {
   puzzle: number;
   date: string;
+  registeredUsers: number;
   schedule: AdminSnapshot["dailyPuzzles"];
   modes: Record<ModeId, AdminStatsMode>;
   telemetryNote: string;
@@ -1192,6 +1193,17 @@ export default function AdminPanel() {
                 {statsLoading ? "Ładowanie…" : "Odśwież"}
               </button>
             </div>
+
+            {statsDetail ? (
+              <div className="border border-[var(--ember)]/30 bg-[var(--ember)]/5 p-4">
+                <div className="font-mono text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">
+                  Zarejestrowani użytkownicy (Google)
+                </div>
+                <div className="mt-1 font-mono text-3xl text-[var(--ember-bright)]">
+                  {statsDetail.registeredUsers}
+                </div>
+              </div>
+            ) : null}
 
             {statsDetail?.telemetryNote ? (
               <p className="border border-[var(--hairline)]/60 bg-black/30 p-3 text-sm text-[var(--bone-dim)]">
