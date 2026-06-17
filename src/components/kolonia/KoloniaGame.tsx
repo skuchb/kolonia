@@ -240,27 +240,25 @@ export default function KoloniaGame() {
       xpEarned: options.xpEarned,
       distanceMeters: options.distanceMeters,
       stats: null,
-      statsLoading: options.mode !== "map",
+      statsLoading: true,
     });
 
-    if (options.mode !== "map") {
-      sendResult({
-        mode: options.mode,
-        puzzle,
-        attempts: options.attempts,
-        solved: true,
-        camp: persisted.camp,
-        userId: loadAuth()?.userId ?? null,
-      });
+    sendResult({
+      mode: options.mode,
+      puzzle,
+      attempts: options.attempts,
+      solved: true,
+      camp: persisted.camp,
+      userId: loadAuth()?.userId ?? null,
+    });
 
-      void fetchDayStats(options.mode, puzzle, options.attempts).then((stats) => {
-        setResultContext((current) =>
-          current?.mode === options.mode && current.attempts === options.attempts
-            ? { ...current, stats, statsLoading: false }
-            : current,
-        );
-      });
-    }
+    void fetchDayStats(options.mode, puzzle, options.attempts).then((stats) => {
+      setResultContext((current) =>
+        current?.mode === options.mode && current.attempts === options.attempts
+          ? { ...current, stats, statsLoading: false }
+          : current,
+      );
+    });
 
     const session = loadAuth();
     if (session && options.nextState) {
@@ -339,10 +337,13 @@ export default function KoloniaGame() {
   async function handleShare() {
     if (!modeDay.solved) return;
 
+    const attempts =
+      mode === "map" ? (modeDay.mapGuesses?.length ?? 0) : modeDay.guesses.length;
+
     const text = buildShareText({
       puzzle,
       mode,
-      attempts: modeDay.guesses.length,
+      attempts,
       streak: modeStats.streak,
       rows: guessRows.map((row) => row.feedback),
       lang: persisted.lang,
@@ -352,7 +353,7 @@ export default function KoloniaGame() {
     sendShareEvent({
       mode,
       puzzle,
-      attempts: modeDay.guesses.length,
+      attempts,
       camp: persisted.camp,
       userId: loadAuth()?.userId ?? null,
     });

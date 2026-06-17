@@ -21,7 +21,7 @@ function clientIp(request: Request): string {
   );
 }
 
-const MODES = new Set<ModeId>(["classic", "quote", "card"]);
+const MODES = new Set<ModeId>(["classic", "quote", "map", "card"]);
 const MIN_PLAYERS = 30;
 
 export async function GET(request: Request) {

@@ -136,7 +136,7 @@ export async function GET(request: Request) {
       schedule,
       modes,
       telemetryNote:
-        "Telemetria zapisuje wyłącznie rozwiązania (unikalne IP na dzień i tryb). Tryb mapy obecnie nie wysyła telemetrii z klienta.",
+        "Telemetria zapisuje wyłącznie rozwiązania (unikalne IP na dzień i tryb).",
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "stats_unavailable";
