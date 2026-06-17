@@ -47,6 +47,7 @@
     "footerReset": "See you tomorrow at midnight.",
     "footerCanon": "Data, quotes and values: original Gothic (2001)",
     "footerLegal": "KOLONIA is an unofficial, non-commercial fan project. Gothic and related names and characters are the property of THQ Nordic GmbH. Not affiliated with or endorsed by the trademark owner.",
+    "footerContact": "Contact:",
     "helpBtn": "Help",
     "settingsBtn": "Settings",
     "help": {
@@ -144,8 +145,6 @@
     "hintCamp": "Hint: guild",
     "hintLetter": "Hint: letter",
     "hintContext": "Hint: context",
-    "randomPuzzle": "Random test",
-    "randomizedPuzzle": "Random test puzzle selected",
     "solved": "Solved!",
     "alreadyGuessed": "You already tried this character.",
     "unknownNpc": "No convict by that name.",

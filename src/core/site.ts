@@ -1,5 +1,6 @@
 export const DEFAULT_SITE_URL = "https://kolonia.app";
 export const DEFAULT_SITE_HOST = "kolonia.app";
+export const CONTACT_EMAIL = "contact@kolonia.app";
 
 export function siteUrl(): string {
   const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();

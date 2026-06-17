@@ -47,6 +47,7 @@
     "footerReset": "Bis morgen um Mitternacht.",
     "footerCanon": "Daten, Zitate und Werte: originales Gothic (2001)",
     "footerLegal": "KOLONIA ist ein inoffizielles, nicht-kommerzielles Fanprojekt. Gothic und zugehörige Namen und Figuren sind Eigentum der THQ Nordic GmbH. Nicht verbunden mit oder unterstützt vom Markeninhaber.",
+    "footerContact": "Kontakt:",
     "helpBtn": "Hilfe",
     "settingsBtn": "Einstellungen",
     "help": {
@@ -144,8 +145,6 @@
     "hintCamp": "Hinweis: Gilde",
     "hintLetter": "Hinweis: Buchstabe",
     "hintContext": "Hinweis: Kontext",
-    "randomPuzzle": "Test zufällig",
-    "randomizedPuzzle": "Testrätsel ausgewählt",
     "solved": "Gelöst!",
     "alreadyGuessed": "Diese Figur hast du schon versucht.",
     "unknownNpc": "Kein Sträfling mit diesem Namen.",

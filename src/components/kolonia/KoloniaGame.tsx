@@ -36,6 +36,7 @@ import {
 import { useDailyPuzzles } from "@/src/core/use-daily-puzzles";
 import { xpForSolve } from "@/src/core/xp";
 import { sendResult, sendShareEvent } from "@/src/core/telemetry";
+import { CONTACT_EMAIL } from "@/src/core/site";
 import { useHydrated, usePersisted } from "@/src/core/use-persisted";
 import type { FeedbackCell, Locale, ModeId, Npc, PlayerCamp, Quote } from "@/src/core/types";
 import { getNpcById, npcDisplayName, npcPool, quotePool } from "@/src/data";
@@ -62,13 +63,6 @@ const CAMP_THEMES: Record<PlayerCamp, { id: string; imageUrl: string }> = {
   SWAMP_CAMP: { id: "III", imageUrl: "/camps/swamp-camp.png" },
 };
 
-interface TestRound {
-  mode: ModeId;
-  targetId: string;
-  guesses: string[];
-  solved: boolean;
-}
-
 export default function KoloniaGame() {
   const [persisted, setPersisted] = usePersisted();
   const hydrated = useHydrated();
@@ -81,7 +75,6 @@ export default function KoloniaGame() {
   const [showSettings, setShowSettings] = useState(false);
   const [authSession, setAuthSession] = useState<AuthSession | null>(null);
   const [adminUserId, setAdminUserId] = useState<string | null>(null);
-  const [testRound, setTestRound] = useState<TestRound | null>(null);
   const [resultContext, setResultContext] = useState<{
     mode: ModeId;
     attempts: number;
@@ -97,33 +90,22 @@ export default function KoloniaGame() {
   const { classicNpc: scheduledClassic, quote: scheduledQuote, mapPuzzle, cardNpc: scheduledCard, loading: dailyLoading } =
     useDailyPuzzles(puzzle);
   const dict = getDictionary(persisted.lang);
-  const activeTestRound = testRound?.mode === mode ? testRound : null;
-  const classicTarget = useMemo(() => {
-    if (activeTestRound?.mode === "classic") {
-      return getNpcById(activeTestRound.targetId) ?? scheduledClassic ?? dailyItem(npcPool, puzzle, "classic");
-    }
-    return scheduledClassic ?? dailyItem(npcPool, puzzle, "classic");
-  }, [activeTestRound, puzzle, scheduledClassic]);
-  const quoteTarget = useMemo(() => {
-    if (activeTestRound?.mode === "quote") {
-      return (
-        quotePool.find((item) => item.id === activeTestRound.targetId) ??
-        scheduledQuote ??
-        dailyItem(quotePool, puzzle, "quote")
-      );
-    }
-    return scheduledQuote ?? dailyItem(quotePool, puzzle, "quote");
-  }, [activeTestRound, puzzle, scheduledQuote]);
+  const classicTarget = useMemo(
+    () => scheduledClassic ?? dailyItem(npcPool, puzzle, "classic"),
+    [puzzle, scheduledClassic],
+  );
+  const quoteTarget = useMemo(
+    () => scheduledQuote ?? dailyItem(quotePool, puzzle, "quote"),
+    [puzzle, scheduledQuote],
+  );
   const mapTarget = useMemo(
     () => mapPuzzle ?? fallbackDailyMap(puzzle),
     [mapPuzzle, puzzle],
   );
-  const cardTarget = useMemo(() => {
-    if (activeTestRound?.mode === "card") {
-      return getNpcById(activeTestRound.targetId) ?? scheduledCard ?? dailyItem(npcPool, puzzle, "card");
-    }
-    return scheduledCard ?? dailyItem(npcPool, puzzle, "card");
-  }, [activeTestRound, puzzle, scheduledCard]);
+  const cardTarget = useMemo(
+    () => scheduledCard ?? dailyItem(npcPool, puzzle, "card"),
+    [puzzle, scheduledCard],
+  );
   const targetNpc = useMemo(() => {
     if (mode === "map") {
       const id = mapTarget?.npcId;
@@ -133,9 +115,7 @@ export default function KoloniaGame() {
     return targetId ? getNpcById(targetId) : undefined;
   }, [cardTarget, classicTarget, mapTarget, mode, quoteTarget]);
 
-  const modeDay = activeTestRound
-    ? { puzzle, guesses: activeTestRound.guesses, solved: activeTestRound.solved }
-    : ensureModeDay(persisted, mode);
+  const modeDay = ensureModeDay(persisted, mode);
   const classicDay = ensureModeDay(persisted, "classic");
   const quoteDay = ensureModeDay(persisted, "quote");
   const mapDay = ensureModeDay(persisted, "map");
@@ -305,24 +285,6 @@ export default function KoloniaGame() {
     }
 
     const solved = resolved.id === targetNpc.id;
-    if (activeTestRound) {
-      const guesses = [...activeTestRound.guesses, resolved.id];
-      setTestRound({ ...activeTestRound, guesses, solved: solved || activeTestRound.solved });
-      setInput("");
-      setActiveSuggestion(0);
-
-      if (solved) {
-        openWinModal({
-          mode,
-          attempts: guesses.length,
-          npc: targetNpc,
-          streak: modeStats.streak,
-          xpEarned: xpForSolve(guesses.length),
-        });
-      }
-      return;
-    }
-
     const nextState = recordGuess(persisted, mode, resolved.id, solved);
     setPersisted(nextState);
     setInput("");
@@ -383,34 +345,18 @@ export default function KoloniaGame() {
     });
 
     const result = await shareResult(text);
-    if (!activeTestRound) {
-      sendShareEvent({
-        mode,
-        puzzle,
-        attempts: modeDay.guesses.length,
-        camp: persisted.camp,
-        userId: loadAuth()?.userId ?? null,
-      });
-    }
+    sendShareEvent({
+      mode,
+      puzzle,
+      attempts: modeDay.guesses.length,
+      camp: persisted.camp,
+      userId: loadAuth()?.userId ?? null,
+    });
     showToast(result === "shared" ? dict.ui.shareShared : dict.ui.copied);
   }
 
   function handleCampSelect(camp: PlayerCamp) {
     setPersisted((current) => setCamp(current, camp));
-  }
-
-  function handleRandomizePuzzle() {
-    const target =
-      mode === "classic" || mode === "card"
-        ? npcPool[Math.floor(Math.random() * npcPool.length)]?.id
-        : quotePool[Math.floor(Math.random() * quotePool.length)]?.id;
-
-    if (!target) return;
-    setTestRound({ mode, targetId: target, guesses: [], solved: false });
-    setInput("");
-    setActiveSuggestion(0);
-    setResultContext(null);
-    showToast(dict.ui.randomizedPuzzle);
   }
 
   function handleLanguageChange(lang: Locale) {
@@ -597,13 +543,6 @@ export default function KoloniaGame() {
                     </button>
                   );
                 })}
-                <button
-                  className="col-span-2 flex min-h-11 w-full items-center justify-center border border-[var(--rust)]/50 px-3 py-2 font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--rust)] transition-colors hover:bg-[var(--rust)] hover:text-[var(--panel)] sm:col-span-1 sm:w-auto"
-                  onClick={handleRandomizePuzzle}
-                  type="button"
-                >
-                  {dict.ui.randomPuzzle}
-                </button>
               </div>
 
               <div className="mb-5 flex flex-col gap-3 border-b border-[var(--panel-ink)]/30 pb-4 sm:mb-6 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
@@ -858,6 +797,15 @@ export default function KoloniaGame() {
         </p>
         <p className="max-w-3xl text-[10pt] normal-case leading-relaxed tracking-normal text-[var(--bone-dim)]/80">
           {dict.ui.footerLegal}
+        </p>
+        <p className="text-[10pt] tracking-[0.12em]">
+          {dict.ui.footerContact}{" "}
+          <a
+            className="normal-case text-[var(--ember)]/90 transition-colors hover:text-[var(--ember-bright)]"
+            href={`mailto:${CONTACT_EMAIL}`}
+          >
+            {CONTACT_EMAIL}
+          </a>
         </p>
       </footer>
 
