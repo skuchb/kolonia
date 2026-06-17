@@ -947,11 +947,11 @@ export default function AdminPanel() {
                   Wybierz dzień po lewej, osobę po prawej, kliknij mapę i zapisz. Możesz nadpisać dowolny dzień.
                 </p>
               </div>
-              <div className="relative w-full border border-[var(--hairline)]">
+              <div className="relative w-full bg-transparent">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   alt={activeMap.name}
-                  className="block max-h-[72vh] w-full cursor-crosshair"
+                  className="block max-h-[72vh] w-full cursor-crosshair bg-transparent"
                   onClick={(event) => {
                     if (!resolveMapNpcIdForClick()) {
                       setMessage("Najpierw wybierz osobę z listy po prawej.");

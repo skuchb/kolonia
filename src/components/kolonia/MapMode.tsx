@@ -30,11 +30,11 @@ export function MapMode({
         </p>
       ) : null}
 
-      <div className="relative overflow-hidden border-2 border-[var(--panel-ink)]/70 bg-black/20">
+      <div className="relative bg-transparent">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           alt={dict.ui.mapAlt}
-          className={`block h-auto w-full ${disabled || solved ? "cursor-default" : "cursor-crosshair"}`}
+          className={`block h-auto w-full bg-transparent ${disabled || solved ? "cursor-default" : "cursor-crosshair"}`}
           onClick={(event) => {
             if (disabled || solved) return;
             const rect = event.currentTarget.getBoundingClientRect();
