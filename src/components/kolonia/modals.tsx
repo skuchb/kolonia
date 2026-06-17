@@ -122,13 +122,13 @@ export function SettingsModal({
       <div className="space-y-6 font-mono text-sm uppercase tracking-[0.12em] text-[var(--bone-dim)]">
         <section>
           <h3 className="mb-3 text-[var(--bone)]">{settings.language}</h3>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-2">
             {locales.map((locale) => (
               <button
-                className={`border px-3 py-2 ${
+                className={`min-h-10 min-w-12 border px-3 py-2 font-mono text-[10pt] uppercase tracking-widest ${
                   lang === locale
-                    ? "border-[var(--ember)] text-[var(--bone)]"
-                    : "border-[var(--hairline)] text-[var(--bone-dim)] hover:border-[var(--bone)]/40"
+                    ? "border-[var(--ember)] bg-[var(--ember)]/15 text-[var(--ember-bright)]"
+                    : "border-[var(--hairline)] text-[var(--bone-dim)] hover:border-[var(--bone)]/40 hover:text-[var(--bone)]"
                 }`}
                 key={locale}
                 onClick={() => onLanguageChange(locale)}

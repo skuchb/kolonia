@@ -13,7 +13,7 @@
   <rect width="1200" height="630" fill="url(#glow)"/>
   <rect x="80" y="80" width="1040" height="470" fill="none" stroke="#c47a2c" stroke-opacity="0.35" stroke-width="2"/>
   <text x="600" y="260" text-anchor="middle" fill="#e8ddcc" font-family="Georgia, serif" font-size="96" letter-spacing="24">KOLONIA</text>
-  <text x="600" y="340" text-anchor="middle" fill="#c47a2c" font-family="Georgia, serif" font-size="34" letter-spacing="6">codzienna zagadka z G�rniczej Doliny</text>
-  <text x="600" y="420" text-anchor="middle" fill="#a89880" font-family="monospace" font-size="22" letter-spacing="4">KLASYCZNY � CYTAT � RESET O P�ANOCY</text>
-  <text x="600" y="500" text-anchor="middle" fill="#6a5a48" font-family="monospace" font-size="16" letter-spacing="3">fanowski projekt � kanon 2001</text>
+  <text x="600" y="340" text-anchor="middle" fill="#c47a2c" font-family="Georgia, serif" font-size="34" letter-spacing="6">codzienna zagadka z Górniczej Doliny</text>
+  <text x="600" y="420" text-anchor="middle" fill="#a89880" font-family="monospace" font-size="22" letter-spacing="4">KLASYCZNY · CYTAT · MAPA · KARTA</text>
+  <text x="600" y="500" text-anchor="middle" fill="#6a5a48" font-family="monospace" font-size="16" letter-spacing="3">fanowski projekt · kanon 2001</text>
 </svg>

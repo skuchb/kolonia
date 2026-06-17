@@ -16,11 +16,16 @@ export function getDictionary(locale: Locale): Dictionary {
 }
 
 export function detectLocale(): Locale {
-  if (typeof navigator === "undefined") return "pl";
-  const language = navigator.language.toLowerCase();
-  if (language.startsWith("de")) return "de";
-  if (language.startsWith("en")) return "en";
-  return "pl";
+  if (typeof navigator === "undefined") return "en";
+  const candidates = [navigator.language, ...(navigator.languages ?? [])].map((value) =>
+    value.toLowerCase(),
+  );
+  for (const language of candidates) {
+    if (language.startsWith("pl")) return "pl";
+    if (language.startsWith("de")) return "de";
+    if (language.startsWith("en")) return "en";
+  }
+  return "en";
 }
 
 export function campLabel(locale: Locale, camp: string): string {

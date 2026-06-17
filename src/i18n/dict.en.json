@@ -154,6 +154,13 @@
       "location": "location",
       "isTeacher": "teacher",
       "isFriend": "friend"
+    },
+    "columnHints": {
+      "guild": "The character's guild (Guard, Ore Baron, Digger, etc.). Green = same guild as today's character—not confirmation you guessed the role.",
+      "guildFamily": "Camp or major faction (Old Camp, New Camp, Brotherhood…). Green = same camp as today's character.",
+      "location": "Where the character is usually found. Green = same location; amber = same region, different location.",
+      "isTeacher": "Whether the character teaches skills. Green = same answer as the target (both teach or both don't)—not “this one is definitely a teacher”.",
+      "isFriend": "In-game friend status. Green = same status as today's character (both yes or both no)—not “this one is definitely a friend”."
     }
   },
   "camps": {

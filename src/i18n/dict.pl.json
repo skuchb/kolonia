@@ -154,6 +154,13 @@
       "location": "lokacja",
       "isTeacher": "nauczyciel",
       "isFriend": "przyjaciel"
+    },
+    "columnHints": {
+      "guild": "Gildia postaci (np. Strażnik, Magnat, Kopacz). Zielone = ta sama gildia co u postaci, którą szukasz — nie potwierdzenie, że trafiłeś w rolę.",
+      "guildFamily": "Obóz lub większa frakcja (Stary Obóz, Nowy Obóz, Bractwo…). Zielone = ten sam obóz co u postaci dnia.",
+      "location": "Gdzie postać najczęściej przebywa. Zielone = ta sama lokacja; pomarańczowe = ten sam region, inna lokacja.",
+      "isTeacher": "Czy postać uczy umiejętności. Zielone = taka sama odpowiedź jak u celu (obie uczą albo obie nie) — nie znaczy „to na pewno nauczyciel”.",
+      "isFriend": "Status przyjaciela w grze. Zielone = ten sam status co u postaci dnia (obie tak albo obie nie) — nie znaczy „to na pewno przyjaciel”."
     }
   },
   "camps": {

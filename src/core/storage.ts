@@ -1,3 +1,4 @@
+import { detectLocale } from "@/src/i18n";
 import { puzzleNumber } from "./daily";
 import { xpForSolve } from "./xp";
 import type { MapGuess, ModeDay, ModeId, ModeStats, Persisted, PlayerCamp } from "./types";
@@ -18,7 +19,7 @@ function emptyStats(): ModeStats {
 export function defaultPersisted(): Persisted {
   return {
     version: 1,
-    lang: "pl",
+    lang: "en",
     camp: null,
     totalXp: 0,
     modes: {},
@@ -31,12 +32,18 @@ export function loadPersisted(): Persisted {
 
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return defaultPersisted();
+    if (!raw) {
+      const initial = { ...defaultPersisted(), lang: detectLocale() };
+      savePersisted(initial);
+      return initial;
+    }
     const parsed = JSON.parse(raw) as Persisted;
-    if (parsed.version !== 1) return defaultPersisted();
+    if (parsed.version !== 1) {
+      return { ...defaultPersisted(), lang: detectLocale() };
+    }
     return { ...defaultPersisted(), ...parsed, totalXp: parsed.totalXp ?? 0 };
   } catch {
-    return defaultPersisted();
+    return { ...defaultPersisted(), lang: detectLocale() };
   }
 }
 

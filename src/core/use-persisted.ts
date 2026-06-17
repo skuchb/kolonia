@@ -8,7 +8,6 @@ import {
   STORAGE_KEY,
 } from "./storage";
 import type { Persisted } from "./types";
-import { detectLocale } from "@/src/i18n";
 
 const listeners = new Set<() => void>();
 const serverSnapshot = defaultPersisted();
@@ -19,12 +18,7 @@ function emit() {
 }
 
 function readPersistedFromStorage(): Persisted {
-  const stored = loadPersisted();
-  if (!stored.lang) {
-    stored.lang = detectLocale();
-    savePersisted(stored);
-  }
-  return stored;
+  return loadPersisted();
 }
 
 function getSnapshot(): Persisted {

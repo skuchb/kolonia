@@ -154,6 +154,13 @@
       "location": "ort",
       "isTeacher": "lehrer",
       "isFriend": "freund"
+    },
+    "columnHints": {
+      "guild": "Gilde der Figur (Gardist, Erzbaron, Bauer …). Grün = dieselbe Gilde wie die gesuchte Figur — kein Beweis, dass du die Rolle erraten hast.",
+      "guildFamily": "Lager oder Fraktion (Altes Lager, Neues Lager, Bruderschaft …). Grün = dasselbe Lager wie die Tagesfigur.",
+      "location": "Wo die Figur meist aufzufinden ist. Grün = gleicher Ort; orange = gleiche Region, anderer Ort.",
+      "isTeacher": "Ob die Figur Fähigkeiten lehrt. Grün = gleiche Antwort wie beim Ziel (beide ja oder beide nein) — nicht „das ist ein Lehrer“.",
+      "isFriend": "Freund-Status im Spiel. Grün = gleicher Status wie beim Ziel (beide ja oder beide nein) — nicht „das ist ein Freund“."
     }
   },
   "camps": {

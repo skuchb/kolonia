@@ -5,9 +5,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Locale, ModeId, Npc, Quote } from "@/src/core/types";
 import { loadAuth, startGoogleLogin } from "@/src/core/auth";
 import { LAUNCH_DAY, puzzleNumber } from "@/src/core/daily";
-import { npcDisplayName } from "@/src/data";
+import { getNpcById, npcDisplayName } from "@/src/data";
 
-type Tab = "schedule" | "quotes" | "npcs" | "map" | "cards";
+type Tab = "schedule" | "quotes" | "npcs" | "map" | "cards" | "stats";
 type AdminNpc = Npc & { enabled: boolean };
 type AdminQuote = Quote & { enabled: boolean; qualityStatus?: string; adminNote?: string | null };
 
@@ -17,6 +17,7 @@ const TAB_LABELS: Record<Tab, string> = {
   quotes: "Cytat",
   map: "Mapa",
   cards: "Karta",
+  stats: "Statystyki",
 };
 
 const MODE_LABELS: Record<ModeId, string> = {
@@ -58,6 +59,32 @@ interface AdminSnapshot {
   }>;
 }
 
+interface AdminStatsMode {
+  solves: number;
+  shares: number;
+  avgAttempts: number;
+  telemetryLoggedIn: number;
+  accountSolves: number;
+  attemptDistribution: Array<{ attempts: number; count: number }>;
+  byCamp: Array<{ camp: string; count: number }>;
+}
+
+interface AdminStatsDetail {
+  puzzle: number;
+  date: string;
+  schedule: AdminSnapshot["dailyPuzzles"];
+  modes: Record<ModeId, AdminStatsMode>;
+  telemetryNote: string;
+}
+
+interface AdminStatsOverviewRow {
+  puzzle: number;
+  date: string;
+  mode: string;
+  solves: number;
+  avgAttempts: number;
+}
+
 export default function AdminPanel() {
   const [session, setSession] = useState<ReturnType<typeof loadAuth>>(null);
   const [sessionChecked, setSessionChecked] = useState(false);
@@ -79,6 +106,9 @@ export default function AdminPanel() {
   const [chapterPl, setChapterPl] = useState("");
   const [chapterEn, setChapterEn] = useState("");
   const [chapterDe, setChapterDe] = useState("");
+  const [statsLoading, setStatsLoading] = useState(false);
+  const [statsDetail, setStatsDetail] = useState<AdminStatsDetail | null>(null);
+  const [statsOverview, setStatsOverview] = useState<AdminStatsOverviewRow[]>([]);
 
   const headers = useMemo(() => {
     if (!session) return null;
@@ -127,12 +157,12 @@ export default function AdminPanel() {
   }, [refresh]);
 
   useEffect(() => {
-    if (!headers || !authorized || (tab !== "npcs" && tab !== "quotes" && tab !== "cards" && tab !== "map")) return;
+    if (!headers || !authorized || (tab !== "npcs" && tab !== "quotes" && tab !== "cards" && tab !== "map" && tab !== "stats")) return;
 
     let cancelled = false;
     const timeoutId = window.setTimeout(() => {
       void (async () => {
-        if (tab === "npcs" || tab === "cards" || tab === "map") {
+        if (tab === "npcs" || tab === "cards" || tab === "map" || tab === "stats") {
           const npcRes = await fetch(`/api/admin/npcs?q=${encodeURIComponent(search)}`, { headers });
           if (npcRes.ok && !cancelled) {
             const data = (await npcRes.json()) as { npcs: AdminNpc[] };
@@ -418,6 +448,59 @@ export default function AdminPanel() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- reload editor when opening map tab or refreshing snapshot
   }, [authorized, headers, snapshot, tab]);
 
+  const loadStats = useCallback(async () => {
+    if (!headers) return;
+    setStatsLoading(true);
+    try {
+      const [detailRes, overviewRes] = await Promise.all([
+        fetch(`/api/admin/stats?puzzle=${puzzle}`, { headers }),
+        fetch("/api/admin/stats", { headers }),
+      ]);
+      if (detailRes.ok) setStatsDetail((await detailRes.json()) as AdminStatsDetail);
+      else setStatsDetail(null);
+      if (overviewRes.ok) {
+        const data = (await overviewRes.json()) as { overview: AdminStatsOverviewRow[] };
+        setStatsOverview(data.overview ?? []);
+      } else {
+        setStatsOverview([]);
+      }
+    } finally {
+      setStatsLoading(false);
+    }
+  }, [headers, puzzle]);
+
+  useEffect(() => {
+    if (!headers || !authorized || tab !== "stats") return;
+    void loadStats();
+  }, [authorized, headers, loadStats, tab]);
+
+  function scheduleLabel(mode: ModeId) {
+    const row = statsDetail?.schedule.find((entry) => entry.mode === mode) ??
+      snapshot?.dailyPuzzles.find((entry) => entry.puzzle === puzzle && entry.mode === mode);
+    if (!row) return "—";
+    if (mode === "quote") return row.quoteId ?? row.npcId ?? "—";
+    if (mode === "map") {
+      const mapRow = row.mapPuzzleId ? snapshot?.mapPuzzles.find((entry) => entry.id === row.mapPuzzleId) : undefined;
+      const npcId = mapRow?.npcId ?? row.npcId;
+      if (!npcId) return row.mapPuzzleId ? `punkt #${row.mapPuzzleId}` : "—";
+      const npc = getNpcById(npcId) ?? npcs.find((entry) => entry.id === npcId);
+      return npc ? `${npcDisplayName(npc, "pl" as Locale)} (${npcId})` : npcId;
+    }
+    if (!row.npcId) return "—";
+    const npc = getNpcById(row.npcId) ?? npcs.find((entry) => entry.id === row.npcId);
+    return npc ? `${npcDisplayName(npc, "pl" as Locale)} (${row.npcId})` : row.npcId;
+  }
+
+  function campLabel(camp: string) {
+    const labels: Record<string, string> = {
+      OLD_CAMP: "Stary Obóz",
+      NEW_CAMP: "Nowy Obóz",
+      SWAMP_CAMP: "Obóz na Bagnach",
+      unknown: "nieznany",
+    };
+    return labels[camp] ?? camp;
+  }
+
   if (!sessionChecked || authorized === null) {
     return <div className="min-h-screen bg-black p-8 text-[var(--bone)]">Ładowanie panelu…</div>;
   }
@@ -455,7 +538,7 @@ export default function AdminPanel() {
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl text-[var(--ember-bright)]">KOLONIA Admin</h1>
-            <p className="text-sm text-[var(--bone-dim)]">Harmonogram, cytaty, NPC i mapa</p>
+            <p className="text-sm text-[var(--bone-dim)]">Harmonogram, cytaty, NPC, mapa i statystyki</p>
           </div>
           <Link className="text-sm text-[var(--ember)]" href="/">
             ← Gra
@@ -465,7 +548,7 @@ export default function AdminPanel() {
         {message ? <p className="mb-4 border border-[var(--ember)]/40 p-3 text-sm">{message}</p> : null}
 
         <div className="mb-6 flex flex-wrap gap-2">
-          {(["schedule", "npcs", "quotes", "map", "cards"] as Tab[]).map((item) => (
+          {(["schedule", "npcs", "quotes", "map", "cards", "stats"] as Tab[]).map((item) => (
             <button
               className={`border px-3 py-2 text-xs uppercase tracking-widest ${
                 tab === item ? "border-[var(--ember)] text-[var(--ember-bright)]" : "border-[var(--hairline)]"
@@ -1089,6 +1172,162 @@ export default function AdminPanel() {
                   );
                 })}
               </ul>
+            </div>
+          </section>
+        ) : null}
+
+        {tab === "stats" ? (
+          <section className="space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 className="text-xl">Statystyki dnia {puzzle}</h2>
+                <p className="text-sm text-[var(--bone-dim)]">{dateForPuzzle(puzzle)}</p>
+              </div>
+              <button
+                className="border border-[var(--hairline)] px-3 py-2 text-xs uppercase tracking-widest"
+                disabled={statsLoading}
+                onClick={() => void loadStats()}
+                type="button"
+              >
+                {statsLoading ? "Ładowanie…" : "Odśwież"}
+              </button>
+            </div>
+
+            {statsDetail?.telemetryNote ? (
+              <p className="border border-[var(--hairline)]/60 bg-black/30 p-3 text-sm text-[var(--bone-dim)]">
+                {statsDetail.telemetryNote}
+              </p>
+            ) : null}
+
+            {statsLoading && !statsDetail ? (
+              <p className="text-sm text-[var(--bone-dim)]">Ładowanie statystyk…</p>
+            ) : null}
+
+            {statsDetail ? (
+              <div className="grid gap-4 lg:grid-cols-2">
+                {(["classic", "quote", "map", "card"] as const).map((mode) => {
+                  const modeStats = statsDetail.modes[mode];
+                  const maxCount = Math.max(1, ...modeStats.attemptDistribution.map((row) => row.count));
+                  return (
+                    <article className="border border-[var(--hairline)] p-4" key={mode}>
+                      <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
+                        <div>
+                          <h3 className="font-mono text-xs uppercase tracking-widest text-[var(--ember)]">
+                            {MODE_LABELS[mode]}
+                          </h3>
+                          <p className="mt-1 text-sm text-[var(--bone-dim)]">Zagadka: {scheduleLabel(mode)}</p>
+                        </div>
+                        <div className="text-right font-mono text-2xl text-[var(--ember-bright)]">
+                          {modeStats.solves}
+                          <div className="text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">rozwiązań</div>
+                        </div>
+                      </div>
+
+                      <dl className="mb-4 grid grid-cols-2 gap-3 text-sm">
+                        <div>
+                          <dt className="text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">Średnia prób</dt>
+                          <dd className="mt-1 text-lg">{modeStats.avgAttempts || "—"}</dd>
+                        </div>
+                        <div>
+                          <dt className="text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">Udostępnienia</dt>
+                          <dd className="mt-1 text-lg">{modeStats.shares}</dd>
+                        </div>
+                        <div>
+                          <dt className="text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">Telemetria (konto)</dt>
+                          <dd className="mt-1 text-lg">{modeStats.telemetryLoggedIn}</dd>
+                        </div>
+                        <div>
+                          <dt className="text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">Zapisane konta</dt>
+                          <dd className="mt-1 text-lg">{modeStats.accountSolves}</dd>
+                        </div>
+                      </dl>
+
+                      {modeStats.attemptDistribution.length > 0 ? (
+                        <div className="mb-4">
+                          <div className="mb-2 text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">
+                            Rozkład prób
+                          </div>
+                          <ul className="space-y-1">
+                            {modeStats.attemptDistribution.map((row) => (
+                              <li className="flex items-center gap-3 text-sm" key={row.attempts}>
+                                <span className="w-8 shrink-0 font-mono text-[var(--bone-dim)]">{row.attempts}</span>
+                                <div className="h-3 flex-1 bg-black/40">
+                                  <div
+                                    className="h-full bg-[var(--ember)]"
+                                    style={{ width: `${(row.count / maxCount) * 100}%` }}
+                                  />
+                                </div>
+                                <span className="w-8 text-right font-mono">{row.count}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : (
+                        <p className="mb-4 text-sm text-[var(--bone-dim)]">Brak rozwiązań w telemetrii.</p>
+                      )}
+
+                      {modeStats.byCamp.length > 0 ? (
+                        <div>
+                          <div className="mb-2 text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">Obozy</div>
+                          <ul className="space-y-1 text-sm">
+                            {modeStats.byCamp.map((row) => (
+                              <li className="flex justify-between gap-3" key={row.camp}>
+                                <span>{campLabel(row.camp)}</span>
+                                <span className="font-mono">{row.count}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : null}
+                    </article>
+                  );
+                })}
+              </div>
+            ) : null}
+
+            <div className="space-y-3">
+              <h3 className="text-lg">Przegląd wszystkich dni</h3>
+              {statsOverview.length === 0 ? (
+                <p className="text-sm text-[var(--bone-dim)]">Brak danych telemetrii w bazie.</p>
+              ) : (
+                <div className="overflow-x-auto border border-[var(--hairline)]">
+                  <table className="min-w-full text-left text-sm">
+                    <thead className="bg-black/40 font-mono text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">
+                      <tr>
+                        <th className="px-3 py-2">Dzień</th>
+                        <th className="px-3 py-2">Data</th>
+                        <th className="px-3 py-2">Tryb</th>
+                        <th className="px-3 py-2">Rozwiązania</th>
+                        <th className="px-3 py-2">Śr. prób</th>
+                        <th className="px-3 py-2" />
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[var(--hairline)]">
+                      {statsOverview.map((row) => (
+                        <tr key={`${row.puzzle}-${row.mode}`}>
+                          <td className="px-3 py-2 font-mono">{row.puzzle}</td>
+                          <td className="px-3 py-2">{row.date}</td>
+                          <td className="px-3 py-2">{MODE_LABELS[row.mode as ModeId] ?? row.mode}</td>
+                          <td className="px-3 py-2 font-mono text-[var(--ember-bright)]">{row.solves}</td>
+                          <td className="px-3 py-2 font-mono">{row.avgAttempts || "—"}</td>
+                          <td className="px-3 py-2">
+                            <button
+                              className="text-xs uppercase tracking-widest text-[var(--ember)]"
+                              onClick={() => {
+                                setTab("stats");
+                                setActivePuzzle(row.puzzle);
+                              }}
+                              type="button"
+                            >
+                              Otwórz
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           </section>
         ) : null}

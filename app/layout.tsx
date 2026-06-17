@@ -8,7 +8,7 @@ const metadataBase = siteUrl();
 export const metadata: Metadata = {
   title: "KOLONIA — codzienna zagadka z Górniczej Doliny",
   description:
-    "Jedna postać, jeden cytat, jedno miejsce. Codzienna gra-zagadka dla fanów Gothica. Reset o północy.",
+    "Codzienna gra-zagadka dla fanów Gothica (2001). Klasyczny, cytat, mapa i karta — ta sama zagadka dla wszystkich, reset o północy.",
   metadataBase: new URL(metadataBase),
   icons: {
     icon: "/favicon.svg",
@@ -22,12 +22,13 @@ export const metadata: Metadata = {
     siteName: "KOLONIA",
     title: "KOLONIA — codzienna zagadka z Górniczej Doliny",
     description:
-      "Zgadnij dzisiejszego NPC-a po atrybutach albo po cytacie. Darmowa gra fanowska, reset o północy.",
+      "Zgadnij postać, cytat, miejsce na mapie lub kartę NPC. Darmowa gra fanowska w trzech językach.",
     images: [
       {
-        url: "/og.svg",
+        url: "/og.png",
         width: 1200,
         height: 630,
+        type: "image/png",
         alt: "KOLONIA — codzienna zagadka z Górniczej Doliny",
       },
     ],
@@ -36,8 +37,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "KOLONIA — codzienna zagadka z Górniczej Doliny",
     description:
-      "Zgadnij dzisiejszego NPC-a po atrybutach albo po cytacie. Darmowa gra fanowska, reset o północy.",
-    images: ["/og.svg"],
+      "Zgadnij postać, cytat, miejsce na mapie lub kartę NPC. Darmowa gra fanowska w trzech językach.",
+    images: ["/og.png"],
   },
 };
 
@@ -47,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pl">
+    <html lang="en">
       <body>
         {children}
         <Analytics />

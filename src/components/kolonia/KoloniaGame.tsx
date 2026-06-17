@@ -162,6 +162,10 @@ export default function KoloniaGame() {
   }, [toast]);
 
   useEffect(() => {
+    document.documentElement.lang = persisted.lang;
+  }, [persisted.lang]);
+
+  useEffect(() => {
     if (!hydrated) return;
 
     const timeoutId = window.setTimeout(() => {
@@ -426,17 +430,23 @@ export default function KoloniaGame() {
               <span className="min-w-0 truncate text-base italic text-[var(--panel-ink)]">{row.name}</span>
             </div>
             <div className="grid grid-cols-5 gap-2">
-              {row.feedback.map((cell, cellIndex) => (
+              {row.feedback.map((cell, cellIndex) => {
+                const columnKey = FEEDBACK_COLUMN_KEYS[cellIndex];
+                return (
                 <div className="flex flex-col items-center gap-1.5" key={`${row.npcId}-${cellIndex}`}>
-                  <span className="text-center font-mono text-[8pt] uppercase leading-tight tracking-normal text-[var(--panel-ink)]/55">
-                    {dict.ui.columns[FEEDBACK_COLUMN_KEYS[cellIndex]]}
+                  <span
+                    className="cursor-help text-center font-mono text-[8pt] uppercase leading-tight tracking-normal text-[var(--panel-ink)]/55 underline decoration-dotted decoration-[var(--panel-ink)]/25 underline-offset-2"
+                    title={dict.ui.columnHints[columnKey]}
+                  >
+                    {dict.ui.columns[columnKey]}
                   </span>
                   <Pip
                     cell={cell}
                     debugTitle={isAdmin ? row.debug[cellIndex] : undefined}
                   />
                 </div>
-              ))}
+              );
+              })}
             </div>
           </div>
         ))}
@@ -450,7 +460,11 @@ export default function KoloniaGame() {
             <span>#</span>
             <span>{dict.ui.candidate}</span>
             {FEEDBACK_COLUMN_KEYS.map((key) => (
-              <span className="text-center" key={key}>
+              <span
+                className="cursor-help text-center underline decoration-dotted decoration-[var(--panel-ink)]/25 underline-offset-2"
+                key={key}
+                title={dict.ui.columnHints[key]}
+              >
                 {dict.ui.columns[key]}
               </span>
             ))}
@@ -935,11 +949,11 @@ function Header({
             {dict.ui.version}
           </span>
         </div>
-        <div className="hidden items-center gap-6 font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--bone-dim)] lg:flex">
-          <span>
+        <div className="hidden items-center gap-4 font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--bone-dim)] md:flex lg:gap-6">
+          <span className="hidden lg:inline">
             {dict.ui.day} <span className="text-[var(--bone)]">{puzzle}</span>
           </span>
-          <span>
+          <span className="hidden lg:inline">
             {dict.ui.resetIn} <span className="text-[var(--ember-bright)]">{resetLabel}</span>
           </span>
           <LanguageSwitcher active={lang} ariaLabel={dict.ui.ariaLanguage} onChange={onLanguageChange} />
@@ -960,7 +974,8 @@ function Header({
             {dict.ui.settingsBtn}
           </button>
         </div>
-        <div className="flex items-center gap-2 font-mono text-[10pt] uppercase tracking-[0.12em] sm:gap-3 lg:hidden">
+        <div className="flex items-center gap-2 font-mono text-[10pt] uppercase tracking-[0.12em] md:hidden">
+          <LanguageSwitcher active={lang} ariaLabel={dict.ui.ariaLanguage} onChange={onLanguageChange} />
           <button
             aria-label={dict.ui.ariaHelp}
             className="grid min-h-11 min-w-11 place-items-center text-[var(--bone-dim)]"
@@ -998,18 +1013,24 @@ function LanguageSwitcher({
 }) {
   const locales: Locale[] = ["pl", "en", "de"];
   return (
-    <div className="flex gap-2" aria-label={ariaLabel}>
-      {locales.map((locale, index) => (
-        <span className="flex items-center gap-2" key={locale}>
-          <button
-            className={active === locale ? "text-[var(--bone)]" : "opacity-50"}
-            onClick={() => onChange(locale)}
-            type="button"
-          >
-            {locale.toUpperCase()}
-          </button>
-          {index < locales.length - 1 ? <span className="opacity-30">/</span> : null}
-        </span>
+    <div
+      className="flex items-center gap-1 rounded-sm border border-[var(--hairline)] bg-black/35 p-0.5"
+      aria-label={ariaLabel}
+      role="group"
+    >
+      {locales.map((locale) => (
+        <button
+          className={`min-h-9 min-w-9 px-2 text-[10pt] font-mono uppercase tracking-widest transition-colors ${
+            active === locale
+              ? "bg-[var(--ember)]/20 text-[var(--ember-bright)] ring-1 ring-[var(--ember)]/50"
+              : "text-[var(--bone-dim)] hover:bg-[var(--bone)]/5 hover:text-[var(--bone)]"
+          }`}
+          key={locale}
+          onClick={() => onChange(locale)}
+          type="button"
+        >
+          {locale.toUpperCase()}
+        </button>
       ))}
     </div>
   );
