@@ -782,30 +782,14 @@ export default function KoloniaGame() {
           <aside className="order-3 col-span-12 min-w-0 space-y-4 md:col-span-6 2xl:order-none 2xl:col-span-1 2xl:col-start-3 2xl:row-start-1">
             <Panel title={dict.ui.campWar} subtitle={`${weekLabel.toUpperCase()} / ${dict.ui.day} ${(puzzle % 7) + 1}`}>
               {campWarStats && campWarStats.totalSolves > 0 ? (
-                <>
-                  {campWarStats.leader ? (
-                    <p className="font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--ember-bright)]">
-                      {dict.ui.campWarLeader}: {playerCampLabel(persisted.lang, campWarStats.leader)}
-                    </p>
-                  ) : null}
-                  {campWarStats.camps.map((row) => (
-                    <div
-                      className={row.camp === playerCamp ? "rounded-sm ring-1 ring-[var(--ember)]/50" : undefined}
-                      key={row.camp}
-                    >
-                      <Stat
-                        bar={row.sharePct / 100}
-                        label={playerCampLabel(persisted.lang, row.camp)}
-                        value={`${row.avgPoints} ${dict.ui.campWarAvgPoints} · ${row.sharePct}% · ${row.solves} ${dict.ui.campWarSolves}`}
-                      />
-                    </div>
-                  ))}
-                  {!campWarStats.ready ? (
-                    <p className="font-mono text-[10pt] uppercase leading-relaxed tracking-[0.12em] text-[var(--bone-dim)]">
-                      {dict.ui.campWarPending}
-                    </p>
-                  ) : null}
-                </>
+                campWarStats.camps.map((row) => (
+                  <Stat
+                    key={row.camp}
+                    bar={Math.min(row.avgPoints / 10, 1)}
+                    label={playerCampLabel(persisted.lang, row.camp)}
+                    value={row.avgPoints.toFixed(1).replace(".", ",")}
+                  />
+                ))
               ) : (
                 <p className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--bone-dim)]">
                   {dict.ui.campWarNoData}
