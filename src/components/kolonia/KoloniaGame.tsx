@@ -12,6 +12,7 @@ import {
   startGoogleLogin,
   type AuthSession,
 } from "@/src/core/auth";
+import { fetchCampWarStats, type CampWarStats } from "@/src/core/camp-war";
 import { fetchDayStats, type DayStats } from "@/src/core/day-stats";
 import { dailyItem, formatCountdown, msUntilReset, puzzleNumber } from "@/src/core/daily";
 import {
@@ -85,6 +86,7 @@ export default function KoloniaGame() {
     stats: DayStats | null;
     statsLoading: boolean;
   } | null>(null);
+  const [campWarStats, setCampWarStats] = useState<CampWarStats | null>(null);
 
   const puzzle = puzzleNumber();
   const { classicNpc: scheduledClassic, quote: scheduledQuote, mapPuzzle, cardNpc: scheduledCard, loading: dailyLoading } =
@@ -164,6 +166,16 @@ export default function KoloniaGame() {
   useEffect(() => {
     document.documentElement.lang = persisted.lang;
   }, [persisted.lang]);
+
+  useEffect(() => {
+    let cancelled = false;
+    void fetchCampWarStats(puzzle).then((stats) => {
+      if (!cancelled) setCampWarStats(stats);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [puzzle]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -258,6 +270,10 @@ export default function KoloniaGame() {
           ? { ...current, stats, statsLoading: false }
           : current,
       );
+    });
+
+    void fetchCampWarStats(puzzle).then((stats) => {
+      if (stats) setCampWarStats(stats);
     });
 
     const session = loadAuth();
@@ -765,9 +781,36 @@ export default function KoloniaGame() {
 
           <aside className="order-3 col-span-12 min-w-0 space-y-4 md:col-span-6 2xl:order-none 2xl:col-span-1 2xl:col-start-3 2xl:row-start-1">
             <Panel title={dict.ui.campWar} subtitle={`${weekLabel.toUpperCase()} / ${dict.ui.day} ${(puzzle % 7) + 1}`}>
-              <p className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--bone-dim)]">
-                {dict.ui.f2CampWar}
-              </p>
+              {campWarStats && campWarStats.totalSolves > 0 ? (
+                <>
+                  {campWarStats.leader ? (
+                    <p className="font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--ember-bright)]">
+                      {dict.ui.campWarLeader}: {playerCampLabel(persisted.lang, campWarStats.leader)}
+                    </p>
+                  ) : null}
+                  {campWarStats.camps.map((row) => (
+                    <div
+                      className={row.camp === playerCamp ? "rounded-sm ring-1 ring-[var(--ember)]/50" : undefined}
+                      key={row.camp}
+                    >
+                      <Stat
+                        bar={row.sharePct / 100}
+                        label={playerCampLabel(persisted.lang, row.camp)}
+                        value={`${row.avgPoints} ${dict.ui.campWarAvgPoints} · ${row.sharePct}% · ${row.solves} ${dict.ui.campWarSolves}`}
+                      />
+                    </div>
+                  ))}
+                  {!campWarStats.ready ? (
+                    <p className="font-mono text-[10pt] uppercase leading-relaxed tracking-[0.12em] text-[var(--bone-dim)]">
+                      {dict.ui.campWarPending}
+                    </p>
+                  ) : null}
+                </>
+              ) : (
+                <p className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--bone-dim)]">
+                  {dict.ui.campWarNoData}
+                </p>
+              )}
             </Panel>
 
             <Panel
