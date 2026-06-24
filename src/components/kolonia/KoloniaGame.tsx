@@ -55,7 +55,7 @@ import { HelpModal, ResultModal, SettingsModal } from "./modals";
 import { Line, Panel, ParchmentPanel, Pip, Stat } from "./ui";
 
 const PLAYER_CAMPS: PlayerCamp[] = ["OLD_CAMP", "NEW_CAMP", "SWAMP_CAMP"];
-const FACEBOOK_GROUP_URL = "https://www.facebook.com/groups/2289912291540748";
+const FACEBOOK_GROUP_URL = "https://www.facebook.com/skazancy.z.kolonii";
 const FEEDBACK_COLUMN_KEYS = ["guild", "guildFamily", "location", "isTeacher", "isFriend"] as const;
 
 const CAMP_THEMES: Record<PlayerCamp, { id: string; imageUrl: string }> = {
