@@ -1,9 +1,41 @@
 import { detectLocale } from "@/src/i18n";
 import { puzzleNumber } from "./daily";
 import { xpForSolve } from "./xp";
-import type { MapGuess, ModeDay, ModeId, ModeStats, Persisted, PlayerCamp } from "./types";
+import type { Locale, MapGuess, ModeDay, ModeId, ModeStats, Persisted, PlayerCamp } from "./types";
 
 export const STORAGE_KEY = "kolonia_v1";
+const LANG_KEY = "kolonia_lang";
+
+function isLocale(value: string | null | undefined): value is Locale {
+  return value === "pl" || value === "en" || value === "de";
+}
+
+export function readSavedLang(): Locale | null {
+  if (typeof window === "undefined") return null;
+
+  try {
+    const fromStorage = window.localStorage.getItem(LANG_KEY);
+    if (isLocale(fromStorage)) return fromStorage;
+
+    const match = document.cookie.match(/(?:^|;\s*)kolonia_lang=(pl|en|de)(?:;|$)/);
+    if (match && isLocale(match[1])) return match[1];
+  } catch {
+    // ignore
+  }
+
+  return null;
+}
+
+function saveLang(lang: Locale) {
+  if (typeof window === "undefined") return;
+
+  window.localStorage.setItem(LANG_KEY, lang);
+  document.cookie = `kolonia_lang=${lang};path=/;max-age=31536000;SameSite=Lax`;
+}
+
+function resolveLang(fallback?: Locale): Locale {
+  return readSavedLang() ?? fallback ?? detectLocale();
+}
 
 function emptyStats(): ModeStats {
   return {
@@ -33,17 +65,32 @@ export function loadPersisted(): Persisted {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) {
-      const initial = { ...defaultPersisted(), lang: detectLocale() };
+      const lang = resolveLang();
+      const initial = { ...defaultPersisted(), lang };
+      saveLang(lang);
       savePersisted(initial);
       return initial;
     }
     const parsed = JSON.parse(raw) as Persisted;
     if (parsed.version !== 1) {
-      return { ...defaultPersisted(), lang: detectLocale() };
+      const lang = resolveLang();
+      const reset = { ...defaultPersisted(), lang };
+      saveLang(lang);
+      savePersisted(reset);
+      return reset;
     }
-    return { ...defaultPersisted(), ...parsed, totalXp: parsed.totalXp ?? 0 };
+    const lang = resolveLang(parsed.lang);
+    saveLang(lang);
+    return {
+      ...defaultPersisted(),
+      ...parsed,
+      lang,
+      totalXp: parsed.totalXp ?? 0,
+    };
   } catch {
-    return { ...defaultPersisted(), lang: detectLocale() };
+    const lang = resolveLang();
+    saveLang(lang);
+    return { ...defaultPersisted(), lang };
   }
 }
 
@@ -168,6 +215,7 @@ export function recordGuess(
 }
 
 export function setLanguage(state: Persisted, lang: Persisted["lang"]): Persisted {
+  saveLang(lang);
   return { ...state, lang };
 }
 

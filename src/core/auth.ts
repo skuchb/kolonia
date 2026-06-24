@@ -13,7 +13,7 @@ export interface UserProfile {
   camp: PlayerCamp | null;
   totalXp: number;
   stats: Partial<Record<ModeId, ModeStats>>;
-  lang: Persisted["lang"];
+  lang?: Persisted["lang"];
 }
 
 export function loadAuth(): AuthSession | null {

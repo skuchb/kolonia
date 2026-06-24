@@ -29,7 +29,7 @@ function toProfile(user: { displayName: string; stateJson: string }, totalXp: nu
     totalXp: xp,
     rank: rankForXp(xp),
     stats: state.stats ?? {},
-    lang: state.lang ?? "pl",
+    lang: state.lang,
   };
 }
 

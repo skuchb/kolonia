@@ -365,7 +365,12 @@ export default function KoloniaGame() {
   }
 
   function handleLanguageChange(lang: Locale) {
-    setPersisted((current) => setLanguage(current, lang));
+    setPersisted((current) => {
+      const next = setLanguage(current, lang);
+      const session = loadAuth();
+      if (session) void syncProfile(session.token, next);
+      return next;
+    });
   }
 
   function closeHelp() {
