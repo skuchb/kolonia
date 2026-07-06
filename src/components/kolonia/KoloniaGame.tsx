@@ -40,7 +40,7 @@ import { sendResult, sendShareEvent } from "@/src/core/telemetry";
 import { CONTACT_EMAIL } from "@/src/core/site";
 import { useHydrated, usePersisted } from "@/src/core/use-persisted";
 import type { FeedbackCell, Locale, ModeId, Npc, PlayerCamp, Quote } from "@/src/core/types";
-import { getNpcById, npcDisplayName, npcPool, quotePool } from "@/src/data";
+import { getNpcById, npcDisplayName, npcPool, primaryQuoteForNpc, quotePool } from "@/src/data";
 import {
   campLabel,
   getDictionary,
@@ -50,6 +50,8 @@ import {
   rankLabel,
 } from "@/src/i18n";
 import { quoteHints } from "@/src/modes/quote/hints";
+import { loadManhuntState, hasSeenManhuntHelp, markManhuntHelpSeen } from "@/src/modes/manhunt/state";
+import { ManhuntMode } from "./ManhuntMode";
 import { MapMode } from "./MapMode";
 import { HelpModal, ResultModal, SettingsModal } from "./modals";
 import { Line, Panel, ParchmentPanel, Pip, Stat } from "./ui";
@@ -89,7 +91,7 @@ export default function KoloniaGame() {
   const [campWarStats, setCampWarStats] = useState<CampWarStats | null>(null);
 
   const puzzle = puzzleNumber();
-  const { classicNpc: scheduledClassic, quote: scheduledQuote, mapPuzzle, cardNpc: scheduledCard, loading: dailyLoading } =
+  const { classicNpc: scheduledClassic, manhuntNpc: scheduledManhunt, quote: scheduledQuote, mapPuzzle, cardNpc: scheduledCard, loading: dailyLoading } =
     useDailyPuzzles(puzzle);
   const dict = getDictionary(persisted.lang);
   const classicTarget = useMemo(
@@ -108,14 +110,25 @@ export default function KoloniaGame() {
     () => scheduledCard ?? dailyItem(npcPool, puzzle, "card"),
     [puzzle, scheduledCard],
   );
+  const manhuntTarget = useMemo(
+    () => scheduledManhunt ?? classicTarget,
+    [classicTarget, scheduledManhunt],
+  );
+  const manhuntQuote = useMemo(
+    () => (manhuntTarget ? primaryQuoteForNpc(manhuntTarget.id) ?? null : null),
+    [manhuntTarget],
+  );
   const targetNpc = useMemo(() => {
     if (mode === "map") {
       const id = mapTarget?.npcId;
       return id ? getNpcById(id) : undefined;
     }
+    if (mode === "manhunt") {
+      return manhuntTarget;
+    }
     const targetId = mode === "classic" ? classicTarget?.id : mode === "card" ? cardTarget?.id : quoteTarget?.npcId;
     return targetId ? getNpcById(targetId) : undefined;
-  }, [cardTarget, classicTarget, mapTarget, mode, quoteTarget]);
+  }, [cardTarget, classicTarget, manhuntTarget, mapTarget, mode, quoteTarget]);
 
   const modeDay = ensureModeDay(persisted, mode);
   const classicDay = ensureModeDay(persisted, "classic");
@@ -149,8 +162,42 @@ export default function KoloniaGame() {
 
   const quoteHintList =
     mode === "quote" && targetNpc ? quoteHints(modeDay.guesses.length, targetNpc, persisted.lang) : [];
-  const showHelp = helpManualOpen || (hydrated && Boolean(persisted.camp) && !persisted.seenHelp);
+  const showHelp =
+    helpManualOpen ||
+    (hydrated && Boolean(persisted.camp) && !persisted.seenHelp) ||
+    (hydrated && mode === "manhunt" && !hasSeenManhuntHelp());
   const isAdmin = Boolean(authSession && adminUserId === authSession.userId);
+  const visibleModeTabs = useMemo<ModeId[]>(
+    () => (isAdmin ? ["manhunt", "quote", "map", "card"] : ["classic", "quote", "map", "card"]),
+    [isAdmin],
+  );
+  const manhuntState = hydrated ? loadManhuntState(puzzle) : null;
+
+  function modeTabLabel(modeId: ModeId) {
+    switch (modeId) {
+      case "manhunt":
+        return dict.ui.modeManhunt;
+      case "quote":
+        return dict.ui.modeQuote;
+      case "map":
+        return dict.ui.modeMap;
+      case "card":
+        return dict.ui.modeCard;
+      default:
+        return dict.ui.modeClassic;
+    }
+  }
+
+  function handleManhuntXpGain(amount: number) {
+    setPersisted((current) => ({
+      ...current,
+      totalXp: (current.totalXp ?? 0) + amount,
+    }));
+    showToast(dict.ui.solved);
+    void fetchCampWarStats(puzzle).then((stats) => {
+      if (stats) setCampWarStats(stats);
+    });
+  }
 
   useEffect(() => {
     const timer = window.setInterval(() => setResetMs(msUntilReset()), 1000);
@@ -229,6 +276,12 @@ export default function KoloniaGame() {
       cancelled = true;
     };
   }, [authSession]);
+
+  useEffect(() => {
+    if (isAdmin && mode === "classic") {
+      setMode("manhunt");
+    }
+  }, [isAdmin, mode]);
 
   function showToast(message: string) {
     setToast(message);
@@ -391,6 +444,7 @@ export default function KoloniaGame() {
 
   function closeHelp() {
     setHelpManualOpen(false);
+    if (mode === "manhunt") markManhuntHelpSeen();
     setPersisted((current) => markHelpSeen(current));
   }
 
@@ -531,27 +585,34 @@ export default function KoloniaGame() {
           <section className="order-1 col-span-12 min-w-0 2xl:col-span-1 2xl:col-start-2 2xl:row-start-1" aria-label={dict.ui.puzzle}>
             <ParchmentPanel>
               <div className="mb-4 grid grid-cols-2 gap-2 sm:mb-5 sm:flex sm:flex-wrap">
-                {(["classic", "quote", "map", "card"] as const).map((modeId) => {
+                {visibleModeTabs.map((modeId) => {
                   const day =
-                    modeId === "quote" ? quoteDay : modeId === "classic" ? classicDay : modeId === "card" ? cardDay : mapDay;
-                  const badgeLabel = day.solved
+                    modeId === "quote"
+                      ? quoteDay
+                      : modeId === "classic"
+                        ? classicDay
+                        : modeId === "manhunt"
+                          ? null
+                          : modeId === "card"
+                            ? cardDay
+                            : mapDay;
+                  const manhuntSolved = manhuntState?.status === "won";
+                  const manhuntStarted =
+                    Boolean(manhuntState) &&
+                    (manhuntState.revealCount > 0 || manhuntState.misses.length > 0);
+                  const solved = modeId === "manhunt" ? manhuntSolved : Boolean(day?.solved);
+                  const started =
+                    modeId === "manhunt" ? manhuntStarted : Boolean(day && day.guesses.length > 0);
+                  const badgeLabel = solved
                     ? dict.ui.modeSolved
-                    : day.guesses.length > 0
+                    : started
                       ? dict.ui.modeStarted
                       : null;
-                  const badge = day.solved ? "✅" : day.guesses.length > 0 ? "●" : "";
+                  const badge = solved ? "✅" : started ? "●" : "";
                   return (
                     <button
                       aria-label={
-                        badgeLabel
-                          ? `${modeId === "quote" ? dict.ui.modeQuote : modeId === "classic" ? dict.ui.modeClassic : modeId === "card" ? dict.ui.modeCard : dict.ui.modeMap} — ${badgeLabel}`
-                          : modeId === "quote"
-                            ? dict.ui.modeQuote
-                            : modeId === "classic"
-                              ? dict.ui.modeClassic
-                              : modeId === "card"
-                                ? dict.ui.modeCard
-                                : dict.ui.modeMap
+                        badgeLabel ? `${modeTabLabel(modeId)} — ${badgeLabel}` : modeTabLabel(modeId)
                       }
                       className={`flex min-h-11 w-full items-center justify-center gap-2 border px-3 py-2 font-mono text-[10pt] uppercase tracking-[0.12em] sm:w-auto sm:justify-start ${
                         mode === modeId
@@ -562,14 +623,13 @@ export default function KoloniaGame() {
                       onClick={() => setMode(modeId)}
                       type="button"
                     >
-                      <span>
-                        {modeId === "quote"
-                          ? dict.ui.modeQuote
-                          : modeId === "classic"
-                            ? dict.ui.modeClassic
-                            : modeId === "card"
-                              ? dict.ui.modeCard
-                              : dict.ui.modeMap}
+                      <span className="flex items-center gap-2">
+                        {modeTabLabel(modeId)}
+                        {modeId === "manhunt" ? (
+                          <span className="rounded-sm border border-[var(--ember)]/50 px-1.5 py-0.5 text-[8pt] text-[var(--ember-bright)]">
+                            {dict.ui.manhuntNew}
+                          </span>
+                        ) : null}
                       </span>
                       {badge ? (
                         <span aria-hidden="true" title={badgeLabel ?? undefined}>
@@ -587,20 +647,24 @@ export default function KoloniaGame() {
                     {dict.ui.puzzle} №{puzzle} ·{" "}
                     {mode === "quote"
                       ? dict.ui.quoteOfDay
-                      : mode === "classic"
-                        ? dict.ui.classicOfDay
-                        : mode === "card"
-                          ? dict.ui.cardOfDay
-                          : dict.ui.mapOfDay}
+                      : mode === "manhunt"
+                        ? dict.ui.manhuntOfDay
+                        : mode === "classic"
+                          ? dict.ui.classicOfDay
+                          : mode === "card"
+                            ? dict.ui.cardOfDay
+                            : dict.ui.mapOfDay}
                   </div>
                   <h1 className="mt-2 text-[1.35rem] leading-tight tracking-tight text-[var(--panel-ink)] sm:text-[25pt]">
                     {mode === "quote"
                       ? dict.ui.whoSaid
-                      : mode === "classic"
-                        ? dict.ui.whoIsNpc
-                        : mode === "card"
-                          ? dict.ui.whoIsCard
-                          : dict.ui.whereIsNpc}
+                      : mode === "manhunt"
+                        ? dict.ui.manhuntLead
+                        : mode === "classic"
+                          ? dict.ui.whoIsNpc
+                          : mode === "card"
+                            ? dict.ui.whoIsCard
+                            : dict.ui.whereIsNpc}
                   </h1>
                   {mode === "map" && mapTarget ? (
                     <p className="mt-4 inline-block border border-[var(--rust)]/40 bg-[var(--panel-ink)]/10 px-4 py-2 font-serif text-3xl font-semibold leading-none text-[var(--rust)] shadow-sm sm:text-4xl">
@@ -609,13 +673,17 @@ export default function KoloniaGame() {
                   ) : null}
                 </div>
                 <div className="flex shrink-0 items-end justify-between gap-4 sm:block sm:text-right">
-                  <div className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--panel-ink)]/70">
-                    {dict.ui.attempt}
-                  </div>
-                  <div className={`${mode === "map" ? "text-4xl sm:text-6xl" : "text-3xl sm:text-4xl"} leading-none text-[var(--panel-ink)]`}>
-                    {mode === "map" ? (modeDay.mapGuesses?.length ?? 0) : modeDay.guesses.length}
-                    {modeDay.solved ? "" : <span className="text-lg opacity-40"> / ∞</span>}
-                  </div>
+                  {mode !== "manhunt" ? (
+                    <>
+                      <div className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--panel-ink)]/70">
+                        {dict.ui.attempt}
+                      </div>
+                      <div className={`${mode === "map" ? "text-4xl sm:text-6xl" : "text-3xl sm:text-4xl"} leading-none text-[var(--panel-ink)]`}>
+                        {mode === "map" ? (modeDay.mapGuesses?.length ?? 0) : modeDay.guesses.length}
+                        {modeDay.solved ? "" : <span className="text-lg opacity-40"> / ∞</span>}
+                      </div>
+                    </>
+                  ) : null}
                 </div>
               </div>
 
@@ -638,7 +706,25 @@ export default function KoloniaGame() {
                 <CharacterCard npc={cardTarget} lang={persisted.lang} revealed={modeDay.solved || isAdmin} />
               ) : null}
 
-              {mode !== "map" && quoteHintList.length > 0 ? (
+              {mode === "manhunt" && manhuntTarget ? (
+                <ManhuntMode
+                  camp={persisted.camp}
+                  lang={persisted.lang}
+                  onWin={() => {
+                    void fetchCampWarStats(puzzle).then((stats) => {
+                      if (stats) setCampWarStats(stats);
+                    });
+                  }}
+                  onXpGain={handleManhuntXpGain}
+                  puzzle={puzzle}
+                  targetNpc={manhuntTarget}
+                  targetQuote={manhuntQuote}
+                  totalXp={persisted.totalXp ?? 0}
+                  userId={authSession?.userId ?? null}
+                />
+              ) : null}
+
+              {mode !== "map" && mode !== "manhunt" && quoteHintList.length > 0 ? (
                 <div className="mb-5 space-y-2 border border-[var(--panel-ink)]/20 bg-[var(--panel)]/40 p-3 sm:mb-6">
                   {quoteHintList.map((hint) => (
                     <p className="font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--panel-ink)]/80" key={hint.id}>
@@ -648,7 +734,7 @@ export default function KoloniaGame() {
                 </div>
               ) : null}
 
-              {mode !== "map" ? (
+              {mode !== "map" && mode !== "manhunt" ? (
               <>
               {!modeDay.solved ? (
                 <div className="relative">
@@ -704,6 +790,7 @@ export default function KoloniaGame() {
               </>
               ) : null}
 
+              {mode !== "manhunt" ? (
               <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 {mode !== "map" ? (
                 <div className="grid grid-cols-3 gap-2 font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--panel-ink)]/60 sm:flex sm:flex-wrap sm:gap-x-5 sm:gap-y-2">
@@ -730,6 +817,7 @@ export default function KoloniaGame() {
                   {dict.ui.share}
                 </button>
               </div>
+              ) : null}
             </ParchmentPanel>
           </section>
 
@@ -859,7 +947,7 @@ export default function KoloniaGame() {
       {!playerCamp ? (
         <CampOnboarding dict={dict} lang={persisted.lang} onSelect={handleCampSelect} />
       ) : null}
-      {showHelp ? <HelpModal lang={persisted.lang} onClose={closeHelp} /> : null}
+      {showHelp ? <HelpModal focusMode={mode} lang={persisted.lang} onClose={closeHelp} /> : null}
       {showSettings ? (
         <SettingsModal
           camp={playerCamp}

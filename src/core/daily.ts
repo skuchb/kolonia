@@ -9,6 +9,7 @@ export const CURATED_QUOTE_IDS: readonly string[] = [];
 
 const MODE_SEEDS: Record<ModeId, number> = {
   classic: 0x474f54,
+  manhunt: 0x474f54,
   quote: 0x474f55,
   map: 0x474f56,
   card: 0x474f57,

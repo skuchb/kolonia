@@ -40,13 +40,31 @@ function ModalShell({
   );
 }
 
-export function HelpModal({ lang, onClose }: { lang: Locale; onClose: () => void }) {
+export function HelpModal({
+  lang,
+  focusMode,
+  onClose,
+}: {
+  lang: Locale;
+  focusMode?: ModeId;
+  onClose: () => void;
+}) {
   const dict = getDictionary(lang);
   const help = dict.ui.help;
+  const highlightManhunt = focusMode === "manhunt";
 
   return (
     <ModalShell title={help.title} onClose={onClose}>
       <div className="space-y-5 font-mono text-[10pt] uppercase leading-relaxed tracking-[0.12em] text-[var(--bone-dim)]">
+        <section className={highlightManhunt ? "border border-[var(--ember)]/40 bg-[var(--ember)]/10 p-3" : undefined}>
+          <h3 className="mb-2 text-[var(--bone)]">{help.manhuntTitle}</h3>
+          <p className="mb-3 text-[var(--ember-bright)]">{help.manhuntFiction}</p>
+          <ul className="list-inside list-disc space-y-2">
+            <li>{help.manhuntTip1}</li>
+            <li>{help.manhuntTip2}</li>
+            <li>{help.manhuntTip3}</li>
+          </ul>
+        </section>
         <section>
           <h3 className="mb-2 text-[var(--bone)]">{help.classicTitle}</h3>
           <p>{help.classicBody}</p>
@@ -245,9 +263,11 @@ export function ResultModal({
             <div className="mt-1 text-[var(--bone)]">
               {mode === "quote"
                 ? dict.ui.modeQuote
-                : mode === "map"
-                  ? dict.ui.modeMap
-                  : mode === "card"
+                  : mode === "map"
+                    ? dict.ui.modeMap
+                    : mode === "manhunt"
+                      ? dict.ui.modeManhunt
+                      : mode === "card"
                     ? dict.ui.modeCard
                     : dict.ui.modeClassic}
             </div>

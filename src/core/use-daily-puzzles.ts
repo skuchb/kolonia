@@ -5,17 +5,20 @@ import type { DailyMapPuzzle, ModeId, Npc, Quote } from "./types";
 import {
   fallbackDailyCard,
   fallbackDailyClassic,
+  fallbackDailyManhunt,
   fallbackDailyMap,
   fallbackDailyQuote,
   fetchDailyPuzzle,
   type DailyCardResponse,
   type DailyClassicResponse,
+  type DailyManhuntResponse,
   type DailyMapResponse,
   type DailyQuoteResponse,
 } from "./daily-api";
 
 export function useDailyPuzzles(puzzle: number) {
   const [classicNpc, setClassicNpc] = useState<Npc | null>(null);
+  const [manhuntNpc, setManhuntNpc] = useState<Npc | null>(null);
   const [quote, setQuote] = useState<Quote | null>(null);
   const [mapPuzzle, setMapPuzzle] = useState<DailyMapPuzzle | null>(null);
   const [cardNpc, setCardNpc] = useState<Npc | null>(null);
@@ -26,8 +29,9 @@ export function useDailyPuzzles(puzzle: number) {
     let cancelled = false;
 
     void (async () => {
-      const [classicRes, quoteRes, mapRes, cardRes] = await Promise.all([
+      const [classicRes, manhuntRes, quoteRes, mapRes, cardRes] = await Promise.all([
         fetchDailyPuzzle("classic", puzzle),
+        fetchDailyPuzzle("manhunt", puzzle),
         fetchDailyPuzzle("quote", puzzle),
         fetchDailyPuzzle("map", puzzle),
         fetchDailyPuzzle("card", puzzle),
@@ -39,6 +43,12 @@ export function useDailyPuzzles(puzzle: number) {
         classicRes?.mode === "classic"
           ? (classicRes as DailyClassicResponse).npc
           : fallbackDailyClassic(puzzle);
+      const manhunt =
+        manhuntRes?.mode === "manhunt"
+          ? (manhuntRes as DailyManhuntResponse).npc
+          : classicRes?.mode === "classic"
+            ? (classicRes as DailyClassicResponse).npc
+            : fallbackDailyManhunt(puzzle);
       const quoteItem =
         quoteRes?.mode === "quote" ? (quoteRes as DailyQuoteResponse).quote : fallbackDailyQuote(puzzle);
       const mapItem =
@@ -47,11 +57,13 @@ export function useDailyPuzzles(puzzle: number) {
         cardRes?.mode === "card" ? (cardRes as DailyCardResponse).npc : fallbackDailyCard(puzzle);
 
       setClassicNpc(classic);
+      setManhuntNpc(manhunt);
       setQuote(quoteItem);
       setMapPuzzle(mapItem);
       setCardNpc(cardItem);
       setScheduled({
         classic: classicRes?.mode === "classic",
+        manhunt: manhuntRes?.mode === "manhunt",
         quote: quoteRes?.mode === "quote",
         map: mapRes?.mode === "map",
         card: cardRes?.mode === "card",
@@ -66,6 +78,7 @@ export function useDailyPuzzles(puzzle: number) {
 
   return {
     classicNpc,
+    manhuntNpc,
     quote,
     mapPuzzle,
     cardNpc,

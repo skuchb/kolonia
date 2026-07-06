@@ -7,13 +7,14 @@ import { loadAuth, startGoogleLogin } from "@/src/core/auth";
 import { LAUNCH_DAY, puzzleNumber } from "@/src/core/daily";
 import { getNpcById, npcDisplayName } from "@/src/data";
 
-type Tab = "schedule" | "quotes" | "npcs" | "map" | "cards" | "stats";
+type Tab = "schedule" | "npcs" | "manhunt" | "quotes" | "map" | "cards" | "stats";
 type AdminNpc = Npc & { enabled: boolean };
 type AdminQuote = Quote & { enabled: boolean; qualityStatus?: string; adminNote?: string | null };
 
 const TAB_LABELS: Record<Tab, string> = {
   schedule: "Harmonogram",
   npcs: "Klasyczny",
+  manhunt: "Śledztwo",
   quotes: "Cytat",
   map: "Mapa",
   cards: "Karta",
@@ -22,6 +23,7 @@ const TAB_LABELS: Record<Tab, string> = {
 
 const MODE_LABELS: Record<ModeId, string> = {
   classic: "Klasyczny",
+  manhunt: "Śledztwo",
   quote: "Cytat",
   map: "Mapa",
   card: "Karta",
@@ -93,6 +95,7 @@ export default function AdminPanel() {
   const [tab, setTab] = useState<Tab>("schedule");
   const [puzzle, setPuzzle] = useState(puzzleNumber());
   const [selectedNpcDay, setSelectedNpcDay] = useState(puzzleNumber());
+  const [selectedManhuntDay, setSelectedManhuntDay] = useState(puzzleNumber());
   const [selectedQuoteDay, setSelectedQuoteDay] = useState(puzzleNumber());
   const [selectedMapDay, setSelectedMapDay] = useState(puzzleNumber());
   const [selectedCardDay, setSelectedCardDay] = useState(puzzleNumber());
@@ -158,12 +161,12 @@ export default function AdminPanel() {
   }, [refresh]);
 
   useEffect(() => {
-    if (!headers || !authorized || (tab !== "npcs" && tab !== "quotes" && tab !== "cards" && tab !== "map" && tab !== "stats")) return;
+    if (!headers || !authorized || (tab !== "npcs" && tab !== "manhunt" && tab !== "quotes" && tab !== "cards" && tab !== "map" && tab !== "stats")) return;
 
     let cancelled = false;
     const timeoutId = window.setTimeout(() => {
       void (async () => {
-        if (tab === "npcs" || tab === "cards" || tab === "map" || tab === "stats") {
+        if (tab === "npcs" || tab === "manhunt" || tab === "cards" || tab === "map" || tab === "stats") {
           const npcRes = await fetch(`/api/admin/npcs?q=${encodeURIComponent(search)}`, { headers });
           if (npcRes.ok && !cancelled) {
             const data = (await npcRes.json()) as { npcs: AdminNpc[] };
@@ -272,6 +275,7 @@ export default function AdminPanel() {
     const safeValue = Math.max(0, value);
     setPuzzle(safeValue);
     setSelectedNpcDay(safeValue);
+    setSelectedManhuntDay(safeValue);
     setSelectedQuoteDay(safeValue);
     setSelectedMapDay(safeValue);
     setSelectedCardDay(safeValue);
@@ -337,6 +341,14 @@ export default function AdminPanel() {
     setSelectedNpcDay(targetPuzzle);
     setPuzzle(targetPuzzle);
     await saveScheduleForPuzzle(targetPuzzle, "classic", { npcId });
+    await saveScheduleForPuzzle(targetPuzzle, "manhunt", { npcId });
+  }
+
+  async function assignManhuntNpcToDay(targetPuzzle: number, npcOrId: Npc | string) {
+    const npcId = typeof npcOrId === "string" ? npcOrId : npcOrId.id;
+    setSelectedManhuntDay(targetPuzzle);
+    setPuzzle(targetPuzzle);
+    await saveScheduleForPuzzle(targetPuzzle, "manhunt", { npcId });
   }
 
   async function assignCardNpcToDay(targetPuzzle: number, npcOrId: Npc | string) {
@@ -549,7 +561,7 @@ export default function AdminPanel() {
         {message ? <p className="mb-4 border border-[var(--ember)]/40 p-3 text-sm">{message}</p> : null}
 
         <div className="mb-6 flex flex-wrap gap-2">
-          {(["schedule", "npcs", "quotes", "map", "cards", "stats"] as Tab[]).map((item) => (
+          {(["schedule", "npcs", "manhunt", "quotes", "map", "cards", "stats"] as Tab[]).map((item) => (
             <button
               className={`border px-3 py-2 text-xs uppercase tracking-widest ${
                 tab === item ? "border-[var(--ember)] text-[var(--ember-bright)]" : "border-[var(--hairline)]"
@@ -589,7 +601,7 @@ export default function AdminPanel() {
         {tab === "schedule" ? (
           <section className="space-y-4">
             <h2 className="text-xl">Harmonogram dnia {puzzle}</h2>
-            {(["classic", "quote", "map", "card"] as ModeId[]).map((mode) => {
+            {(["classic", "manhunt", "quote", "map", "card"] as ModeId[]).map((mode) => {
               const row = scheduleForDay.find((entry) => entry.mode === mode);
               return (
                 <div className="border border-[var(--hairline)] p-4" key={mode}>
@@ -603,7 +615,7 @@ export default function AdminPanel() {
               );
             })}
             <p className="text-sm text-[var(--bone-dim)]">
-              Użyj zakładek Klasyczny, Cytat, Mapa i Karta, aby przypisać treść do wybranego dnia.
+              Użyj zakładek Klasyczny, Śledztwo, Cytat, Mapa i Karta, aby przypisać treść do wybranego dnia.
             </p>
           </section>
         ) : null}
@@ -705,6 +717,122 @@ export default function AdminPanel() {
                         type="button"
                       >
                         Do dnia {selectedNpcDay}
+                      </button>
+                      <button
+                        className="border border-[var(--hairline)] px-3 py-1 text-xs"
+                        onClick={() => void toggleNpc(npc.id, !npc.enabled)}
+                        type="button"
+                      >
+                        {npc.enabled ? "Wyłącz" : "Włącz"}
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              {enabledNpcs.length === 0 ? (
+                <p className="text-sm text-[var(--bone-dim)]">Brak dostępnych osób dla aktualnego wyszukiwania.</p>
+              ) : null}
+            </div>
+          </section>
+        ) : null}
+
+        {tab === "manhunt" ? (
+          <section className="grid gap-6 lg:grid-cols-[minmax(320px,0.95fr)_minmax(420px,1.25fr)]">
+            <div className="space-y-3">
+              <div>
+                <h2 className="text-xl">Śledztwo po dniach</h2>
+                <p className="text-sm text-[var(--bone-dim)]">
+                  Upuść poszukiwaną osobę na wybrany dzień. To osobny harmonogram trybu Śledztwo (admin).
+                </p>
+              </div>
+              <div className="max-h-[72vh] space-y-3 overflow-y-auto pr-2">
+                {quoteDays.map((day) => {
+                  const row = snapshot?.dailyPuzzles.find((entry) => entry.puzzle === day && entry.mode === "manhunt");
+                  const assignedNpc = row?.npcId ? npcById.get(row.npcId) : undefined;
+                  return (
+                    <article
+                      className={`border p-3 transition-colors ${dayCardClass(day, selectedManhuntDay === day)}`}
+                      key={day}
+                      onClick={() => {
+                        setSelectedManhuntDay(day);
+                        setPuzzle(day);
+                      }}
+                      onDragLeave={() => setDragOverDay(null)}
+                      onDragOver={(event) => {
+                        event.preventDefault();
+                        event.dataTransfer.dropEffect = "move";
+                        setDragOverDay(day);
+                      }}
+                      onDrop={(event) => {
+                        event.preventDefault();
+                        const npcId = event.dataTransfer.getData("text/plain");
+                        setDragOverDay(null);
+                        if (npcId) void assignManhuntNpcToDay(day, npcId);
+                      }}
+                    >
+                      <div className="mb-2 flex items-center justify-between gap-3">
+                        <div>
+                          <div className="text-sm uppercase tracking-widest text-[var(--ember)]">
+                            Dzień {day}
+                            {day === today ? (
+                              <span className="ml-2 text-[var(--ember-bright)]">· dziś</span>
+                            ) : null}
+                          </div>
+                          <div className="text-xs text-[var(--bone-dim)]">{dateForPuzzle(day)}</div>
+                        </div>
+                        <span className="text-xs text-[var(--bone-dim)]">{row?.published === 0 ? "draft" : "live"}</span>
+                      </div>
+                      {assignedNpc ? (
+                        <div>
+                          <div className="font-serif text-lg">{npcDisplayName(assignedNpc, "pl" as Locale)}</div>
+                          <div className="text-xs text-[var(--bone-dim)]">{assignedNpc.id}</div>
+                        </div>
+                      ) : row?.npcId ? (
+                        <p className="text-sm text-[var(--bone-dim)]">Przypisany NPC: {row.npcId}</p>
+                      ) : (
+                        <p className="text-sm text-[var(--bone-dim)]">Brak zbiega. Przeciągnij tutaj osobę z prawej.</p>
+                      )}
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <div>
+                <h2 className="text-xl">Dostępne osoby</h2>
+                <p className="text-sm text-[var(--bone-dim)]">
+                  Pełna lista włączonych postaci — także już użytych w innych dniach.
+                </p>
+              </div>
+              <input
+                className="w-full border border-[var(--hairline)] bg-black px-3 py-2"
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Szukaj NPC…"
+                value={search}
+              />
+              <ul className="max-h-[64vh] divide-y divide-[var(--hairline)] overflow-y-auto border border-[var(--hairline)]">
+                {enabledNpcs.map((npc) => (
+                  <li
+                    className="flex cursor-grab flex-wrap items-center justify-between gap-3 p-3 active:cursor-grabbing"
+                    draggable
+                    key={npc.id}
+                    onDragStart={(event) => {
+                      event.dataTransfer.setData("text/plain", npc.id);
+                      event.dataTransfer.effectAllowed = "move";
+                    }}
+                  >
+                    <div>
+                      <div className="font-serif text-lg">{npcDisplayName(npc, "pl" as Locale)}</div>
+                      <div className="text-xs text-[var(--bone-dim)]">{npc.id}</div>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        className="border border-[var(--ember)] px-3 py-1 text-xs"
+                        onClick={() => void assignManhuntNpcToDay(selectedManhuntDay, npc)}
+                        type="button"
+                      >
+                        Do dnia {selectedManhuntDay}
                       </button>
                       <button
                         className="border border-[var(--hairline)] px-3 py-1 text-xs"
@@ -1217,7 +1345,7 @@ export default function AdminPanel() {
 
             {statsDetail ? (
               <div className="grid gap-4 lg:grid-cols-2">
-                {(["classic", "quote", "map", "card"] as const).map((mode) => {
+                {(["classic", "manhunt", "quote", "map", "card"] as const).map((mode) => {
                   const modeStats = statsDetail.modes[mode];
                   const maxCount = Math.max(1, ...modeStats.attemptDistribution.map((row) => row.count));
                   return (

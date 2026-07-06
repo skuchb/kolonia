@@ -57,7 +57,7 @@ function mergeStats(local: ModeStats, remote: ModeStats): ModeStats {
 
 export function mergePersistedWithProfile(local: Persisted, profile: UserProfile): Persisted {
   const stats = { ...local.stats };
-  for (const mode of ["classic", "quote", "map", "card"] as const) {
+  for (const mode of ["classic", "manhunt", "quote", "map", "card"] as const) {
     const localStats = local.stats[mode];
     const remoteStats = profile.stats[mode];
     if (localStats && remoteStats) {

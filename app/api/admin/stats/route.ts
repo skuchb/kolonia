@@ -6,7 +6,7 @@ import { listAdminSnapshot } from "../../../../db/cms-write";
 import { getDb } from "../../../../db";
 import { results, userSolves, users } from "../../../../db/schema";
 
-const MODES: ModeId[] = ["classic", "quote", "map", "card"];
+const MODES: ModeId[] = ["classic", "manhunt", "quote", "map", "card"];
 
 function dateForPuzzle(day: number) {
   const date = new Date(`${LAUNCH_DAY}T00:00:00.000Z`);

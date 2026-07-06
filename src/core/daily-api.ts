@@ -1,6 +1,6 @@
 import type { DailyCardPuzzle, DailyMapPuzzle, LocalizedText, ModeId, Npc, Quote } from "./types";
 import { dailyItem } from "./daily";
-import { getNpcById, npcPool, quotePool } from "@/src/data";
+import { getNpcById, manhuntAnswerPool, npcPool, quotePool } from "@/src/data";
 
 const FALLBACK_MAP = {
   id: "kolonia",
@@ -22,11 +22,17 @@ const FALLBACK_MAP_TARGETS: Array<{ npcId: string; chapter?: LocalizedText | nul
 ];
 
 export type DailyClassicResponse = { mode: "classic"; puzzle: number; npc: Npc };
+export type DailyManhuntResponse = { mode: "manhunt"; puzzle: number; npc: Npc };
 export type DailyQuoteResponse = { mode: "quote"; puzzle: number; quote: Quote };
 export type DailyMapResponse = DailyMapPuzzle;
 export type DailyCardResponse = DailyCardPuzzle;
 
-export type DailyResponse = DailyClassicResponse | DailyQuoteResponse | DailyMapResponse | DailyCardResponse;
+export type DailyResponse =
+  | DailyClassicResponse
+  | DailyManhuntResponse
+  | DailyQuoteResponse
+  | DailyMapResponse
+  | DailyCardResponse;
 
 export async function fetchDailyPuzzle(
   mode: ModeId,
@@ -41,6 +47,10 @@ export async function fetchDailyPuzzle(
   } catch {
     return null;
   }
+}
+
+export function fallbackDailyManhunt(puzzle: number): Npc {
+  return dailyItem(manhuntAnswerPool(), puzzle, "manhunt");
 }
 
 export function fallbackDailyClassic(puzzle: number): Npc {

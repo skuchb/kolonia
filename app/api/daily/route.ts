@@ -9,7 +9,7 @@ import {
   listContentQuotes,
 } from "../../../db/cms";
 
-const MODES = new Set<ModeId>(["classic", "quote", "map", "card"]);
+const MODES = new Set<ModeId>(["classic", "manhunt", "quote", "map", "card"]);
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -26,7 +26,7 @@ export async function GET(request: Request) {
     return Response.json({ error: "not_scheduled", puzzle, mode }, { status: 404 });
   }
 
-  if (mode === "classic") {
+  if (mode === "classic" || mode === "manhunt") {
     const npcId = schedule.npcId;
     if (!npcId) return Response.json({ error: "invalid_schedule" }, { status: 500 });
     const npcs = await listContentNpcs(true);

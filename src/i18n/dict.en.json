@@ -17,6 +17,9 @@
     "puzzle": "Puzzle",
     "quoteOfDay": "Quote of the day",
     "classicOfDay": "Classic",
+    "manhuntOfDay": "Manhunt",
+    "manhuntLead": "Find the fugitive from the Mining Valley",
+    "manhuntNew": "NEW",
     "whoSaid": "Who said these words?",
     "whoIsNpc": "Who sits in the colony today?",
     "attempt": "Attempt",
@@ -54,6 +57,11 @@
       "title": "How to play",
       "classicTitle": "Classic mode",
       "classicBody": "Guess today's NPC by attributes. After each try, columns show what matches, what's close, and what doesn't fit.",
+      "manhuntTitle": "Manhunt mode",
+      "manhuntFiction": "A purse for informants: 10 ore nuggets. The less you spend catching the fugitive, the more experience you earn. Wrong accusations cost too.",
+      "manhuntTip1": "Hints on the wanted poster cost ore nuggets.",
+      "manhuntTip2": "A wrong accusation also costs nuggets.",
+      "manhuntTip3": "The more nuggets you keep, the more XP you earn on capture.",
       "quoteTitle": "Quote mode",
       "quoteBody": "Read the dialogue exchange and name the NPC who said these words. Hints appear after several wrong tries.",
       "mapTitle": "Map mode",
@@ -98,6 +106,7 @@
     "hero": "Hero",
     "npc": "NPC",
     "modeClassic": "Classic",
+    "modeManhunt": "Manhunt",
     "modeQuote": "Quote",
     "modeMap": "Map",
     "modeCard": "Card",
@@ -161,6 +170,53 @@
       "location": "Where the character is usually found. Green = same location; amber = same region, different location.",
       "isTeacher": "Whether the character teaches skills. Green = same answer as the target (both teach or both don't)—not “this one is definitely a teacher”.",
       "isFriend": "In-game friend status. Green = same status as today's character (both yes or both no)—not “this one is definitely a friend”."
+    },
+    "manhunt": {
+      "wanted": "Wanted poster",
+      "escapedFrom": "Escaped from",
+      "purse": "Purse",
+      "bribe": "Bribe",
+      "accuse": "Accuse",
+      "captured": "Captured",
+      "unknownPortrait": "?",
+      "portraitUnknown": "Portrait unknown",
+      "eliminated": "Eliminated",
+      "guessPlaceholder": "Name the fugitive…",
+      "experience": "Experience",
+      "levelUp": "Level {n}",
+      "emptyField": "—",
+      "fields": {
+        "guild": "Guild / role",
+        "location": "Location",
+        "letter": "1st letter of name",
+        "teacher": "Teacher (what they teach)",
+        "trade": "Trade (what they sell)",
+        "quote": "Quote"
+      },
+      "escapedCamps": {
+        "OLD_CAMP": "the Old Camp",
+        "NEW_CAMP": "the New Camp",
+        "SWAMP_CAMP": "the Swamp Camp",
+        "FIRE_MAGES": "the Old Camp",
+        "WATER_MAGES": "the New Camp",
+        "NONE": "the Colony"
+      },
+      "teacherCategories": {
+        "strength_dex": "Strength and dexterity",
+        "melee": "Melee weapons",
+        "ranged": "Ranged weapons",
+        "magic": "Magic",
+        "thief": "Thieving skills",
+        "hunting": "Hunting and special skills"
+      },
+      "tradeCategories": {
+        "melee_weapons": "Melee weapons",
+        "ranged_weapons": "Ranged weapons",
+        "magic": "Magic",
+        "alchemy": "Alchemy",
+        "swamp_herbs": "Swamp herbs",
+        "supplies": "Supplies"
+      }
     }
   },
   "camps": {

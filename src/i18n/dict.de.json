@@ -17,6 +17,9 @@
     "puzzle": "Rätsel",
     "quoteOfDay": "Zitat des Tages",
     "classicOfDay": "Klassisch",
+    "manhuntOfDay": "Fahndung",
+    "manhuntLead": "Finde den Flüchtigen aus dem Minental",
+    "manhuntNew": "NEU",
     "whoSaid": "Wer hat diese Worte gesprochen?",
     "whoIsNpc": "Wer sitzt heute in der Kolonie?",
     "attempt": "Versuch",
@@ -54,6 +57,11 @@
       "title": "Spielregeln",
       "classicTitle": "Klassischer Modus",
       "classicBody": "Errate den heutigen NPC anhand der Attribute. Nach jedem Versuch zeigen die Spalten, was passt, was nah ist und was nicht stimmt.",
+      "manhuntTitle": "Fahndungsmodus",
+      "manhuntFiction": "Ein Beutel für Informanten: 10 Erzbrocken. Je weniger du für die Festnahme ausgibst, desto mehr Erfahrung erhältst du. Fehlanschuldigungen kosten ebenfalls.",
+      "manhuntTip1": "Hinweise auf dem Steckbrief kosten Erzbrocken.",
+      "manhuntTip2": "Eine Fehlanschuldigung kostet ebenfalls Brocken.",
+      "manhuntTip3": "Je mehr Brocken du behältst, desto mehr EP nach der Festnahme.",
       "quoteTitle": "Zitat-Modus",
       "quoteBody": "Lies den Dialog und nenne den NPC, der diese Worte gesprochen hat. Hinweise erscheinen nach mehreren falschen Versuchen.",
       "mapTitle": "Karten-Modus",
@@ -98,6 +106,7 @@
     "hero": "Held",
     "npc": "NPC",
     "modeClassic": "Klassisch",
+    "modeManhunt": "Fahndung",
     "modeQuote": "Zitat",
     "modeMap": "Karte",
     "modeCard": "Charakterkarte",
@@ -161,6 +170,53 @@
       "location": "Wo die Figur meist aufzufinden ist. Grün = gleicher Ort; orange = gleiche Region, anderer Ort.",
       "isTeacher": "Ob die Figur Fähigkeiten lehrt. Grün = gleiche Antwort wie beim Ziel (beide ja oder beide nein) — nicht „das ist ein Lehrer“.",
       "isFriend": "Freund-Status im Spiel. Grün = gleicher Status wie beim Ziel (beide ja oder beide nein) — nicht „das ist ein Freund“."
+    },
+    "manhunt": {
+      "wanted": "Steckbrief",
+      "escapedFrom": "Geflohen aus",
+      "purse": "Beutel",
+      "bribe": "Bestechen",
+      "accuse": "Anklagen",
+      "captured": "Gefasst",
+      "unknownPortrait": "?",
+      "portraitUnknown": "Porträt unbekannt",
+      "eliminated": "Ausgeschlossen",
+      "guessPlaceholder": "Name des Flüchtigen…",
+      "experience": "Erfahrung",
+      "levelUp": "Stufe {n}",
+      "emptyField": "—",
+      "fields": {
+        "guild": "Gilde / Rolle",
+        "location": "Ort",
+        "letter": "1. Buchstabe des Namens",
+        "teacher": "Lehrer (was er lehrt)",
+        "trade": "Handel (was er verkauft)",
+        "quote": "Zitat"
+      },
+      "escapedCamps": {
+        "OLD_CAMP": "dem Alten Lager",
+        "NEW_CAMP": "dem Neuen Lager",
+        "SWAMP_CAMP": "dem Sumpflager",
+        "FIRE_MAGES": "dem Alten Lager",
+        "WATER_MAGES": "dem Neuen Lager",
+        "NONE": "der Kolonie"
+      },
+      "teacherCategories": {
+        "strength_dex": "Stärke und Geschick",
+        "melee": "Nahkampfwaffen",
+        "ranged": "Fernkampfwaffen",
+        "magic": "Magie",
+        "thief": "Diebesfähigkeiten",
+        "hunting": "Jagd und Spezialfähigkeiten"
+      },
+      "tradeCategories": {
+        "melee_weapons": "Nahkampfwaffen",
+        "ranged_weapons": "Fernkampfwaffen",
+        "magic": "Magie",
+        "alchemy": "Alchemie",
+        "swamp_herbs": "Sumpfkräuter",
+        "supplies": "Vorräte"
+      }
     }
   },
   "camps": {

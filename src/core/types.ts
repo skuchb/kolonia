@@ -4,7 +4,7 @@ export type PlayerCamp = "OLD_CAMP" | "NEW_CAMP" | "SWAMP_CAMP";
 
 export type Locale = "pl" | "en" | "de";
 
-export type ModeId = "classic" | "quote" | "map" | "card";
+export type ModeId = "classic" | "manhunt" | "quote" | "map" | "card";
 
 export type FeedbackCell = "good" | "near" | "bad" | "up" | "down";
 
@@ -70,6 +70,7 @@ export interface Npc {
   protection: Record<string, number>;
   talents: NpcTalent[];
   inventory: NpcInventoryItem[];
+  photo?: string;
 }
 
 export interface QuoteLine {

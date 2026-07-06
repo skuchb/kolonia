@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync, copyFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -15,6 +15,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const cacheDir = join(root, "data-src/g1");
 const npcPath = join(root, "src/data/npc.json");
 const quotesPath = join(root, "src/data/quotes.json");
+const manhuntPoolPath = join(root, "src/data/manhunt-pool.json");
 const summaryPath = join(root, "data-src/g1-summary.json");
 const refresh = process.argv.includes("--refresh");
 
@@ -55,8 +56,6 @@ const CANONICAL_DUPLICATE_NPC_IDS = new Set([
 const NON_STORY_QUOTE_PATTERN =
   /(trade|buy|sell|teach|train|learn|betterarmor|armor|refusetrain|pleaseTeachSTR|wherelearn)/i;
 
-// Canonical teacher list from https://gothic.fandom.com/pl/wiki/Nauczyciele_w_Gothic.
-// Kept as an explicit override because not every teacher uses B_BuildLearnString in scripts.
 const MANUAL_TEACHER_NPC_IDS = new Set([
   "GUR_1202_CorAngar",
   "PC_Thief",
@@ -84,6 +83,113 @@ const MANUAL_TEACHER_NPC_IDS = new Set([
   "TPL_1439_GorNaDrak",
   "TPL_1438_Templer",
 ]);
+
+const MANHUNT_BUDGET = 10;
+const MANHUNT_PAID_FIELD_COSTS = [2, 2, 2, 1, 1, 3];
+const MANHUNT_MIN_POOL_SIZE = 30;
+const MANHUNT_CAMP_FAMILIES = new Set([
+  "OLD_CAMP",
+  "NEW_CAMP",
+  "SWAMP_CAMP",
+  "FIRE_MAGES",
+  "WATER_MAGES",
+]);
+
+function validateManhuntEconomy() {
+  const paidSum = MANHUNT_PAID_FIELD_COSTS.reduce((sum, cost) => sum + cost, 0);
+  if (paidSum <= MANHUNT_BUDGET) {
+    fail(`manhunt economy invalid: paid sum ${paidSum} must exceed budget ${MANHUNT_BUDGET}`);
+  }
+}
+
+function syncPortraitsToPublic() {
+  const sourceDir = join(root, "pictures/portraits_gothic1");
+  const targetDir = join(root, "public/portraits/gothic1");
+  const portraitIds = new Set();
+
+  if (!existsSync(sourceDir)) {
+    console.warn("build-data: pictures/portraits_gothic1 missing — portrait sync skipped");
+    return portraitIds;
+  }
+
+  mkdirSync(targetDir, { recursive: true });
+  for (const file of readdirSync(sourceDir)) {
+    if (!/^\d+\.jpg$/i.test(file)) continue;
+    const id = file.replace(/\.jpg$/i, "");
+    copyFileSync(join(sourceDir, file), join(targetDir, file));
+    portraitIds.add(id);
+  }
+
+  return portraitIds;
+}
+
+function enrichNpcPhotos(npcs, portraitIds) {
+  return npcs.map((npc) => {
+    const portraitId = npc.originalId == null ? null : String(npc.originalId);
+    if (!portraitId || !portraitIds.has(portraitId)) return npc;
+    return {
+      ...npc,
+      photo: `${portraitId}.jpg`,
+    };
+  });
+}
+
+function buildManhuntAnswerPool(npcs, quotes, portraitIds) {
+  const quoteNpcIds = new Set(quotes.map((quote) => quote.npcId));
+  const requirePhoto = portraitIds.size > 0;
+  const pool = [];
+
+  for (const npc of npcs) {
+    const portraitId = npc.originalId == null ? null : String(npc.originalId);
+    const issues = [];
+
+    if (requirePhoto && (!portraitId || !portraitIds.has(portraitId))) issues.push("photo");
+    if (!quoteNpcIds.has(npc.id)) issues.push("quote");
+    if (!npc.guild || npc.guild === "GIL_NONE") issues.push("guild");
+    if (!MANHUNT_CAMP_FAMILIES.has(npc.guildFamily)) issues.push("camp");
+    if (!npc.location || npc.location === "UNKNOWN") issues.push("location");
+
+    if (issues.length === 0) {
+      pool.push(npc.id);
+    }
+  }
+
+  return pool.sort((left, right) => left.localeCompare(right));
+}
+
+function validateManhuntAnswerPool(pool, portraitIds) {
+  if (portraitIds.size === 0) {
+    console.warn(
+      "build-data: no portraits in pictures/portraits_gothic1 — manhunt pool built without photo requirement",
+    );
+  }
+
+  if (pool.length < MANHUNT_MIN_POOL_SIZE) {
+    fail(
+      `manhunt answer pool too small: ${pool.length} eligible NPC (need ≥${MANHUNT_MIN_POOL_SIZE} with quote, camp, guild, location${portraitIds.size > 0 ? ", photo" : ""})`,
+    );
+  }
+}
+
+function validateManhuntPoolPortraits(pool, npcs, portraitIds) {
+  if (portraitIds.size === 0) return;
+
+  const npcById = new Map(npcs.map((npc) => [npc.id, npc]));
+  for (const npcId of pool) {
+    const npc = npcById.get(npcId);
+    if (!npc?.photo) {
+      fail(`manhunt pool NPC "${npcId}" is missing photo field`);
+    }
+    const portraitId = npc.originalId == null ? null : String(npc.originalId);
+    if (!portraitId || !portraitIds.has(portraitId)) {
+      fail(`manhunt pool NPC "${npcId}" portrait file missing for originalId ${portraitId ?? "?"}`);
+    }
+    const normalizedName = normalizeSpoilerText(npc.name).toLowerCase();
+    if (npc.photo.toLowerCase().includes(normalizedName) && normalizedName.length > 2) {
+      fail(`manhunt pool NPC "${npcId}" photo filename leaks name: ${npc.photo}`);
+    }
+  }
+}
 
 function fail(message) {
   console.error(`build-data: ${message}`);
@@ -817,8 +923,28 @@ async function main() {
   if (npcs.length < 80) fail(`expected at least 80 story NPC from Gothic scripts, got ${npcs.length}`);
   if (quotes.length < 400) fail(`expected at least 400 story dialogue quotes, got ${quotes.length}`);
 
-  writeFileSync(npcPath, `${JSON.stringify(npcs, null, 2)}\n`, "utf8");
+  validateManhuntEconomy();
+  const portraitIds = syncPortraitsToPublic();
+  const npcsWithPhotos = enrichNpcPhotos(npcs, portraitIds);
+  const manhuntPool = buildManhuntAnswerPool(npcsWithPhotos, quotes, portraitIds);
+  validateManhuntAnswerPool(manhuntPool, portraitIds);
+  validateManhuntPoolPortraits(manhuntPool, npcsWithPhotos, portraitIds);
+
+  writeFileSync(npcPath, `${JSON.stringify(npcsWithPhotos, null, 2)}\n`, "utf8");
   writeFileSync(quotesPath, `${JSON.stringify(quotes, null, 2)}\n`, "utf8");
+  writeFileSync(
+    manhuntPoolPath,
+    `${JSON.stringify(
+      {
+        generatedAt: new Date().toISOString(),
+        count: manhuntPool.length,
+        ids: manhuntPool,
+      },
+      null,
+      2,
+    )}\n`,
+    "utf8",
+  );
   writeFileSync(
     summaryPath,
     `${JSON.stringify(
@@ -826,8 +952,10 @@ async function main() {
         source: `https://github.com/${REPO}`,
         branches: SOURCE_BRANCHES,
         generatedAt: new Date().toISOString(),
-        npcCount: npcs.length,
+        npcCount: npcsWithPhotos.length,
         quoteCount: quotes.length,
+        manhuntPoolCount: manhuntPool.length,
+        portraitCount: portraitIds.size,
         rawNpcCount: rawNpcs.length,
         rawQuoteCount: rawQuotes.length,
         removedNpcCount: curated.removedNpcCount,
@@ -841,7 +969,8 @@ async function main() {
   );
 
   console.log(
-    `build-data: OK - ${npcs.length} story NPC, ${quotes.length} story quotes ` +
+    `build-data: OK - ${npcsWithPhotos.length} story NPC, ${quotes.length} story quotes, ` +
+      `${manhuntPool.length} manhunt answers, ${portraitIds.size} portraits ` +
       `(removed ${curated.removedNpcCount} NPC, ${curated.removedQuoteCount} quotes)`,
   );
 }

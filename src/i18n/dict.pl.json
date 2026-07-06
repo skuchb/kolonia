@@ -17,6 +17,9 @@
     "puzzle": "Zagadka",
     "quoteOfDay": "Cytat dnia",
     "classicOfDay": "Klasyczny",
+    "manhuntOfDay": "Śledztwo",
+    "manhuntLead": "Znajdź zbiega z Górniczej Doliny",
+    "manhuntNew": "NOWE",
     "whoSaid": "Kto wypowiedział te słowa?",
     "whoIsNpc": "Zgadnij mieszkańca Górniczej Doliny",
     "attempt": "Próba",
@@ -54,6 +57,11 @@
       "title": "Zasady gry",
       "classicTitle": "Tryb Klasyczny",
       "classicBody": "Zgadnij dzisiejszego NPC-a po atrybutach. Po każdej próbie kolumny pokazują, co trafiłeś, co jest blisko, a co nie pasuje.",
+      "manhuntTitle": "Tryb Śledztwo",
+      "manhuntFiction": "Sakiewka na informatorów: 10 bryłek rudy. Im mniej wydasz na ujęcie zbiega, tym więcej zdobędziesz doświadczenia. Pomyłki też kosztują.",
+      "manhuntTip1": "Wskazówki na liście gończym kosztują bryłki rudy.",
+      "manhuntTip2": "Pudło przy wskazaniu też odejmuje bryłki.",
+      "manhuntTip3": "Im więcej bryłek zostawisz w sakiewce, tym więcej XP po ujęciu.",
       "quoteTitle": "Tryb Cytat",
       "quoteBody": "Przeczytaj wymianę dialogową i wskaż, który NPC wypowiedział te słowa. Podpowiedzi pojawiają się po kilku błędnych próbach.",
       "mapTitle": "Tryb Mapa",
@@ -98,6 +106,7 @@
     "hero": "Bohater",
     "npc": "NPC",
     "modeClassic": "Klasyczny",
+    "modeManhunt": "Śledztwo",
     "modeQuote": "Cytat",
     "modeMap": "Mapa",
     "modeCard": "Karta",
@@ -161,6 +170,53 @@
       "location": "Gdzie postać najczęściej przebywa. Zielone = ta sama lokacja; pomarańczowe = ten sam region, inna lokacja.",
       "isTeacher": "Czy postać uczy umiejętności. Zielone = taka sama odpowiedź jak u celu (obie uczą albo obie nie) — nie znaczy „to na pewno nauczyciel”.",
       "isFriend": "Status przyjaciela w grze. Zielone = ten sam status co u postaci dnia (obie tak albo obie nie) — nie znaczy „to na pewno przyjaciel”."
+    },
+    "manhunt": {
+      "wanted": "List gończy",
+      "escapedFrom": "Zbiegł z",
+      "purse": "Sakiewka",
+      "bribe": "Przekup",
+      "accuse": "Wskaż",
+      "captured": "Ujęty",
+      "unknownPortrait": "?",
+      "portraitUnknown": "Portret nieznany",
+      "eliminated": "Skreśleni",
+      "guessPlaceholder": "Wpisz imię zbiega…",
+      "experience": "Doświadczenie",
+      "levelUp": "Poziom {n}",
+      "emptyField": "—",
+      "fields": {
+        "guild": "Gildia / rola",
+        "location": "Lokacja",
+        "letter": "1. litera imienia",
+        "teacher": "Nauczyciel (czego uczy)",
+        "trade": "Handel (czym handluje)",
+        "quote": "Cytat"
+      },
+      "escapedCamps": {
+        "OLD_CAMP": "Starego Obozu",
+        "NEW_CAMP": "Nowego Obozu",
+        "SWAMP_CAMP": "Obozu na Bagnach",
+        "FIRE_MAGES": "Starego Obozu",
+        "WATER_MAGES": "Nowego Obozu",
+        "NONE": "Kolonii"
+      },
+      "teacherCategories": {
+        "strength_dex": "Siła i zręczność",
+        "melee": "Broń do walki wręcz",
+        "ranged": "Broń dystansowa",
+        "magic": "Magia",
+        "thief": "Umiejętności złodziejskie",
+        "hunting": "Łowiectwo i umiejętności specjalne"
+      },
+      "tradeCategories": {
+        "melee_weapons": "Broń do walki wręcz",
+        "ranged_weapons": "Broń dystansowa",
+        "magic": "Magia",
+        "alchemy": "Alchemia",
+        "swamp_herbs": "Bagienne ziele",
+        "supplies": "Zaopatrzenie"
+      }
     }
   },
   "camps": {

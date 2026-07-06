@@ -4,7 +4,7 @@ import { results } from "../../../db/schema";
 import { puzzleNumber } from "@/src/core/daily";
 import type { ModeId } from "@/src/core/types";
 
-const MODES = new Set<ModeId>(["classic", "quote", "map", "card"]);
+const MODES = new Set<ModeId>(["classic", "manhunt", "quote", "map", "card"]);
 const CAMPS = new Set(["OLD_CAMP", "NEW_CAMP", "SWAMP_CAMP"]);
 const EVENTS = new Set(["solve", "share"]);
 
