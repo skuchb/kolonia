@@ -56,7 +56,7 @@
     "help": {
       "title": "Zasady gry",
       "classicTitle": "Tryb Klasyczny",
-      "classicBody": "Zgadnij dzisiejszego NPC-a po atrybutach. Po każdej próbie kolumny pokazują, co trafiłeś, co jest blisko, a co nie pasuje.",
+      "classicBody": "Zgadnij dzisiejszego NPC-a po atrybutach. Po każdej próbie kolumny pokazują, co trafiłeś, a co nie pasuje.",
       "manhuntTitle": "Tryb Śledztwo",
       "manhuntFiction": "Sakiewka na informatorów: 14 bryłek rudy. Im mniej wydasz na ujęcie zbiega, tym więcej zdobędziesz doświadczenia. Pomyłki też kosztują.",
       "manhuntTip1": "Wskazówki na liście gończym kosztują bryłki rudy.",
@@ -70,7 +70,6 @@
       "cardBody": "Zgadnij NPC-a po karcie postaci. Przed trafieniem widzisz tylko atrybuty, talenty i poziom.",
       "legendTitle": "Legenda kolorów",
       "legendHit": "Zielony — trafione",
-      "legendNear": "Pomarańczowy — blisko (np. ten sam obszar lokacji)",
       "legendMiss": "Szary — pudło",
       "legendArrows": "Porównywane są tylko jawne pola ze skryptów NPC.",
       "close": "Rozumiem"
@@ -161,15 +160,15 @@
       "guild": "frakcja",
       "guildFamily": "obóz",
       "location": "lokacja",
-      "isTeacher": "nauczyciel",
-      "isFriend": "przyjaciel"
+      "teacher": "nauczyciel",
+      "trade": "handel"
     },
     "columnHints": {
       "guild": "Gildia postaci (np. Strażnik, Magnat, Kopacz). Zielone = ta sama gildia co u postaci, którą szukasz — nie potwierdzenie, że trafiłeś w rolę.",
       "guildFamily": "Obóz lub większa frakcja (Stary Obóz, Nowy Obóz, Bractwo…). Zielone = ten sam obóz co u postaci dnia.",
-      "location": "Gdzie postać najczęściej przebywa. Zielone = ta sama lokacja; pomarańczowe = ten sam region, inna lokacja.",
-      "isTeacher": "Czy postać uczy umiejętności. Zielone = taka sama odpowiedź jak u celu (obie uczą albo obie nie) — nie znaczy „to na pewno nauczyciel”.",
-      "isFriend": "Status przyjaciela w grze. Zielone = ten sam status co u postaci dnia (obie tak albo obie nie) — nie znaczy „to na pewno przyjaciel”."
+      "location": "Gdzie postać najczęściej przebywa. Zielone = ta sama lokacja.",
+      "teacher": "Czego postać uczy. Zielone = ta sama kategoria co u postaci dnia.",
+      "trade": "Czym postać handluje. Zielone = ta sama kategoria co u postaci dnia."
     },
     "manhunt": {
       "wanted": "List gończy",

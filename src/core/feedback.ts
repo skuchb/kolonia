@@ -1,25 +1,49 @@
-import type { FeedbackCell, Npc } from "./types";
+import type { FeedbackCell, Locale, Npc } from "./types";
+import { campLabel, getDictionary, guildLabel, npcLocationLabel } from "@/src/i18n";
+import { teacherCategoryForName, tradeCategoryForName } from "@/src/modes/manhunt/categories";
 
-const CLASSIC_COLUMNS = ["guild", "guildFamily", "location", "isTeacher", "isFriend"] as const;
+export const FEEDBACK_COLUMN_KEYS = ["guild", "guildFamily", "location", "teacher", "trade"] as const;
+export type FeedbackColumnKey = (typeof FEEDBACK_COLUMN_KEYS)[number];
 
-export function classicFeedback(guess: Npc, target: Npc): FeedbackCell[] {
+export function gameFeedback(guess: Npc, target: Npc): FeedbackCell[] {
   return [
     compareExact(guess.guild, target.guild),
     compareExact(guess.guildFamily, target.guildFamily),
     compareLocation(guess, target),
-    compareExact(guess.isTeacher, target.isTeacher),
-    compareExact(guess.isFriend, target.isFriend),
+    compareTeacher(guess, target),
+    compareTrade(guess, target),
   ];
 }
 
+export function classicFeedback(guess: Npc, target: Npc): FeedbackCell[] {
+  return gameFeedback(guess, target);
+}
+
 export function quoteFeedback(guess: Npc, target: Npc): FeedbackCell[] {
-  return [
-    compareExact(guess.guild, target.guild),
-    compareExact(guess.guildFamily, target.guildFamily),
-    compareLocation(guess, target),
-    compareExact(guess.isTeacher, target.isTeacher),
-    compareExact(guess.isFriend, target.isFriend),
-  ];
+  return gameFeedback(guess, target);
+}
+
+export function feedbackColumnValue(key: FeedbackColumnKey, npc: Npc, lang: Locale): string {
+  const dict = getDictionary(lang);
+
+  switch (key) {
+    case "guild":
+      return guildLabel(lang, npc.guild) || "—";
+    case "guildFamily":
+      return campLabel(lang, npc.guildFamily) || "—";
+    case "location":
+      return npcLocationLabel(lang, npc) || "—";
+    case "teacher": {
+      const category = teacherCategoryForName(npc.name);
+      if (!category) return dict.ui.manhunt.notTeacher;
+      return dict.ui.manhunt.teacherCategories[category] ?? dict.ui.manhunt.notTeacher;
+    }
+    case "trade": {
+      const category = tradeCategoryForName(npc.name);
+      if (!category) return dict.ui.manhunt.notTrader;
+      return dict.ui.manhunt.tradeCategories[category] ?? dict.ui.manhunt.notTrader;
+    }
+  }
 }
 
 export function feedbackToEmoji(cell: FeedbackCell): string {
@@ -44,7 +68,7 @@ export function feedbackToPip(cell: FeedbackCell): "hit" | "near" | "miss" {
 }
 
 export function classicColumnKeys() {
-  return CLASSIC_COLUMNS;
+  return FEEDBACK_COLUMN_KEYS;
 }
 
 function compareExact<T>(guess: T, target: T): FeedbackCell {
@@ -52,8 +76,13 @@ function compareExact<T>(guess: T, target: T): FeedbackCell {
 }
 
 function compareLocation(guess: Npc, target: Npc): FeedbackCell {
-  if (guess.location === target.location) return "good";
-  if (guess.locationArea && guess.locationArea === target.locationArea) return "near";
-  return "bad";
+  return guess.location === target.location ? "good" : "bad";
 }
 
+function compareTeacher(guess: Npc, target: Npc): FeedbackCell {
+  return compareExact(teacherCategoryForName(guess.name), teacherCategoryForName(target.name));
+}
+
+function compareTrade(guess: Npc, target: Npc): FeedbackCell {
+  return compareExact(tradeCategoryForName(guess.name), tradeCategoryForName(target.name));
+}

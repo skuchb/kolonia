@@ -10,22 +10,21 @@ function firstLetter(name: string): string {
   return trimmed[0]!.toUpperCase();
 }
 
-function quoteTextForManhunt(quote: Quote | null | undefined, npc: Npc, lang: Locale): string | null {
-  const lines = manhuntQuoteLines(quote, npc, lang);
+function quoteTextForManhunt(quote: Quote | null | undefined, lang: Locale): string | null {
+  const lines = manhuntQuoteLines(quote, lang);
   if (lines.length === 0) return null;
   return lines.map((line) => `${line.who}: ${line.text}`).join("\n");
 }
 
 export function manhuntQuoteLines(
   quote: Quote | null | undefined,
-  npc: Npc,
   lang: Locale,
 ): Array<{ who: string; text: string }> {
   if (!quote) return [];
 
   const dict = getDictionary(lang);
   const heroLabel = dict.ui.hero;
-  const npcLabel = npcDisplayName(npc, lang);
+  const npcLabel = dict.ui.npc;
 
   return quote.lines
     .map((line: QuoteLine) => {
@@ -68,7 +67,7 @@ export function manhuntFieldValue(
       return dict.ui.manhunt.tradeCategories[category] ?? dict.ui.manhunt.notTrader;
     }
     case "quote": {
-      const text = quoteTextForManhunt(quote, npc, lang);
+      const text = quoteTextForManhunt(quote, lang);
       return text || empty;
     }
     default:

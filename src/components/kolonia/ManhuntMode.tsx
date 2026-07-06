@@ -12,6 +12,7 @@ import { manhuntFieldValue, manhuntPortraitUrl, manhuntQuoteLines } from "@/src/
 import { manhuntPurseLabel } from "@/src/modes/manhunt/nuggets";
 import { buildManhuntShareText } from "@/src/modes/manhunt/share";
 import {
+  canRevealManhuntField,
   isFieldRevealed,
   isFullyRevealed,
   loadManhuntState,
@@ -117,7 +118,7 @@ export function ManhuntMode({
   const brokeOpen = state.nuggets === 0 && state.status === "playing";
   const fugitiveName = npcDisplayName(targetNpc, lang);
   const brokeMessage = mh.brokeBody.replace("{name}", fugitiveName);
-  const quoteLines = manhuntQuoteLines(targetQuote, targetNpc, lang);
+  const quoteLines = manhuntQuoteLines(targetQuote, lang);
 
   useEffect(() => {
     const loaded = loadManhuntState(puzzle);
@@ -354,7 +355,7 @@ export function ManhuntMode({
                 {!revealed ? (
                   <button
                     className="mt-0.5 flex shrink-0 items-center gap-1.5 border border-[var(--panel-ink)]/35 bg-[var(--panel)] px-3 py-2 font-mono text-[9pt] uppercase tracking-[0.1em] text-[var(--panel-ink)] shadow-sm transition-colors hover:border-[var(--rust)] hover:bg-[var(--panel)]/90 disabled:cursor-not-allowed disabled:opacity-40"
-                    disabled={field.cost > state.nuggets || state.status === "won"}
+                    disabled={!canRevealManhuntField(state.nuggets, field.cost) || state.status === "won"}
                     onClick={() => handleReveal(field.id)}
                     type="button"
                   >

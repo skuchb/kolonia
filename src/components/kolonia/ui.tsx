@@ -80,15 +80,30 @@ export function Line({ who, text }: { who: string; text: string }) {
   );
 }
 
-export function Pip({ cell, debugTitle }: { cell: FeedbackCell; debugTitle?: string }) {
+export function Pip({
+  cell,
+  debugTitle,
+  hitLabel,
+}: {
+  cell: FeedbackCell;
+  debugTitle?: string;
+  hitLabel?: string;
+}) {
   const kind = feedbackToPip(cell);
   const className =
     kind === "hit" ? "bg-[var(--moss)]" : kind === "near" ? "bg-[var(--ember)]" : "bg-[var(--panel-ink)]/25";
 
   return (
-    <span
-      className={`mx-auto block size-5 sm:size-6 ${debugTitle ? "cursor-help" : ""} ${className}`}
-      title={debugTitle}
-    />
+    <div className="flex min-h-[1.25rem] flex-col items-center justify-start gap-0.5">
+      <span
+        className={`block size-5 sm:size-6 ${debugTitle ? "cursor-help" : ""} ${className}`}
+        title={debugTitle}
+      />
+      {kind === "hit" && hitLabel ? (
+        <span className="max-w-[5.75rem] text-center font-mono text-[7pt] uppercase leading-tight tracking-normal text-[var(--panel-ink)]/70">
+          {hitLabel}
+        </span>
+      ) : null}
+    </div>
   );
 }

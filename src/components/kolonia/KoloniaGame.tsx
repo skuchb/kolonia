@@ -19,7 +19,13 @@ import {
   fallbackDailyMap,
   submitMapGuess,
 } from "@/src/core/daily-api";
-import { classicFeedback, quoteFeedback } from "@/src/core/feedback";
+import {
+  classicFeedback,
+  FEEDBACK_COLUMN_KEYS,
+  feedbackColumnValue,
+  type FeedbackColumnKey,
+  quoteFeedback,
+} from "@/src/core/feedback";
 import { syncProgressToServer } from "@/src/core/progress";
 import { buildShareText, shareResult } from "@/src/core/share";
 import {
@@ -57,7 +63,6 @@ import { Line, Panel, ParchmentPanel, Pip, Stat } from "./ui";
 
 const PLAYER_CAMPS: PlayerCamp[] = ["OLD_CAMP", "NEW_CAMP", "SWAMP_CAMP"];
 const FACEBOOK_GROUP_URL = "https://www.facebook.com/skazancy.z.kolonii";
-const FEEDBACK_COLUMN_KEYS = ["guild", "guildFamily", "location", "isTeacher", "isFriend"] as const;
 
 const CAMP_THEMES: Record<PlayerCamp, { id: string; imageUrl: string }> = {
   OLD_CAMP: { id: "I", imageUrl: "/camps/old-camp.png" },
@@ -152,11 +157,16 @@ export default function KoloniaGame() {
         const debug = FEEDBACK_COLUMN_KEYS.map((key) =>
           feedbackDebugTitle(key, npc, targetNpc, persisted.lang),
         );
-        return { npcId, name: npcDisplayName(npc, persisted.lang), feedback, debug };
+        return { npcId, name: npcDisplayName(npc, persisted.lang), npc, feedback, debug };
       })
       .filter(
-        (row): row is { npcId: string; name: string; feedback: FeedbackCell[]; debug: string[] } =>
-          Boolean(row),
+        (row): row is {
+          npcId: string;
+          name: string;
+          npc: Npc;
+          feedback: FeedbackCell[];
+          debug: string[];
+        } => Boolean(row),
       );
   }, [mode, modeDay.guesses, persisted.lang, targetNpc]);
 
@@ -512,6 +522,7 @@ export default function KoloniaGame() {
             <div className="grid grid-cols-5 gap-2">
               {row.feedback.map((cell, cellIndex) => {
                 const columnKey = FEEDBACK_COLUMN_KEYS[cellIndex];
+                const hitLabel = cell === "good" ? feedbackColumnValue(columnKey, row.npc, persisted.lang) : undefined;
                 return (
                 <div className="flex flex-col items-center gap-1.5" key={`${row.npcId}-${cellIndex}`}>
                   <span
@@ -523,6 +534,7 @@ export default function KoloniaGame() {
                   <Pip
                     cell={cell}
                     debugTitle={isAdmin ? row.debug[cellIndex] : undefined}
+                    hitLabel={hitLabel}
                   />
                 </div>
               );
@@ -551,18 +563,24 @@ export default function KoloniaGame() {
           </div>
           <ol className="divide-y divide-[var(--panel-ink)]/15">
             {guessRows.map((row, index) => (
-              <li className={`grid items-center gap-2 py-3 ${gridTemplate}`} key={row.npcId}>
+              <li className={`grid items-start gap-2 py-3 ${gridTemplate}`} key={row.npcId}>
                 <span className="font-mono text-[10pt] text-[var(--panel-ink)]/50">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <span className="truncate text-base italic text-[var(--panel-ink)] sm:text-lg">{row.name}</span>
-                {row.feedback.map((cell, cellIndex) => (
-                  <Pip
-                    cell={cell}
-                    debugTitle={isAdmin ? row.debug[cellIndex] : undefined}
-                    key={`${row.npcId}-${cellIndex}`}
-                  />
-                ))}
+                {row.feedback.map((cell, cellIndex) => {
+                  const columnKey = FEEDBACK_COLUMN_KEYS[cellIndex];
+                  const hitLabel =
+                    cell === "good" ? feedbackColumnValue(columnKey, row.npc, persisted.lang) : undefined;
+                  return (
+                    <Pip
+                      cell={cell}
+                      debugTitle={isAdmin ? row.debug[cellIndex] : undefined}
+                      hitLabel={hitLabel}
+                      key={`${row.npcId}-${cellIndex}`}
+                    />
+                  );
+                })}
               </li>
             ))}
           </ol>
@@ -807,14 +825,10 @@ export default function KoloniaGame() {
               {mode !== "manhunt" ? (
               <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 {mode !== "map" ? (
-                <div className="grid grid-cols-3 gap-2 font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--panel-ink)]/60 sm:flex sm:flex-wrap sm:gap-x-5 sm:gap-y-2">
+                <div className="grid grid-cols-2 gap-2 font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--panel-ink)]/60 sm:flex sm:flex-wrap sm:gap-x-5 sm:gap-y-2">
                   <span className="flex items-center gap-2">
                     <span className="size-3 bg-[var(--moss)]" />
                     {dict.ui.hit}
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <span className="size-3 bg-[var(--ember)]" />
-                    {dict.ui.near}
                   </span>
                   <span className="flex items-center gap-2">
                     <span className="size-3 bg-[var(--panel-ink)]/25" />
@@ -1001,8 +1015,6 @@ export default function KoloniaGame() {
   );
 }
 
-type FeedbackColumnKey = (typeof FEEDBACK_COLUMN_KEYS)[number];
-
 function feedbackDebugTitle(key: FeedbackColumnKey, guess: Npc, target: Npc, lang: Locale) {
   const label = getDictionary(lang).ui.columns[key];
   const [guessValue, targetValue] = feedbackDebugValues(key, guess, target, lang);
@@ -1022,20 +1034,14 @@ function feedbackDebugValues(key: FeedbackColumnKey, guess: Npc, target: Npc, la
       ];
     case "location":
       return [
-        `${npcLocationLabel(lang, guess)} (${guess.location}, obszar: ${guess.locationArea})`,
-        `${npcLocationLabel(lang, target)} (${target.location}, obszar: ${target.locationArea})`,
+        `${npcLocationLabel(lang, guess)} (${guess.location})`,
+        `${npcLocationLabel(lang, target)} (${target.location})`,
       ];
-    case "isTeacher":
-      return [booleanLabel(guess.isTeacher, lang), booleanLabel(target.isTeacher, lang)];
-    case "isFriend":
-      return [booleanLabel(guess.isFriend, lang), booleanLabel(target.isFriend, lang)];
+    case "teacher":
+      return [feedbackColumnValue("teacher", guess, lang), feedbackColumnValue("teacher", target, lang)];
+    case "trade":
+      return [feedbackColumnValue("trade", guess, lang), feedbackColumnValue("trade", target, lang)];
   }
-}
-
-function booleanLabel(value: boolean, lang: Locale) {
-  if (lang === "en") return value ? "yes" : "no";
-  if (lang === "de") return value ? "ja" : "nein";
-  return value ? "tak" : "nie";
 }
 
 function Background() {

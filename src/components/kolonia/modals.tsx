@@ -96,10 +96,6 @@ export function HelpModal({
                     {help.legendHit}
                   </li>
                   <li className="flex items-center gap-3">
-                    <span className="size-3 bg-[var(--ember)]" />
-                    {help.legendNear}
-                  </li>
-                  <li className="flex items-center gap-3">
                     <span className="size-3 bg-[var(--panel-ink)]/25" />
                     {help.legendMiss}
                   </li>

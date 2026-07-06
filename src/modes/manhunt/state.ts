@@ -114,11 +114,15 @@ export function withAutoReveal(state: ManhuntState): ManhuntState {
   };
 }
 
+export function canRevealManhuntField(nuggets: number, cost: number): boolean {
+  return cost < nuggets;
+}
+
 export function recordManhuntReveal(state: ManhuntState, field: ManhuntFieldId): ManhuntState | null {
   if (state.status === "won" || isFieldRevealed(state, field)) return null;
 
   const config = MANHUNT_CONFIG.fields.find((entry) => entry.id === field);
-  if (!config || config.cost > state.nuggets) return null;
+  if (!config || !canRevealManhuntField(state.nuggets, config.cost)) return null;
 
   const next: ManhuntState = {
     ...state,

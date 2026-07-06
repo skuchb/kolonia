@@ -56,7 +56,7 @@
     "help": {
       "title": "Spielregeln",
       "classicTitle": "Klassischer Modus",
-      "classicBody": "Errate den heutigen NPC anhand der Attribute. Nach jedem Versuch zeigen die Spalten, was passt, was nah ist und was nicht stimmt.",
+      "classicBody": "Errate den heutigen NPC anhand der Attribute. Nach jedem Versuch zeigen die Spalten, was passt und was nicht stimmt.",
       "manhuntTitle": "Fahndungsmodus",
       "manhuntFiction": "Ein Beutel für Informanten: 14 Erzbrocken. Je weniger du für die Festnahme ausgibst, desto mehr Erfahrung erhältst du. Fehlanschuldigungen kosten ebenfalls.",
       "manhuntTip1": "Hinweise auf dem Steckbrief kosten Erzbrocken.",
@@ -70,7 +70,6 @@
       "cardBody": "Errate den NPC anhand einer Charakterkarte. Vor dem Lösen sind nur Attribute, Talente und Stufe sichtbar.",
       "legendTitle": "Farblegende",
       "legendHit": "Grün — Treffer",
-      "legendNear": "Orange — nah (z. B. gleicher Ortsbereich)",
       "legendMiss": "Grau — daneben",
       "legendArrows": "Es werden nur explizite Felder aus den NPC-Skripten verglichen.",
       "close": "Verstanden"
@@ -161,15 +160,15 @@
       "guild": "fraktion",
       "guildFamily": "lager",
       "location": "ort",
-      "isTeacher": "lehrer",
-      "isFriend": "freund"
+      "teacher": "lehrer",
+      "trade": "handel"
     },
     "columnHints": {
       "guild": "Gilde der Figur (Gardist, Erzbaron, Bauer …). Grün = dieselbe Gilde wie die gesuchte Figur — kein Beweis, dass du die Rolle erraten hast.",
       "guildFamily": "Lager oder Fraktion (Altes Lager, Neues Lager, Bruderschaft …). Grün = dasselbe Lager wie die Tagesfigur.",
-      "location": "Wo die Figur meist aufzufinden ist. Grün = gleicher Ort; orange = gleiche Region, anderer Ort.",
-      "isTeacher": "Ob die Figur Fähigkeiten lehrt. Grün = gleiche Antwort wie beim Ziel (beide ja oder beide nein) — nicht „das ist ein Lehrer“.",
-      "isFriend": "Freund-Status im Spiel. Grün = gleicher Status wie beim Ziel (beide ja oder beide nein) — nicht „das ist ein Freund“."
+      "location": "Wo die Figur meist aufzufinden ist. Grün = gleicher Ort.",
+      "teacher": "Was die Figur lehrt. Grün = gleiche Kategorie wie beim Ziel.",
+      "trade": "Womit die Figur handelt. Grün = gleiche Kategorie wie beim Ziel."
     },
     "manhunt": {
       "wanted": "Steckbrief",
