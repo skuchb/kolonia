@@ -230,6 +230,7 @@ export function ResultModal({
   lang,
   mode,
   attempts,
+  manhuntNuggets,
   streak,
   targetNpc,
   resetLabel,
@@ -246,6 +247,7 @@ export function ResultModal({
   lang: Locale;
   mode: ModeId;
   attempts: number;
+  manhuntNuggets?: number;
   streak: number;
   targetNpc: Npc;
   resetLabel: string;
@@ -281,8 +283,10 @@ export function ResultModal({
 
         <div className="grid grid-cols-2 gap-3 font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--bone-dim)]">
           <div className="border border-[var(--hairline)] p-3">
-            <div>{result.attempts}</div>
-            <div className="mt-1 text-lg text-[var(--bone)]">{attempts}</div>
+            <div>{mode === "manhunt" ? result.remainingNuggets : result.attempts}</div>
+            <div className="mt-1 text-lg text-[var(--bone)]">
+              {mode === "manhunt" && manhuntNuggets != null ? manhuntNuggets : attempts}
+            </div>
           </div>
           <div className="border border-[var(--hairline)] p-3">
             <div>{dict.ui.streakDays}</div>

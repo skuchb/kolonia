@@ -62,6 +62,9 @@ function ensureMapAsset() {
   writeFileSync(svgPath, svg, "utf8");
 }
 
+const manhuntPoolPath = join(root, "src/data/manhunt-pool.json");
+const manhuntIds = JSON.parse(readFileSync(manhuntPoolPath, "utf8")).ids;
+
 const npcs = JSON.parse(readFileSync(npcPath, "utf8"));
 const quotes = JSON.parse(readFileSync(quotesPath, "utf8"));
 const quoteByNpc = new Map();
@@ -138,6 +141,18 @@ for (let puzzle = 0; puzzle < 14; puzzle += 1) {
       mode: "classic",
       npcId: classicId,
       quoteId: null,
+      mapPuzzleId: null,
+      published: 1,
+    });
+  }
+
+  const manhuntId = manhuntIds[puzzle % manhuntIds.length];
+  if (npcById.get(manhuntId)) {
+    dailyPuzzles.push({
+      puzzle,
+      mode: "manhunt",
+      npcId: manhuntId,
+      quoteId: quoteForNpc(manhuntId),
       mapPuzzleId: null,
       published: 1,
     });

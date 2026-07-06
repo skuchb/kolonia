@@ -93,6 +93,7 @@
     "result": {
       "title": "Gelöst!",
       "attempts": "Versuche",
+      "remainingNuggets": "Verbleibende Erzbrocken",
       "mode": "Modus",
       "statsLoading": "Tagesstatistik wird geladen…",
       "percentile": "Besser als {n}% der Spieler heute",

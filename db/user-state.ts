@@ -34,7 +34,7 @@ function mergeStats(local: ModeStats, remote: ModeStats): ModeStats {
   };
 }
 
-const ALL_MODES: ModeId[] = ["classic", "quote", "map"];
+const ALL_MODES: ModeId[] = ["manhunt", "classic", "quote", "map", "card"];
 
 export function parseUserState(raw: string): StoredUserState {
   try {

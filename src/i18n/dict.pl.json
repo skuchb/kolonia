@@ -93,6 +93,7 @@
     "result": {
       "title": "Trafione!",
       "attempts": "Próby",
+      "remainingNuggets": "Pozostałe bryłki rudy",
       "mode": "Tryb",
       "statsLoading": "Ładowanie statystyk dnia…",
       "percentile": "Lepszy wynik niż {n}% graczy dziś",

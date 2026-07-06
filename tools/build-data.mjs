@@ -61,9 +61,12 @@ const GENERIC_NPC_NAME_PATTERN = /^(kopacz|górnik|gornik)$/i;
 const GENERIC_NPC_NAME_KEYS = new Set([
   "kopacz",
   "gornik",
+  "najemnik",
+  "straznik",
   "straznik bramy",
   "martwy straznik",
   "straznik obozu",
+  "straznik swiatynny",
 ]);
 
 const EXCLUDED_NPC_TYPE_PATTERN = /(AMBIENT|GUARD|MINE)/;
@@ -93,7 +96,6 @@ const MANUAL_TEACHER_NPC_IDS = new Set([
   "ORG_859_Aidan",
   "ORG_819_Drax",
   "TPL_1439_GorNaDrak",
-  "TPL_1438_Templer",
 ]);
 
 const MANHUNT_BUDGET = 14;

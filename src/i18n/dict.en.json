@@ -93,6 +93,7 @@
     "result": {
       "title": "Solved!",
       "attempts": "Attempts",
+      "remainingNuggets": "Ore nuggets left",
       "mode": "Mode",
       "statsLoading": "Loading today's stats…",
       "percentile": "Better than {n}% of players today",

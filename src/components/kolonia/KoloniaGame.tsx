@@ -16,6 +16,7 @@ import { fetchCampWarStats, type CampWarStats } from "@/src/core/camp-war";
 import { fetchDayStats, type DayStats } from "@/src/core/day-stats";
 import { dailyItem, formatCountdown, msUntilReset, puzzleNumber } from "@/src/core/daily";
 import {
+  fallbackDailyManhunt,
   fallbackDailyMap,
   submitMapGuess,
 } from "@/src/core/daily-api";
@@ -66,6 +67,7 @@ import { Line, Panel, ParchmentPanel, Pip, Stat } from "./ui";
 
 const PLAYER_CAMPS: PlayerCamp[] = ["OLD_CAMP", "NEW_CAMP", "SWAMP_CAMP"];
 const FACEBOOK_GROUP_URL = "https://www.facebook.com/skazancy.z.kolonii";
+const PLAYER_MODE_TABS: ModeId[] = ["manhunt", "quote", "map", "card"];
 
 const CAMP_THEMES: Record<PlayerCamp, { id: string; imageUrl: string }> = {
   OLD_CAMP: { id: "I", imageUrl: "/camps/old-camp.png" },
@@ -76,7 +78,7 @@ const CAMP_THEMES: Record<PlayerCamp, { id: string; imageUrl: string }> = {
 export default function KoloniaGame() {
   const [persisted, setPersisted] = usePersisted();
   const hydrated = useHydrated();
-  const [mode, setMode] = useState<ModeId>("classic");
+  const [mode, setMode] = useState<ModeId>("manhunt");
   const [input, setInput] = useState("");
   const [resetMs, setResetMs] = useState(msUntilReset());
   const [toast, setToast] = useState<string | null>(null);
@@ -88,6 +90,7 @@ export default function KoloniaGame() {
   const [resultContext, setResultContext] = useState<{
     mode: ModeId;
     attempts: number;
+    manhuntNuggets?: number;
     npc: Npc;
     streak: number;
     xpEarned: number;
@@ -99,13 +102,9 @@ export default function KoloniaGame() {
   const [campWarStats, setCampWarStats] = useState<CampWarStats | null>(null);
 
   const puzzle = puzzleNumber();
-  const { classicNpc: scheduledClassic, manhuntNpc: scheduledManhunt, manhuntQuote: scheduledManhuntQuote, quote: scheduledQuote, mapPuzzle, cardNpc: scheduledCard, loading: dailyLoading } =
+  const { manhuntNpc: scheduledManhunt, manhuntQuote: scheduledManhuntQuote, quote: scheduledQuote, mapPuzzle, cardNpc: scheduledCard, loading: dailyLoading } =
     useDailyPuzzles(puzzle);
   const dict = getDictionary(persisted.lang);
-  const classicTarget = useMemo(
-    () => scheduledClassic ?? dailyItem(npcPool, puzzle, "classic"),
-    [puzzle, scheduledClassic],
-  );
   const quoteTarget = useMemo(
     () => scheduledQuote ?? dailyItem(quotePool, puzzle, "quote"),
     [puzzle, scheduledQuote],
@@ -119,8 +118,8 @@ export default function KoloniaGame() {
     [puzzle, scheduledCard],
   );
   const manhuntTarget = useMemo(
-    () => scheduledManhunt ?? classicTarget,
-    [classicTarget, scheduledManhunt],
+    () => scheduledManhunt ?? fallbackDailyManhunt(puzzle),
+    [puzzle, scheduledManhunt],
   );
   const manhuntQuote = useMemo(() => {
     if (scheduledManhuntQuote) return scheduledManhuntQuote;
@@ -135,12 +134,11 @@ export default function KoloniaGame() {
     if (mode === "manhunt") {
       return manhuntTarget;
     }
-    const targetId = mode === "classic" ? classicTarget?.id : mode === "card" ? cardTarget?.id : quoteTarget?.npcId;
+    const targetId = mode === "card" ? cardTarget?.id : quoteTarget?.npcId;
     return targetId ? getNpcById(targetId) : undefined;
-  }, [cardTarget, classicTarget, manhuntTarget, mapTarget, mode, quoteTarget]);
+  }, [cardTarget, manhuntTarget, mapTarget, mode, quoteTarget]);
 
   const modeDay = ensureModeDay(persisted, mode);
-  const classicDay = ensureModeDay(persisted, "classic");
   const quoteDay = ensureModeDay(persisted, "quote");
   const mapDay = ensureModeDay(persisted, "map");
   const cardDay = ensureModeDay(persisted, "card");
@@ -177,10 +175,7 @@ export default function KoloniaGame() {
   const quoteHintList =
     mode === "quote" && targetNpc ? quoteHints(modeDay.guesses.length, targetNpc, persisted.lang) : [];
   const showHelp = helpManualOpen;
-  const visibleModeTabs = useMemo<ModeId[]>(
-    () => (isAdmin ? ["manhunt", "quote", "map", "card"] : ["classic", "quote", "map", "card"]),
-    [isAdmin],
-  );
+  const visibleModeTabs = PLAYER_MODE_TABS;
   const manhuntState = hydrated ? loadManhuntState(puzzle) : null;
 
   function modeTabLabel(modeId: ModeId) {
@@ -211,6 +206,7 @@ export default function KoloniaGame() {
     openWinModal({
       mode: "manhunt",
       attempts: telemetryAttemptsFromNuggets(result.score),
+      manhuntNuggets: result.score,
       npc: manhuntTarget,
       streak: loadManhuntStats().streak,
       xpEarned: result.xpEarned,
@@ -295,11 +291,10 @@ export default function KoloniaGame() {
   }, [authSession]);
 
   useEffect(() => {
-    if (isAdmin && mode === "classic") {
-      resetManhuntState(puzzle);
+    if (mode === "classic") {
       setMode("manhunt");
     }
-  }, [isAdmin, mode, puzzle]);
+  }, [mode]);
 
   function enterMode(nextMode: ModeId) {
     if (nextMode === "manhunt" && isAdmin) {
@@ -315,6 +310,7 @@ export default function KoloniaGame() {
   function openWinModal(options: {
     mode: ModeId;
     attempts: number;
+    manhuntNuggets?: number;
     npc: Npc;
     streak: number;
     xpEarned: number;
@@ -325,6 +321,7 @@ export default function KoloniaGame() {
     setResultContext({
       mode: options.mode,
       attempts: options.attempts,
+      manhuntNuggets: options.manhuntNuggets,
       npc: options.npc,
       streak: options.streak,
       xpEarned: options.xpEarned,
@@ -429,7 +426,8 @@ export default function KoloniaGame() {
   }
 
   async function handleShare() {
-    if (resultContext?.mode === "manhunt") {
+    const manhuntWon = mode === "manhunt" && manhuntState?.status === "won";
+    if (resultContext?.mode === "manhunt" || manhuntWon) {
       if (!manhuntWinContext) return;
 
       const text = buildManhuntShareText({
@@ -640,13 +638,11 @@ export default function KoloniaGame() {
                   const day =
                     modeId === "quote"
                       ? quoteDay
-                      : modeId === "classic"
-                        ? classicDay
-                        : modeId === "manhunt"
-                          ? null
-                          : modeId === "card"
-                            ? cardDay
-                            : mapDay;
+                      : modeId === "manhunt"
+                        ? null
+                        : modeId === "card"
+                          ? cardDay
+                          : mapDay;
                   const manhuntSolved = manhuntState?.status === "won";
                   const manhuntStarted =
                     Boolean(manhuntState) &&
@@ -840,7 +836,19 @@ export default function KoloniaGame() {
               </>
               ) : null}
 
-              {mode !== "manhunt" ? (
+              {mode === "manhunt" ? (
+                manhuntState?.status === "won" ? (
+                  <div className="mt-6 flex justify-end">
+                    <button
+                      className="min-h-12 w-full border border-[var(--panel-ink)] bg-[var(--panel-ink)] px-5 py-3 font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--panel)] transition-colors hover:bg-[var(--rust)] sm:w-auto"
+                      onClick={handleShare}
+                      type="button"
+                    >
+                      {dict.ui.share}
+                    </button>
+                  </div>
+                ) : null
+              ) : (
               <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 {mode !== "map" ? (
                 <div className="grid grid-cols-2 gap-2 font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--panel-ink)]/60 sm:flex sm:flex-wrap sm:gap-x-5 sm:gap-y-2">
@@ -863,7 +871,7 @@ export default function KoloniaGame() {
                   {dict.ui.share}
                 </button>
               </div>
-              ) : null}
+              )}
             </ParchmentPanel>
           </section>
 
@@ -1008,6 +1016,7 @@ export default function KoloniaGame() {
       {resultContext ? (
         <ResultModal
           attempts={resultContext.attempts}
+          manhuntNuggets={resultContext.manhuntNuggets}
           distanceMeters={resultContext.distanceMeters}
           isLoggedIn={Boolean(authSession)}
           lang={persisted.lang}
