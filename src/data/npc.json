@@ -90,7 +90,8 @@
       "Horatio"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "901.jpg"
   },
   {
     "id": "BAU_902_Pock",
@@ -183,7 +184,8 @@
       "Pock"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "902.jpg"
   },
   {
     "id": "BAU_903_Rufus",
@@ -263,6 +265,96 @@
     "aliases": [
       "BAU_903_Rufus",
       "Rufus"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "903.jpg"
+  },
+  {
+    "id": "BAU_904_Bauer",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/BAU_904_Bauer.d",
+    "name": "Zbieracz",
+    "nameExpression": "NAME_BAUER",
+    "guild": "GIL_BAU",
+    "guildFamily": "NEW_CAMP",
+    "npctype": "NPCTYPE_UNKNOWN",
+    "level": 2,
+    "voice": 9,
+    "originalId": 904,
+    "flags": "0",
+    "fightTactic": "FAI_HUMAN_COWARD",
+    "dailyRoutine": "Rtn_start_904",
+    "attributes": {
+      "ATR_STRENGTH": 20,
+      "ATR_DEXTERITY": 10,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 88,
+      "ATR_HITPOINTS": 88
+    },
+    "protection": {},
+    "talents": [],
+    "inventory": [
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoRice",
+        "count": 4
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Plate_01",
+        "count": 1
+      },
+      {
+        "action": "EquipItem",
+        "item": "ItMw_1H_Scythe_01",
+        "count": 1
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_904",
+        "slots": [
+          {
+            "activity": "TA_Sleep",
+            "from": "20:00",
+            "to": "07:00",
+            "waypoint": "NC_PATH_PEASANT3"
+          },
+          {
+            "activity": "TA_WashSelf",
+            "from": "07:00",
+            "to": "07:20",
+            "waypoint": "NC_PATH_PEASANT5"
+          },
+          {
+            "activity": "TA_PickRice",
+            "from": "07:20",
+            "to": "20:00",
+            "waypoint": "NC_DAM_BOTTOM"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "NC_DAM",
+        "note": "Hut, Peasant3"
+      }
+    ],
+    "location": "NC_DAM",
+    "locationArea": "NC",
+    "role": "PEASANT",
+    "combatStyle": "NON_COMBAT",
+    "names": {
+      "pl": "Zbieracz",
+      "en": "Peasant",
+      "de": "Bauer"
+    },
+    "aliases": [
+      "BAU_904_Bauer",
+      "Peasant",
+      "Bauer"
     ],
     "isTeacher": false,
     "isFriend": false
@@ -367,7 +459,8 @@
       "Jeremiah"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "912.jpg"
   },
   {
     "id": "BAU_935_Homer",
@@ -514,6 +607,661 @@
       "Homer"
     ],
     "isTeacher": false,
+    "isFriend": false,
+    "photo": "935.jpg"
+  },
+  {
+    "id": "BAU_940_Riddler",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/BAU_940_Riddler.d",
+    "name": "Zwłoki",
+    "nameExpression": "\"Zwłoki\"",
+    "guild": "GIL_BAU",
+    "guildFamily": "NEW_CAMP",
+    "npctype": "npctype_main",
+    "level": 10,
+    "voice": 7,
+    "originalId": 940,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_COWARD",
+    "dailyRoutine": "Rtn_start_940",
+    "attributes": {
+      "ATR_STRENGTH": 13,
+      "ATR_DEXTERITY": 10,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 64,
+      "ATR_HITPOINTS": 64
+    },
+    "protection": {},
+    "talents": [],
+    "inventory": [
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiNugget",
+        "count": 302
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoRice",
+        "count": 6
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFoBooze",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "theriddle6",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollTrfBloodfly",
+        "count": 2
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Lebensamulett",
+        "count": 1
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_940",
+        "slots": [
+          {
+            "activity": "TA_Stand",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "OW_FOGDUNGEON_36_MOVEMENT"
+          },
+          {
+            "activity": "TA_Stand",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "OW_FOGDUNGEON_36_MOVEMENT"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [],
+    "location": "OW_FOGDUNGEON_36_MOVEMENT",
+    "locationArea": "OW",
+    "role": "PEASANT",
+    "combatStyle": "NON_COMBAT",
+    "names": {
+      "pl": "Zwłoki",
+      "en": "Corpse",
+      "de": "Leiche"
+    },
+    "aliases": [
+      "BAU_940_Riddler",
+      "Corpse",
+      "Leiche"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "940.jpg"
+  },
+  {
+    "id": "CHARLOTTE",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/InExtremo.d",
+    "name": "Charlotte",
+    "nameExpression": "\"Charlotte\"",
+    "guild": "GIL_BAB",
+    "guildFamily": "GIL_BAB",
+    "npctype": "npctype_main",
+    "level": 1,
+    "voice": 16,
+    "originalId": 398,
+    "flags": "NPC_FLAG_IMMORTAL",
+    "fightTactic": "FAI_HUMAN_COWARD",
+    "dailyRoutine": "Rtn_announce_398",
+    "attributes": {
+      "ATR_STRENGTH": 5,
+      "ATR_DEXTERITY": 10,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 40,
+      "ATR_HITPOINTS": 40
+    },
+    "protection": {},
+    "talents": [],
+    "inventory": [],
+    "routines": [
+      {
+        "name": "Rtn_announce_398",
+        "slots": [
+          {
+            "activity": "TA_Stay",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "OCR_AUDIENCE_03"
+          },
+          {
+            "activity": "TA_Stay",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "OCR_AUDIENCE_03"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_concert_398",
+        "slots": [
+          {
+            "activity": "TA_Charlotte_Dance",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "OCR_AUDIENCE_03"
+          },
+          {
+            "activity": "TA_Charlotte_Dance",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "OCR_AUDIENCE_03"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_off_398",
+        "slots": [
+          {
+            "activity": "TA_Stay",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "NOWHERE"
+          },
+          {
+            "activity": "TA_Stay",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "NOWHERE"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [],
+    "location": "OCR_AUDIENCE_03",
+    "locationArea": "OCR",
+    "role": "OUTSIDER",
+    "combatStyle": "NON_COMBAT",
+    "names": {
+      "pl": "Charlotte",
+      "en": "Charlotte",
+      "de": "Charlotte"
+    },
+    "aliases": [
+      "CHARLOTTE",
+      "Charlotte"
+    ],
+    "isTeacher": false,
+    "isFriend": false
+  },
+  {
+    "id": "CS_Eskorte1",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/CS_Eskorte1.d",
+    "name": "Eskorta1",
+    "nameExpression": "\"Eskorta1\"",
+    "guild": "GIL_GRD",
+    "guildFamily": "OLD_CAMP",
+    "npctype": "NPCTYPE_UNKNOWN",
+    "level": 5,
+    "voice": 11,
+    "originalId": 3024,
+    "flags": "0",
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_start_3024",
+    "attributes": {
+      "ATR_STRENGTH": 30,
+      "ATR_DEXTERITY": 30,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 100,
+      "ATR_HITPOINTS": 100
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 2
+      },
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 2
+      },
+      {
+        "id": "NPC_TALENT_2H",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_CROSSBOW",
+        "skill": 1
+      }
+    ],
+    "inventory": [],
+    "routines": [
+      {
+        "name": "Rtn_start_3024",
+        "slots": [
+          {
+            "activity": "TA_Position",
+            "from": "00:00",
+            "to": "24:00",
+            "waypoint": "WP_INTRO06",
+            "note": "TA_CS\t\t\t(self,\"GOTH_INTRO_05\",\"\");"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [],
+    "location": "WP_INTRO06",
+    "locationArea": "WP",
+    "role": "GUARD",
+    "combatStyle": "CROSSBOW",
+    "names": {
+      "pl": "Eskorta1",
+      "en": "Eskorte1",
+      "de": "Eskorte1"
+    },
+    "aliases": [
+      "CS_Eskorte1",
+      "Eskorte1"
+    ],
+    "isTeacher": false,
+    "isFriend": false
+  },
+  {
+    "id": "CS_Eskorte2",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/CS_Eskorte2.d",
+    "name": "Eskorta2",
+    "nameExpression": "\"Eskorta2\"",
+    "guild": "GIL_GRD",
+    "guildFamily": "OLD_CAMP",
+    "npctype": "NPCTYPE_UNKNOWN",
+    "level": 5,
+    "voice": 11,
+    "originalId": 3023,
+    "flags": "0",
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_start_3023",
+    "attributes": {
+      "ATR_STRENGTH": 13,
+      "ATR_DEXTERITY": 9,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 26,
+      "ATR_HITPOINTS": 26
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 2
+      },
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 2
+      },
+      {
+        "id": "NPC_TALENT_2H",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_CROSSBOW",
+        "skill": 1
+      }
+    ],
+    "inventory": [],
+    "routines": [
+      {
+        "name": "Rtn_start_3023",
+        "slots": [
+          {
+            "activity": "TA_Position",
+            "from": "00:00",
+            "to": "24:00",
+            "waypoint": "WP_INTRO07"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [],
+    "location": "WP_INTRO07",
+    "locationArea": "WP",
+    "role": "GUARD",
+    "combatStyle": "CROSSBOW",
+    "names": {
+      "pl": "Eskorta2",
+      "en": "Eskorte2",
+      "de": "Eskorte2"
+    },
+    "aliases": [
+      "CS_Eskorte2",
+      "Eskorte2"
+    ],
+    "isTeacher": false,
+    "isFriend": false
+  },
+  {
+    "id": "CS_Eskorte3",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/CS_Eskorte3.d",
+    "name": "Eskorta3",
+    "nameExpression": "\"Eskorta3\"",
+    "guild": "GIL_GRD",
+    "guildFamily": "OLD_CAMP",
+    "npctype": "NPCTYPE_UNKNOWN",
+    "level": 5,
+    "voice": 11,
+    "originalId": 3027,
+    "flags": "0",
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_start_3027",
+    "attributes": {
+      "ATR_STRENGTH": 13,
+      "ATR_DEXTERITY": 9,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 26,
+      "ATR_HITPOINTS": 26
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 2
+      },
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 2
+      },
+      {
+        "id": "NPC_TALENT_2H",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_CROSSBOW",
+        "skill": 1
+      }
+    ],
+    "inventory": [],
+    "routines": [
+      {
+        "name": "Rtn_start_3027",
+        "slots": [
+          {
+            "activity": "TA_Position",
+            "from": "00:00",
+            "to": "24:00",
+            "waypoint": "WP_INTRO05"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [],
+    "location": "WP_INTRO05",
+    "locationArea": "WP",
+    "role": "GUARD",
+    "combatStyle": "CROSSBOW",
+    "names": {
+      "pl": "Eskorta3",
+      "en": "Eskorte3",
+      "de": "Eskorte3"
+    },
+    "aliases": [
+      "CS_Eskorte3",
+      "Eskorte3"
+    ],
+    "isTeacher": false,
+    "isFriend": false
+  },
+  {
+    "id": "CS_Eskorte4",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/CS_Eskorte4.d",
+    "name": "Eskorta4",
+    "nameExpression": "\"Eskorta4\"",
+    "guild": "GIL_GRD",
+    "guildFamily": "OLD_CAMP",
+    "npctype": "NPCTYPE_UNKNOWN",
+    "level": 5,
+    "voice": 11,
+    "originalId": 3028,
+    "flags": "0",
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_start_3028",
+    "attributes": {
+      "ATR_STRENGTH": 13,
+      "ATR_DEXTERITY": 9,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 26,
+      "ATR_HITPOINTS": 26
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 2
+      },
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 2
+      },
+      {
+        "id": "NPC_TALENT_2H",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_CROSSBOW",
+        "skill": 1
+      }
+    ],
+    "inventory": [],
+    "routines": [
+      {
+        "name": "Rtn_start_3028",
+        "slots": [
+          {
+            "activity": "TA_Position",
+            "from": "00:00",
+            "to": "24:00",
+            "waypoint": "WP_INTRO08"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [],
+    "location": "WP_INTRO08",
+    "locationArea": "WP",
+    "role": "GUARD",
+    "combatStyle": "CROSSBOW",
+    "names": {
+      "pl": "Eskorta4",
+      "en": "Eskorte4",
+      "de": "Eskorte4"
+    },
+    "aliases": [
+      "CS_Eskorte4",
+      "Eskorte4"
+    ],
+    "isTeacher": false,
+    "isFriend": false
+  },
+  {
+    "id": "CS_Eskorte5",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/CS_Eskorte5.d",
+    "name": "Eskorta5",
+    "nameExpression": "\"Eskorta5\"",
+    "guild": "GIL_GRD",
+    "guildFamily": "OLD_CAMP",
+    "npctype": "NPCTYPE_UNKNOWN",
+    "level": 5,
+    "voice": 11,
+    "originalId": 3028,
+    "flags": "0",
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_start_3029",
+    "attributes": {
+      "ATR_STRENGTH": 13,
+      "ATR_DEXTERITY": 9,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 26,
+      "ATR_HITPOINTS": 26
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 2
+      },
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 2
+      },
+      {
+        "id": "NPC_TALENT_2H",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_CROSSBOW",
+        "skill": 1
+      }
+    ],
+    "inventory": [],
+    "routines": [],
+    "startupLocations": [],
+    "location": "UNKNOWN",
+    "locationArea": "UNKNOWN",
+    "role": "GUARD",
+    "combatStyle": "CROSSBOW",
+    "names": {
+      "pl": "Eskorta5",
+      "en": "Eskorte5",
+      "de": "Eskorte5"
+    },
+    "aliases": [
+      "CS_Eskorte5",
+      "Eskorte5"
+    ],
+    "isTeacher": false,
+    "isFriend": false
+  },
+  {
+    "id": "CS_Eskorte6",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/CS_Eskorte6.d",
+    "name": "Eskorta6",
+    "nameExpression": "\"Eskorta6\"",
+    "guild": "GIL_GRD",
+    "guildFamily": "OLD_CAMP",
+    "npctype": "NPCTYPE_UNKNOWN",
+    "level": 5,
+    "voice": 11,
+    "originalId": 3028,
+    "flags": "0",
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_start_3030",
+    "attributes": {
+      "ATR_STRENGTH": 13,
+      "ATR_DEXTERITY": 9,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 26,
+      "ATR_HITPOINTS": 26
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 2
+      },
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 2
+      },
+      {
+        "id": "NPC_TALENT_2H",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_CROSSBOW",
+        "skill": 1
+      }
+    ],
+    "inventory": [],
+    "routines": [],
+    "startupLocations": [],
+    "location": "UNKNOWN",
+    "locationArea": "UNKNOWN",
+    "role": "GUARD",
+    "combatStyle": "CROSSBOW",
+    "names": {
+      "pl": "Eskorta6",
+      "en": "Eskorte6",
+      "de": "Eskorte6"
+    },
+    "aliases": [
+      "CS_Eskorte6",
+      "Eskorte6"
+    ],
+    "isTeacher": false,
+    "isFriend": false
+  },
+  {
+    "id": "CS_Richter",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/CS_Richter.d",
+    "name": "Sędzia",
+    "nameExpression": "\"Sędzia\"",
+    "guild": "GIL_None",
+    "guildFamily": "GIL_None",
+    "npctype": "npctype_main",
+    "level": 5,
+    "voice": 13,
+    "originalId": 3022,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_COWARD",
+    "dailyRoutine": "Rtn_start_3022",
+    "attributes": {
+      "ATR_STRENGTH": 30,
+      "ATR_DEXTERITY": 30,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 100,
+      "ATR_HITPOINTS": 100
+    },
+    "protection": {},
+    "talents": [],
+    "inventory": [],
+    "routines": [
+      {
+        "name": "Rtn_start_3022",
+        "slots": [
+          {
+            "activity": "TA_Position",
+            "from": "00:00",
+            "to": "24:00",
+            "waypoint": "WP_INTRO_WI01"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [],
+    "location": "WP_INTRO_WI01",
+    "locationArea": "WP",
+    "role": "OUTSIDER",
+    "combatStyle": "NON_COMBAT",
+    "names": {
+      "pl": "Sędzia",
+      "en": "Judge",
+      "de": "Richter"
+    },
+    "aliases": [
+      "CS_Richter",
+      "Judge",
+      "Richter"
+    ],
+    "isTeacher": false,
     "isFriend": false
   },
   {
@@ -647,7 +1395,8 @@
       "Gomez"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "100.jpg"
   },
   {
     "id": "EBR_101_Scar",
@@ -764,7 +1513,8 @@
       "Scar"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "101.jpg"
   },
   {
     "id": "EBR_102_Arto",
@@ -881,7 +1631,8 @@
       "Arto"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "102.jpg"
   },
   {
     "id": "EBR_105_Raven",
@@ -1027,7 +1778,8 @@
       "Raven"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "105.jpg"
   },
   {
     "id": "EBR_106_Bartholo",
@@ -1150,7 +1902,272 @@
       "Bartholo"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "106.jpg"
+  },
+  {
+    "id": "EBR_108_Velaya",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/EBR_108_Velaya.d",
+    "name": "Velaya",
+    "nameExpression": "\"Velaya\"",
+    "guild": "GIL_BAB",
+    "guildFamily": "GIL_BAB",
+    "npctype": "npctype_main",
+    "level": 1,
+    "voice": 16,
+    "originalId": 108,
+    "flags": "NPC_FLAG_IMMORTAL",
+    "fightTactic": "FAI_HUMAN_COWARD",
+    "dailyRoutine": "Rtn_start_108",
+    "attributes": {
+      "ATR_STRENGTH": 20,
+      "ATR_DEXTERITY": 20,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 40,
+      "ATR_HITPOINTS": 40
+    },
+    "protection": {},
+    "talents": [],
+    "inventory": [
+      {
+        "action": "CreateInvItem",
+        "item": "ItMiBrush",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMiWedel",
+        "count": 1
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_108",
+        "slots": [
+          {
+            "activity": "TA_Babe_Sleep",
+            "from": "01:00",
+            "to": "10:00",
+            "waypoint": "OCC_BARONS_UPSTAIRS_LEFT_BACK_ROOM_LEFT_BACK",
+            "note": "Bei Gomez"
+          },
+          {
+            "activity": "TA_Babe_SitAround",
+            "from": "10:00",
+            "to": "11:00",
+            "waypoint": "OCC_BARONS_UPSTAIRS_LEFT_BACK_ROOM_FRONT"
+          },
+          {
+            "activity": "TA_Bathing_Babe",
+            "from": "11:00",
+            "to": "14:00",
+            "waypoint": "OCC_BARONS_UPSTAIRS_LEFT_BACK_ROOM_FRONT"
+          },
+          {
+            "activity": "TA_Babe_SitAround",
+            "from": "14:00",
+            "to": "16:00",
+            "waypoint": "OCC_BARONS_UPSTAIRS_LEFT_BACK_ROOM_FRONT"
+          },
+          {
+            "activity": "TA_Bathing_Babe",
+            "from": "16:00",
+            "to": "19:00",
+            "waypoint": "OCC_BARONS_UPSTAIRS_LEFT_BACK_ROOM_FRONT"
+          },
+          {
+            "activity": "TA_Babe_SitAround",
+            "from": "19:00",
+            "to": "01:00",
+            "waypoint": "OCC_BARONS_UPSTAIRS_LEFT_BACK_ROOM_FRONT"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "OC1",
+        "note": "Gomez Zimmer 24h"
+      }
+    ],
+    "location": "OC1",
+    "locationArea": "OC1",
+    "role": "OUTSIDER",
+    "combatStyle": "NON_COMBAT",
+    "names": {
+      "pl": "Velaya",
+      "en": "Velaya",
+      "de": "Velaya"
+    },
+    "aliases": [
+      "EBR_108_Velaya",
+      "Velaya"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "108.jpg"
+  },
+  {
+    "id": "EBR_109_Syra",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/EBR_109_Syra.d",
+    "name": "Sira",
+    "nameExpression": "\"Sira\"",
+    "guild": "GIL_BAB",
+    "guildFamily": "GIL_BAB",
+    "npctype": "npctype_main",
+    "level": 1,
+    "voice": 16,
+    "originalId": 109,
+    "flags": "NPC_FLAG_IMMORTAL",
+    "fightTactic": "FAI_HUMAN_COWARD",
+    "dailyRoutine": "Rtn_start_109",
+    "attributes": {
+      "ATR_STRENGTH": 20,
+      "ATR_DEXTERITY": 20,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 40,
+      "ATR_HITPOINTS": 40
+    },
+    "protection": {},
+    "talents": [],
+    "inventory": [
+      {
+        "action": "CreateInvItem",
+        "item": "ItMiBrush",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMiWedel",
+        "count": 1
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_109",
+        "slots": [
+          {
+            "activity": "TA_Babe_Sweep",
+            "from": "22:00",
+            "to": "06:00",
+            "waypoint": "OCC_BARONS_LEFT_ROOM_FRONT"
+          },
+          {
+            "activity": "TA_Babe_Sweep",
+            "from": "06:00",
+            "to": "16:00",
+            "waypoint": "OCC_BARONS_RIGHT_ROOM_TABLE"
+          },
+          {
+            "activity": "TA_Babe_Dance",
+            "from": "16:00",
+            "to": "22:00",
+            "waypoint": "OCC_BARONS_DANCE"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "OC1"
+      }
+    ],
+    "location": "OC1",
+    "locationArea": "OC1",
+    "role": "OUTSIDER",
+    "combatStyle": "NON_COMBAT",
+    "names": {
+      "pl": "Sira",
+      "en": "Syra",
+      "de": "Syra"
+    },
+    "aliases": [
+      "EBR_109_Syra",
+      "Syra"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "109.jpg"
+  },
+  {
+    "id": "EBR_110_Seraphia",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/EBR_110_Seraphia.d",
+    "name": "Serafia",
+    "nameExpression": "\"Serafia\"",
+    "guild": "GIL_BAB",
+    "guildFamily": "GIL_BAB",
+    "npctype": "npctype_main",
+    "level": 1,
+    "voice": 16,
+    "originalId": 110,
+    "flags": "NPC_FLAG_IMMORTAL",
+    "fightTactic": "FAI_HUMAN_COWARD",
+    "dailyRoutine": "Rtn_start_110",
+    "attributes": {
+      "ATR_STRENGTH": 20,
+      "ATR_DEXTERITY": 20,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 40,
+      "ATR_HITPOINTS": 40
+    },
+    "protection": {},
+    "talents": [],
+    "inventory": [
+      {
+        "action": "CreateInvItem",
+        "item": "ItMiBrush",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMiWedel",
+        "count": 1
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_110",
+        "slots": [
+          {
+            "activity": "TA_Babe_Sweep",
+            "from": "00:01",
+            "to": "08:30",
+            "waypoint": "OCC_BARONS_GREATHALL_CENTER_LEFT"
+          },
+          {
+            "activity": "TA_Babe_Fan",
+            "from": "08:30",
+            "to": "00:01",
+            "waypoint": "OCC_BARONS_GREATHALL_BERATER"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "OC1",
+        "note": "------------Freie Betten-------------------------"
+      }
+    ],
+    "location": "OC1",
+    "locationArea": "OC1",
+    "role": "OUTSIDER",
+    "combatStyle": "NON_COMBAT",
+    "names": {
+      "pl": "Serafia",
+      "en": "Seraphia",
+      "de": "Seraphia"
+    },
+    "aliases": [
+      "EBR_110_Seraphia",
+      "Seraphia"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "110.jpg"
   },
   {
     "id": "GRD_200_Thorus",
@@ -1260,7 +2277,8 @@
       "Thorus"
     ],
     "isTeacher": true,
-    "isFriend": true
+    "isFriend": true,
+    "photo": "200.jpg"
   },
   {
     "id": "GRD_201_Jackal",
@@ -1521,7 +2539,8 @@
       "Jackal"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "201.jpg"
   },
   {
     "id": "GRD_203_Bullit",
@@ -1653,7 +2672,8 @@
       "Bullit"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "203.jpg"
   },
   {
     "id": "GRD_205_Scorpio",
@@ -1789,7 +2809,8 @@
       "Scorpio"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "205.jpg"
   },
   {
     "id": "GRD_208_Cutter",
@@ -1921,7 +2942,8 @@
       "Cutter"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "208.jpg"
   },
   {
     "id": "GRD_210_Scatty",
@@ -2054,7 +3076,8 @@
       "Scatty"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "210.jpg"
   },
   {
     "id": "GRD_211_Skip",
@@ -2167,7 +3190,8 @@
       "Skip"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "211.jpg"
   },
   {
     "id": "GRD_219_Stone",
@@ -2919,7 +3943,8 @@
       "Stone"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "219.jpg"
   },
   {
     "id": "GRD_224_Pacho",
@@ -3024,7 +4049,8 @@
       "Pacho"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "224.jpg"
   },
   {
     "id": "GRD_233_Bloodwyn",
@@ -3277,7 +4303,8 @@
       "Bloodwyn"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "233.jpg"
   },
   {
     "id": "GRD_251_Kirgo",
@@ -3403,7 +4430,8 @@
       "Kirgo"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "251.jpg"
   },
   {
     "id": "GRD_254_Orry",
@@ -3503,7 +4531,8 @@
       "Orry"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "254.jpg"
   },
   {
     "id": "GRD_255_Fletcher",
@@ -3784,7 +4813,8 @@
       "Fletcher"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "255.jpg"
   },
   {
     "id": "GRD_260_Drake",
@@ -3893,7 +4923,8 @@
       "Drake"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "260.jpg"
   },
   {
     "id": "GRD_261_Brandick",
@@ -4024,7 +5055,8 @@
       "Brandick"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "261.jpg"
   },
   {
     "id": "GRD_262_Aaron",
@@ -4155,7 +5187,8 @@
       "Aaron"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "262.jpg"
   },
   {
     "id": "GRD_263_Asghan",
@@ -4286,6 +5319,226 @@
       "Asghan"
     ],
     "isTeacher": false,
+    "isFriend": false,
+    "photo": "263.jpg"
+  },
+  {
+    "id": "GRD_271_Ulbert",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/GRD_271_Ulbert.d",
+    "name": "Ulbert",
+    "nameExpression": "\"Ulbert\"",
+    "guild": "GIL_GRD",
+    "guildFamily": "OLD_CAMP",
+    "npctype": "npctype_main",
+    "level": 10,
+    "voice": 7,
+    "originalId": 271,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_Start_271",
+    "attributes": {
+      "ATR_STRENGTH": 35,
+      "ATR_DEXTERITY": 35,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 160,
+      "ATR_HITPOINTS": 160
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_CROSSBOW",
+        "skill": 1
+      }
+    ],
+    "inventory": [
+      {
+        "action": "EquipItem",
+        "item": "ItMw_1H_Sword_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFoApple",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiNugget",
+        "count": 10
+      },
+      {
+        "action": "EquipItem",
+        "item": "ItRw_Crossbow_01",
+        "count": 1
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_271",
+        "slots": [
+          {
+            "activity": "TA_Guard",
+            "from": "00:00",
+            "to": "12:00",
+            "waypoint": "OM_014B"
+          },
+          {
+            "activity": "TA_Guard",
+            "from": "12:00",
+            "to": "24:00",
+            "waypoint": "OM_014B"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_away_271",
+        "slots": [
+          {
+            "activity": "TA_Guard",
+            "from": "00:00",
+            "to": "12:00",
+            "waypoint": "OM_CAVE1_49"
+          },
+          {
+            "activity": "TA_Guard",
+            "from": "12:00",
+            "to": "24:00",
+            "waypoint": "OM_CAVE1_49"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "OM_122"
+      }
+    ],
+    "location": "OM_122",
+    "locationArea": "OM",
+    "role": "GUARD",
+    "combatStyle": "CROSSBOW",
+    "names": {
+      "pl": "Ulbert",
+      "en": "Ulbert",
+      "de": "Ulbert"
+    },
+    "aliases": [
+      "GRD_271_Ulbert",
+      "Ulbert"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "271.jpg"
+  },
+  {
+    "id": "GRD_281_Gardist",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/GRD_281_Gardist.d",
+    "name": "Strażnik",
+    "nameExpression": "NAME_Gardist",
+    "guild": "GIL_GRD",
+    "guildFamily": "OLD_CAMP",
+    "npctype": "Npctype_Main",
+    "level": 10,
+    "voice": 7,
+    "originalId": 281,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_RANGED",
+    "dailyRoutine": "Rtn_start_281",
+    "attributes": {
+      "ATR_STRENGTH": 35,
+      "ATR_DEXTERITY": 35,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 160,
+      "ATR_HITPOINTS": 160
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_CROSSBOW",
+        "skill": 1
+      }
+    ],
+    "inventory": [
+      {
+        "action": "EquipItem",
+        "item": "ItMw_1H_Sword_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFoApple",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiNugget",
+        "count": 10
+      },
+      {
+        "action": "EquipItem",
+        "item": "ItRw_Crossbow_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAmBolt",
+        "count": 30
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_281",
+        "slots": [
+          {
+            "activity": "TA_GuardWheelOpen",
+            "from": "07:55",
+            "to": "19:55",
+            "waypoint": "OW_PATH_1_16_C"
+          },
+          {
+            "activity": "TA_GuardWheelOpen",
+            "from": "19:55",
+            "to": "07:55",
+            "waypoint": "OW_PATH_1_16_C"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "OC1",
+        "note": "Orry-Wache"
+      }
+    ],
+    "location": "OC1",
+    "locationArea": "OC1",
+    "role": "GUARD",
+    "combatStyle": "CROSSBOW",
+    "names": {
+      "pl": "Strażnik",
+      "en": "Guard",
+      "de": "Gardist"
+    },
+    "aliases": [
+      "GRD_281_Gardist",
+      "Guard",
+      "Gardist"
+    ],
+    "isTeacher": false,
     "isFriend": false
   },
   {
@@ -4413,7 +5666,8 @@
       "Y'Berion"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1200.jpg"
   },
   {
     "id": "GUR_1201_CorKalom",
@@ -4512,7 +5766,8 @@
       "Cor Kalom"
     ],
     "isTeacher": false,
-    "isFriend": true
+    "isFriend": true,
+    "photo": "1201.jpg"
   },
   {
     "id": "GUR_1202_CorAngar",
@@ -4635,7 +5890,8 @@
       "Cor Angar"
     ],
     "isTeacher": true,
-    "isFriend": true
+    "isFriend": true,
+    "photo": "1202.jpg"
   },
   {
     "id": "GUR_1203_BaalTondral",
@@ -4712,7 +5968,8 @@
       "Baal Tondral"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1203.jpg"
   },
   {
     "id": "GUR_1204_BaalNamib",
@@ -4794,7 +6051,241 @@
       "Baal Namib"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1204.jpg"
+  },
+  {
+    "id": "GUR_1205_Chani",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/GUR_1205_Chani.d",
+    "name": "Chani",
+    "nameExpression": "\"Chani\"",
+    "guild": "GIL_BAB",
+    "guildFamily": "GIL_BAB",
+    "npctype": "npctype_main",
+    "level": 1,
+    "voice": 16,
+    "originalId": 1205,
+    "flags": "NPC_FLAG_IMMORTAL",
+    "fightTactic": null,
+    "dailyRoutine": "Rtn_start_1205",
+    "attributes": {
+      "ATR_STRENGTH": 20,
+      "ATR_DEXTERITY": 20,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 52,
+      "ATR_HITPOINTS": 52
+    },
+    "protection": {},
+    "talents": [],
+    "inventory": [],
+    "routines": [
+      {
+        "name": "Rtn_start_1205",
+        "slots": [
+          {
+            "activity": "TA_Babe_SitAround",
+            "from": "00:00",
+            "to": "06:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_IN_03"
+          },
+          {
+            "activity": "TA_Babe_SitAround",
+            "from": "06:00",
+            "to": "07:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_IN_03"
+          },
+          {
+            "activity": "TA_Babe_Fan",
+            "from": "07:00",
+            "to": "08:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_05"
+          },
+          {
+            "activity": "TA_Babe_SitAround",
+            "from": "08:00",
+            "to": "09:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_IN_03"
+          },
+          {
+            "activity": "TA_Babe_Fan",
+            "from": "09:00",
+            "to": "10:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_05"
+          },
+          {
+            "activity": "TA_Babe_SitAround",
+            "from": "10:00",
+            "to": "11:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_IN_03"
+          },
+          {
+            "activity": "TA_Babe_Fan",
+            "from": "11:00",
+            "to": "12:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_05"
+          },
+          {
+            "activity": "TA_Babe_SitAround",
+            "from": "12:00",
+            "to": "13:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_IN_03"
+          },
+          {
+            "activity": "TA_Babe_Fan",
+            "from": "13:00",
+            "to": "14:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_05"
+          },
+          {
+            "activity": "TA_Babe_SitAround",
+            "from": "14:00",
+            "to": "15:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_IN_03"
+          },
+          {
+            "activity": "TA_Babe_Fan",
+            "from": "15:00",
+            "to": "16:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_05"
+          },
+          {
+            "activity": "TA_Babe_SitAround",
+            "from": "16:00",
+            "to": "17:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_IN_03"
+          },
+          {
+            "activity": "TA_Babe_Fan",
+            "from": "17:00",
+            "to": "18:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_05"
+          },
+          {
+            "activity": "TA_Babe_SitAround",
+            "from": "18:00",
+            "to": "19:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_IN_03"
+          },
+          {
+            "activity": "TA_Babe_Fan",
+            "from": "19:00",
+            "to": "20:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_05"
+          },
+          {
+            "activity": "TA_Babe_SitAround",
+            "from": "20:00",
+            "to": "21:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_IN_03"
+          },
+          {
+            "activity": "TA_Babe_Fan",
+            "from": "21:00",
+            "to": "22:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_05"
+          },
+          {
+            "activity": "TA_Babe_SitAround",
+            "from": "22:00",
+            "to": "23:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_IN_03"
+          },
+          {
+            "activity": "TA_Babe_Fan",
+            "from": "23:00",
+            "to": "00:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_05"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_dead_1205",
+        "slots": [
+          {
+            "activity": "TA_Babe_SitAround",
+            "from": "00:00",
+            "to": "06:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_IN_02"
+          },
+          {
+            "activity": "TA_Babe_SitAround",
+            "from": "06:00",
+            "to": "00:00",
+            "waypoint": "PSI_TEMPLE_ROOMS_IN_02"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "PSI_START"
+      }
+    ],
+    "location": "PSI_START",
+    "locationArea": "PSI",
+    "role": "OUTSIDER",
+    "combatStyle": "NON_COMBAT",
+    "names": {
+      "pl": "Chani",
+      "en": "Chani",
+      "de": "Chani"
+    },
+    "aliases": [
+      "GUR_1205_Chani",
+      "Chani"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "1205.jpg"
+  },
+  {
+    "id": "GUR_1207_Natalia",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/GUR_1207_Natalia.d",
+    "name": "Natalia",
+    "nameExpression": "\"Natalia\"",
+    "guild": "GIL_BAB",
+    "guildFamily": "GIL_BAB",
+    "npctype": "npctype_main",
+    "level": 1,
+    "voice": 16,
+    "originalId": 1207,
+    "flags": "NPC_FLAG_IMMORTAL",
+    "fightTactic": "FAI_HUMAN_COWARD",
+    "dailyRoutine": "Rtn_start_1421",
+    "attributes": {
+      "ATR_STRENGTH": 20,
+      "ATR_DEXTERITY": 20,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 52,
+      "ATR_HITPOINTS": 52
+    },
+    "protection": {},
+    "talents": [],
+    "inventory": [],
+    "routines": [],
+    "startupLocations": [
+      {
+        "waypoint": "PSI_START"
+      }
+    ],
+    "location": "PSI_START",
+    "locationArea": "PSI",
+    "role": "OUTSIDER",
+    "combatStyle": "NON_COMBAT",
+    "names": {
+      "pl": "Natalia",
+      "en": "Natalia",
+      "de": "Natalia"
+    },
+    "aliases": [
+      "GUR_1207_Natalia",
+      "Natalia"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "1207.jpg"
   },
   {
     "id": "GUR_1208_BaalCadar",
@@ -4871,7 +6362,8 @@
       "Baal Cadar"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1208.jpg"
   },
   {
     "id": "GUR_1209_BaalOrun",
@@ -4948,7 +6440,8 @@
       "Baal Orun"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1209.jpg"
   },
   {
     "id": "GUR_1210_BaalTyon",
@@ -5093,7 +6586,8 @@
       "Baal Tyon"
     ],
     "isTeacher": true,
-    "isFriend": true
+    "isFriend": true,
+    "photo": "1210.jpg"
   },
   {
     "id": "GUR_1211_BaalLukor",
@@ -5271,7 +6765,8 @@
       "Baal Lukor"
     ],
     "isTeacher": false,
-    "isFriend": true
+    "isFriend": true,
+    "photo": "1211.jpg"
   },
   {
     "id": "GUR_1212_MadCorKalom",
@@ -5478,6 +6973,589 @@
       "Steve"
     ],
     "isTeacher": false,
+    "isFriend": false,
+    "photo": "397.jpg"
+  },
+  {
+    "id": "INEXTREMO_DrPymonte",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/InExtremo.d",
+    "name": "Dr. Pymonte",
+    "nameExpression": "\"Dr. Pymonte\"",
+    "guild": "GIL_NONE",
+    "guildFamily": "NONE",
+    "npctype": "npctype_main",
+    "level": 4,
+    "voice": 11,
+    "originalId": 390,
+    "flags": "NPC_FLAG_IMMORTAL",
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_Concert_390",
+    "attributes": {
+      "ATR_STRENGTH": 20,
+      "ATR_DEXTERITY": 10,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 88,
+      "ATR_HITPOINTS": 88
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      }
+    ],
+    "inventory": [],
+    "routines": [
+      {
+        "name": "Rtn_concert_390",
+        "slots": [
+          {
+            "activity": "TA_IEPymonte",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "OCR_IE_PYMONTE"
+          },
+          {
+            "activity": "TA_IEPymonte",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "OCR_IE_PYMONTE"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_off_390",
+        "slots": [
+          {
+            "activity": "TA_Stay",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "NOWHERE"
+          },
+          {
+            "activity": "TA_Stay",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "NOWHERE"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [],
+    "location": "OCR_IE_PYMONTE",
+    "locationArea": "OCR",
+    "role": "OUTSIDER",
+    "combatStyle": "ONE_H",
+    "names": {
+      "pl": "Dr. Pymonte",
+      "en": "Dr. Pymonte",
+      "de": "Dr. Pymonte"
+    },
+    "aliases": [
+      "INEXTREMO_DrPymonte",
+      "Dr. Pymonte"
+    ],
+    "isTeacher": false,
+    "isFriend": false
+  },
+  {
+    "id": "INEXTREMO_Flex",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/InExtremo.d",
+    "name": "Flex",
+    "nameExpression": "\"Flex\"",
+    "guild": "GIL_NONE",
+    "guildFamily": "NONE",
+    "npctype": "npctype_main",
+    "level": 4,
+    "voice": 11,
+    "originalId": 396,
+    "flags": "0",
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_concert_396",
+    "attributes": {
+      "ATR_STRENGTH": 20,
+      "ATR_DEXTERITY": 10,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 88,
+      "ATR_HITPOINTS": 88
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      }
+    ],
+    "inventory": [],
+    "routines": [
+      {
+        "name": "Rtn_concert_396",
+        "slots": [
+          {
+            "activity": "TA_IEFlex",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "OCR_IE_FLEX"
+          },
+          {
+            "activity": "TA_IEFlex",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "OCR_IE_FLEX"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_off_396",
+        "slots": [
+          {
+            "activity": "TA_Stay",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "NOWHERE"
+          },
+          {
+            "activity": "TA_Stay",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "NOWHERE"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [],
+    "location": "OCR_IE_FLEX",
+    "locationArea": "OCR",
+    "role": "OUTSIDER",
+    "combatStyle": "ONE_H",
+    "names": {
+      "pl": "Flex",
+      "en": "Flex",
+      "de": "Flex"
+    },
+    "aliases": [
+      "INEXTREMO_Flex",
+      "Flex"
+    ],
+    "isTeacher": false,
+    "isFriend": false
+  },
+  {
+    "id": "INEXTREMO_Lutter",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/InExtremo.d",
+    "name": "Lutter",
+    "nameExpression": "\"Lutter\"",
+    "guild": "GIL_NONE",
+    "guildFamily": "NONE",
+    "npctype": "npctype_main",
+    "level": 4,
+    "voice": 11,
+    "originalId": 395,
+    "flags": "NPC_FLAG_IMMORTAL",
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_concert_395",
+    "attributes": {
+      "ATR_STRENGTH": 20,
+      "ATR_DEXTERITY": 10,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 88,
+      "ATR_HITPOINTS": 88
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      }
+    ],
+    "inventory": [],
+    "routines": [
+      {
+        "name": "Rtn_concert_395",
+        "slots": [
+          {
+            "activity": "TA_IELutter",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "OCR_IE_LUTTER"
+          },
+          {
+            "activity": "TA_IELutter",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "OCR_IE_LUTTER"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_off_395",
+        "slots": [
+          {
+            "activity": "TA_Stay",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "NOWHERE"
+          },
+          {
+            "activity": "TA_Stay",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "NOWHERE"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [],
+    "location": "OCR_IE_LUTTER",
+    "locationArea": "OCR",
+    "role": "OUTSIDER",
+    "combatStyle": "ONE_H",
+    "names": {
+      "pl": "Lutter",
+      "en": "Lutter",
+      "de": "Lutter"
+    },
+    "aliases": [
+      "INEXTREMO_Lutter",
+      "Lutter"
+    ],
+    "isTeacher": false,
+    "isFriend": false
+  },
+  {
+    "id": "INEXTREMO_TheFlail",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/InExtremo.d",
+    "name": "The Flail",
+    "nameExpression": "\"The Flail\"",
+    "guild": "GIL_NONE",
+    "guildFamily": "NONE",
+    "npctype": "npctype_main",
+    "level": 4,
+    "voice": 11,
+    "originalId": 391,
+    "flags": "0",
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_concert_391",
+    "attributes": {
+      "ATR_STRENGTH": 20,
+      "ATR_DEXTERITY": 10,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 88,
+      "ATR_HITPOINTS": 88
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      }
+    ],
+    "inventory": [],
+    "routines": [
+      {
+        "name": "Rtn_concert_391",
+        "slots": [
+          {
+            "activity": "TA_IEFlail",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "OCR_IE_FLAIL"
+          },
+          {
+            "activity": "TA_IEFlail",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "OCR_IE_FLAIL"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_off_391",
+        "slots": [
+          {
+            "activity": "TA_Stay",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "NOWHERE"
+          },
+          {
+            "activity": "TA_Stay",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "NOWHERE"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [],
+    "location": "OCR_IE_FLAIL",
+    "locationArea": "OCR",
+    "role": "OUTSIDER",
+    "combatStyle": "ONE_H",
+    "names": {
+      "pl": "The Flail",
+      "en": "The Flail",
+      "de": "The Flail"
+    },
+    "aliases": [
+      "INEXTREMO_TheFlail",
+      "The Flail"
+    ],
+    "isTeacher": false,
+    "isFriend": false
+  },
+  {
+    "id": "INEXTREMO_ThomasTheForger",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/InExtremo.d",
+    "name": "Thomas the forger",
+    "nameExpression": "\"Thomas the forger\"",
+    "guild": "GIL_NONE",
+    "guildFamily": "NONE",
+    "npctype": "npctype_main",
+    "level": 4,
+    "voice": 11,
+    "originalId": 392,
+    "flags": "0",
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_concert_392",
+    "attributes": {
+      "ATR_STRENGTH": 20,
+      "ATR_DEXTERITY": 10,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 88,
+      "ATR_HITPOINTS": 88
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      }
+    ],
+    "inventory": [],
+    "routines": [
+      {
+        "name": "Rtn_concert_392",
+        "slots": [
+          {
+            "activity": "TA_IEThomas",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "OCR_IE_THOMAS"
+          },
+          {
+            "activity": "TA_IEThomas",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "OCR_IE_THOMAS"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_off_392",
+        "slots": [
+          {
+            "activity": "TA_Stay",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "NOWHERE"
+          },
+          {
+            "activity": "TA_Stay",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "NOWHERE"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [],
+    "location": "OCR_IE_THOMAS",
+    "locationArea": "OCR",
+    "role": "OUTSIDER",
+    "combatStyle": "ONE_H",
+    "names": {
+      "pl": "Thomas the forger",
+      "en": "Thomas the Forger",
+      "de": "Thomas the forger"
+    },
+    "aliases": [
+      "INEXTREMO_ThomasTheForger",
+      "Thomas the Forger",
+      "Thomas the forger"
+    ],
+    "isTeacher": false,
+    "isFriend": false
+  },
+  {
+    "id": "INEXTREMO_Unicorn",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/InExtremo.d",
+    "name": "Unicorn",
+    "nameExpression": "\"Unicorn\"",
+    "guild": "GIL_NONE",
+    "guildFamily": "NONE",
+    "npctype": "npctype_main",
+    "level": 4,
+    "voice": 11,
+    "originalId": 393,
+    "flags": "0",
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_concert_393",
+    "attributes": {
+      "ATR_STRENGTH": 20,
+      "ATR_DEXTERITY": 10,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 88,
+      "ATR_HITPOINTS": 88
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      }
+    ],
+    "inventory": [],
+    "routines": [
+      {
+        "name": "Rtn_concert_393",
+        "slots": [
+          {
+            "activity": "TA_IEUnicorn",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "OCR_IE_UNICORN"
+          },
+          {
+            "activity": "TA_IEUnicorn",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "OCR_IE_UNICORN"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_off_393",
+        "slots": [
+          {
+            "activity": "TA_Stay",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "NOWHERE"
+          },
+          {
+            "activity": "TA_Stay",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "NOWHERE"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [],
+    "location": "OCR_IE_UNICORN",
+    "locationArea": "OCR",
+    "role": "OUTSIDER",
+    "combatStyle": "ONE_H",
+    "names": {
+      "pl": "Unicorn",
+      "en": "Unicorn",
+      "de": "Unicorn"
+    },
+    "aliases": [
+      "INEXTREMO_Unicorn",
+      "Unicorn"
+    ],
+    "isTeacher": false,
+    "isFriend": false
+  },
+  {
+    "id": "INEXTREMO_YellowPfeiffer",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/InExtremo.d",
+    "name": "Yellow Pfeiffer",
+    "nameExpression": "\"Yellow Pfeiffer\"",
+    "guild": "GIL_NONE",
+    "guildFamily": "NONE",
+    "npctype": "npctype_main",
+    "level": 4,
+    "voice": 11,
+    "originalId": 394,
+    "flags": "0",
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_concert_394",
+    "attributes": {
+      "ATR_STRENGTH": 20,
+      "ATR_DEXTERITY": 10,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 88,
+      "ATR_HITPOINTS": 88
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      }
+    ],
+    "inventory": [],
+    "routines": [
+      {
+        "name": "Rtn_concert_394",
+        "slots": [
+          {
+            "activity": "TA_IEPfeiffer",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "OCR_IE_PFEIFFER"
+          },
+          {
+            "activity": "TA_IEPfeiffer",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "OCR_IE_PFEIFFER"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_off_394",
+        "slots": [
+          {
+            "activity": "TA_Stay",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "NOWHERE"
+          },
+          {
+            "activity": "TA_Stay",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "NOWHERE"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [],
+    "location": "OCR_IE_PFEIFFER",
+    "locationArea": "OCR",
+    "role": "OUTSIDER",
+    "combatStyle": "ONE_H",
+    "names": {
+      "pl": "Yellow Pfeiffer",
+      "en": "Yellow Pfeiffer",
+      "de": "Yellow Pfeiffer"
+    },
+    "aliases": [
+      "INEXTREMO_YellowPfeiffer",
+      "Yellow Pfeiffer"
+    ],
+    "isTeacher": false,
     "isFriend": false
   },
   {
@@ -5576,7 +7654,8 @@
       "Rodriguez"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "400.jpg"
   },
   {
     "id": "KDF_401_Damarok",
@@ -5689,7 +7768,8 @@
       "Damarok"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "401.jpg"
   },
   {
     "id": "KDF_402_Corristo",
@@ -5824,7 +7904,8 @@
       "Corristo"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "402.jpg"
   },
   {
     "id": "KDF_403_Drago",
@@ -5937,7 +8018,8 @@
       "Drago"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "403.jpg"
   },
   {
     "id": "KDF_404_Xardas",
@@ -6060,7 +8142,8 @@
       "Xardas"
     ],
     "isTeacher": true,
-    "isFriend": true
+    "isFriend": true,
+    "photo": "404.jpg"
   },
   {
     "id": "KDF_405_Torrez",
@@ -6158,7 +8241,8 @@
       "Torrez"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "405.jpg"
   },
   {
     "id": "KDW_600_Saturas",
@@ -6265,7 +8349,216 @@
       "Saturas"
     ],
     "isTeacher": true,
-    "isFriend": true
+    "isFriend": true,
+    "photo": "600.jpg"
+  },
+  {
+    "id": "KDW_601_Myxir",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/KDW_601_Myxir.d",
+    "name": "Myxir",
+    "nameExpression": "\"Myxir\"",
+    "guild": "GIL_KDW",
+    "guildFamily": "WATER_MAGES",
+    "npctype": "npctype_main",
+    "level": 24,
+    "voice": 10,
+    "originalId": 601,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_MAGE",
+    "dailyRoutine": "Rtn_start_601",
+    "attributes": {
+      "ATR_STRENGTH": 55,
+      "ATR_DEXTERITY": 35,
+      "ATR_MANA_MAX": 96,
+      "ATR_MANA": 96,
+      "ATR_HITPOINTS_MAX": 328,
+      "ATR_HITPOINTS": 328
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_MAGE",
+        "skill": 6
+      }
+    ],
+    "inventory": [
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneThunderbolt",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Health_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Mana_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Plants_Flameberry_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Plants_RavenHerb_01",
+        "count": 1
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_601",
+        "slots": [
+          {
+            "activity": "TA_Sleep",
+            "from": "01:00",
+            "to": "04:00",
+            "waypoint": "NC_KDW03_IN"
+          },
+          {
+            "activity": "TA_ReadBook",
+            "from": "04:00",
+            "to": "01:00",
+            "waypoint": "NC_KDW03_IN"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "NC_DAM",
+        "note": "KDW03"
+      }
+    ],
+    "location": "NC_DAM",
+    "locationArea": "NC",
+    "role": "WATER_MAGE",
+    "combatStyle": "MAGIC",
+    "names": {
+      "pl": "Myxir",
+      "en": "Myxir",
+      "de": "Myxir"
+    },
+    "aliases": [
+      "KDW_601_Myxir",
+      "Myxir"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "601.jpg"
+  },
+  {
+    "id": "KDW_602_Merdarion",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/KDW_602_Merdarion.d",
+    "name": "Merdarion",
+    "nameExpression": "\"Merdarion\"",
+    "guild": "GIL_KDW",
+    "guildFamily": "WATER_MAGES",
+    "npctype": "npctype_main",
+    "level": 26,
+    "voice": 14,
+    "originalId": 602,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_MAGE",
+    "dailyRoutine": "Rtn_start_602",
+    "attributes": {
+      "ATR_STRENGTH": 45,
+      "ATR_DEXTERITY": 35,
+      "ATR_MANA_MAX": 90,
+      "ATR_MANA": 90,
+      "ATR_HITPOINTS_MAX": 352,
+      "ATR_HITPOINTS": 352
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_MAGE",
+        "skill": 6
+      }
+    ],
+    "inventory": [
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneChainlightning",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Health_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Potion_Mana_02",
+        "count": 2
+      },
+      {
+        "action": "EquipItem",
+        "item": "Lebensamulett",
+        "count": 1
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_602",
+        "slots": [
+          {
+            "activity": "TA_Sleep",
+            "from": "23:00",
+            "to": "06:00",
+            "waypoint": "NC_KDW01_IN"
+          },
+          {
+            "activity": "TA_ReadBook",
+            "from": "06:00",
+            "to": "23:00",
+            "waypoint": "NC_KDW01_IN"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_KDWAUFNAHME_602",
+        "slots": [
+          {
+            "activity": "TA_Position",
+            "from": "01:00",
+            "to": "05:00",
+            "waypoint": "NC_KDW_CAVE_STAIRS_MOVEMENT2"
+          },
+          {
+            "activity": "TA_Position",
+            "from": "05:00",
+            "to": "01:00",
+            "waypoint": "NC_KDW_CAVE_STAIRS_MOVEMENT2"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "NC_DAM",
+        "note": "KDW01"
+      }
+    ],
+    "location": "NC_DAM",
+    "locationArea": "NC",
+    "role": "WATER_MAGE",
+    "combatStyle": "MAGIC",
+    "names": {
+      "pl": "Merdarion",
+      "en": "Merdarion",
+      "de": "Merdarion"
+    },
+    "aliases": [
+      "KDW_602_Merdarion",
+      "Merdarion"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "602.jpg"
   },
   {
     "id": "KDW_603_Nefarius",
@@ -6374,7 +8667,8 @@
       "Nefarius"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "603.jpg"
   },
   {
     "id": "KDW_604_Cronos",
@@ -6456,7 +8750,8 @@
       "Cronos"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "604.jpg"
   },
   {
     "id": "KDW_605_Riordian",
@@ -6550,7 +8845,8 @@
       "Riordian"
     ],
     "isTeacher": false,
-    "isFriend": true
+    "isFriend": true,
+    "photo": "605.jpg"
   },
   {
     "id": "NON_1500_Gilbert",
@@ -6707,7 +9003,8 @@
       "Gilbert"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1500.jpg"
   },
   {
     "id": "NOV_1300_Talas",
@@ -6889,7 +9186,8 @@
       "Talas"
     ],
     "isTeacher": false,
-    "isFriend": true
+    "isFriend": true,
+    "photo": "1300.jpg"
   },
   {
     "id": "NOV_1301_Caine",
@@ -7065,7 +9363,8 @@
       "Caine"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1301.jpg"
   },
   {
     "id": "NOV_1302_Viran",
@@ -7157,7 +9456,8 @@
       "Viran"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1302.jpg"
   },
   {
     "id": "NOV_1303_Nyras",
@@ -7271,7 +9571,8 @@
       "Nyras"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1303.jpg"
   },
   {
     "id": "NOV_1304_Balor",
@@ -7368,7 +9669,8 @@
       "Balor"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1304.jpg"
   },
   {
     "id": "NOV_1305_Joru",
@@ -7445,7 +9747,8 @@
       "Joru"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1305.jpg"
   },
   {
     "id": "NOV_1310_Ghorim",
@@ -7539,7 +9842,8 @@
       "Ghorim"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1310.jpg"
   },
   {
     "id": "NOV_1312_Darrion",
@@ -8612,7 +10916,8 @@
       "Darrion"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1312.jpg"
   },
   {
     "id": "NOV_1330_BaalParvez",
@@ -8731,7 +11036,8 @@
       "Baal Parvez"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1330.jpg"
   },
   {
     "id": "NOV_1331_BaalTaran",
@@ -8832,7 +11138,8 @@
       "Baal Taran"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1331.jpg"
   },
   {
     "id": "NOV_1332_BaalKagan",
@@ -8924,7 +11231,8 @@
       "Baal Kagan"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1332.jpg"
   },
   {
     "id": "NOV_1333_BaalIsidro",
@@ -9016,7 +11324,8 @@
       "Baal Isidro"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1333.jpg"
   },
   {
     "id": "NOV_1356_Shrat",
@@ -9105,7 +11414,8 @@
       "Shrat"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1356.jpg"
   },
   {
     "id": "NOV_1357_Fortuno",
@@ -9202,7 +11512,8 @@
       "Fortuno"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1357.jpg"
   },
   {
     "id": "NOV_1358_Harlok",
@@ -9291,7 +11602,106 @@
       "Harlok"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1358.jpg"
+  },
+  {
+    "id": "NOV_1359_Novize",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/NOV_1359_Novize.d",
+    "name": "Opętany Nowicjusz",
+    "nameExpression": "NAME_MadNovice",
+    "guild": "GIL_GUR",
+    "guildFamily": "SWAMP_CAMP",
+    "npctype": "npctype_main",
+    "level": 30,
+    "voice": 3,
+    "originalId": 1359,
+    "flags": "0",
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_OT_1359",
+    "attributes": {
+      "ATR_STRENGTH": 115,
+      "ATR_DEXTERITY": 50,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 250,
+      "ATR_HITPOINTS": 250
+    },
+    "protection": {
+      "PROT_BLUNT": 500,
+      "PROT_EDGE": 500,
+      "PROT_POINT": 500,
+      "PROT_FIRE": 80,
+      "PROT_FLY": 80,
+      "PROT_MAGIC": 50
+    },
+    "talents": [],
+    "inventory": [
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Staff_02",
+        "count": 1
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_1359",
+        "slots": [
+          {
+            "activity": "TA_OTMeditate",
+            "from": "24:00",
+            "to": "06:00",
+            "waypoint": "TPL_408"
+          },
+          {
+            "activity": "TA_OTMeditate",
+            "from": "06:00",
+            "to": "24:00",
+            "waypoint": "TPL_408"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_OT_1359",
+        "slots": [
+          {
+            "activity": "TA_OTMeditate",
+            "from": "24:00",
+            "to": "06:00",
+            "waypoint": "TPL_387"
+          },
+          {
+            "activity": "TA_OTMeditate",
+            "from": "06:00",
+            "to": "24:00",
+            "waypoint": "TPL_387"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "TPL_408",
+        "note": "Betet zum Schläfer in der Schläferhalle"
+      }
+    ],
+    "location": "TPL_408",
+    "locationArea": "TPL",
+    "role": "GURU",
+    "combatStyle": "NON_COMBAT",
+    "names": {
+      "pl": "Opętany Nowicjusz",
+      "en": "Obsessed Novice",
+      "de": "Bessessener Novize"
+    },
+    "aliases": [
+      "NOV_1359_Novize",
+      "Obsessed Novice",
+      "Bessessener Novize"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "1359.jpg"
   },
   {
     "id": "NOV_1371_BaalNetbek",
@@ -9361,6 +11771,94 @@
     "aliases": [
       "NOV_1371_BaalNetbek",
       "Baal Netbek"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "1371.jpg"
+  },
+  {
+    "id": "ORC_2001_Sklave",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/Orc_Slaves.d",
+    "name": "Ork-Niewolnik",
+    "nameExpression": "\"Ork-Niewolnik\"",
+    "guild": "GIL_ORCSLAVE",
+    "guildFamily": "GIL_ORCSLAVE",
+    "npctype": "NPCTYPE_UNKNOWN",
+    "level": 3,
+    "voice": 17,
+    "originalId": 2001,
+    "flags": "0",
+    "fightTactic": "FAI_ORC",
+    "dailyRoutine": "rtn_Nothing_2001",
+    "attributes": {
+      "ATR_STRENGTH": 90,
+      "ATR_DEXTERITY": 20,
+      "ATR_HITPOINTS_MAX": 250,
+      "ATR_HITPOINTS": 250
+    },
+    "protection": {
+      "PROT_EDGE": 15,
+      "PROT_BLUNT": 15,
+      "PROT_POINT": 5,
+      "PROT_FIRE": 7,
+      "PROT_MAGIC": 0
+    },
+    "talents": [],
+    "inventory": [],
+    "routines": [
+      {
+        "name": "rtn_Nothing_2001",
+        "slots": [
+          {
+            "activity": "TA_Orc_SitOnFloor",
+            "from": "00:00",
+            "to": "12:00",
+            "waypoint": "OM_CAVE3_15"
+          },
+          {
+            "activity": "TA_Orc_SitOnFloor",
+            "from": "12:00",
+            "to": "00:00",
+            "waypoint": "OM_CAVE3_15"
+          }
+        ]
+      },
+      {
+        "name": "rtn_Stomper_2001",
+        "slots": [
+          {
+            "activity": "TA_Orc_Stomper",
+            "from": "00:00",
+            "to": "12:00",
+            "waypoint": "OM_CAVE3_15"
+          },
+          {
+            "activity": "TA_Orc_Stomper",
+            "from": "12:00",
+            "to": "00:00",
+            "waypoint": "OM_CAVE3_15"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "OM_122"
+      }
+    ],
+    "location": "OM_122",
+    "locationArea": "OM",
+    "role": "ORC",
+    "combatStyle": "NON_COMBAT",
+    "names": {
+      "pl": "Ork-Niewolnik",
+      "en": "Orc Slave",
+      "de": "Ork Sklave"
+    },
+    "aliases": [
+      "ORC_2001_Sklave",
+      "Orc Slave",
+      "Ork Sklave"
     ],
     "isTeacher": false,
     "isFriend": false
@@ -9456,7 +11954,8 @@
       "Varrag-Hashor"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "2995.jpg"
   },
   {
     "id": "ORC_Priest_2",
@@ -9967,6 +12466,154 @@
       "Lares"
     ],
     "isTeacher": true,
+    "isFriend": false,
+    "photo": "801.jpg"
+  },
+  {
+    "id": "ORG_804_Organisator",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/ORG_804_Organisator.d",
+    "name": "Szkodnik",
+    "nameExpression": "Name_Organisator",
+    "guild": "GIL_ORG",
+    "guildFamily": "NEW_CAMP",
+    "npctype": "NPCTYPE_MAIN",
+    "level": 15,
+    "voice": 6,
+    "originalId": 804,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_start_804",
+    "attributes": {
+      "ATR_STRENGTH": 80,
+      "ATR_DEXTERITY": 60,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 220,
+      "ATR_HITPOINTS": 220
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_BOW",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 2
+      }
+    ],
+    "inventory": [
+      {
+        "action": "CreateInvItems",
+        "item": "ItKeLockpick",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiNugget",
+        "count": 12
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoRice",
+        "count": 8
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoBooze",
+        "count": 2
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItLsTorch",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Potion_Health_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Cup_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFoMutton",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFoLoaf",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItAt_Teeth_01",
+        "count": 1
+      },
+      {
+        "action": "EquipItem",
+        "item": "ItMw_1H_Mace_War_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFoBooze",
+        "count": 1
+      },
+      {
+        "action": "EquipItem",
+        "item": "ItRw_Bow_Long_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAmArrow",
+        "count": 20
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_804",
+        "slots": [
+          {
+            "activity": "TA_GuardPassage",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "NC_HUT23_OUT_GUARD"
+          },
+          {
+            "activity": "TA_GuardPassage",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "NC_HUT23_OUT_GUARD"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "NC_DAM",
+        "note": "Durchgangs-Wache zu Lares, 24h"
+      }
+    ],
+    "location": "NC_DAM",
+    "locationArea": "NC",
+    "role": "ROGUE",
+    "combatStyle": "BOW",
+    "names": {
+      "pl": "Szkodnik",
+      "en": "Rogue",
+      "de": "Bandit"
+    },
+    "aliases": [
+      "ORG_804_Organisator",
+      "Rogue",
+      "Bandit"
+    ],
+    "isTeacher": false,
     "isFriend": false
   },
   {
@@ -10107,7 +12754,8 @@
       "Ratford"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "818.jpg"
   },
   {
     "id": "ORG_819_Drax",
@@ -10248,7 +12896,8 @@
       "Drax"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "819.jpg"
   },
   {
     "id": "ORG_826_Mordrag",
@@ -10414,7 +13063,8 @@
       "Mordrag"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "826.jpg"
   },
   {
     "id": "ORG_833_Buster",
@@ -10550,7 +13200,8 @@
       "Buster"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "833.jpg"
   },
   {
     "id": "ORG_840_Roscoe",
@@ -10690,7 +13341,8 @@
       "Roscoe"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "840.jpg"
   },
   {
     "id": "ORG_841_Silas",
@@ -10841,7 +13493,8 @@
       "Silas"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "841.jpg"
   },
   {
     "id": "ORG_842_Shrike",
@@ -11005,7 +13658,8 @@
       "Shrike"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "842.jpg"
   },
   {
     "id": "ORG_843_Sharky",
@@ -11118,7 +13772,8 @@
       "Sharky"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "843.jpg"
   },
   {
     "id": "ORG_844_Lefty",
@@ -11259,7 +13914,140 @@
       "Lefty"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "844.jpg"
+  },
+  {
+    "id": "ORG_845_Schlaeger",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/ORG_845_Schlaeger.d",
+    "name": "Bandzior",
+    "nameExpression": "Name_Schlaeger",
+    "guild": "GIL_ORG",
+    "guildFamily": "NEW_CAMP",
+    "npctype": "NPCTYPE_MAIN",
+    "level": 4,
+    "voice": 13,
+    "originalId": 845,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_start_845",
+    "attributes": {
+      "ATR_STRENGTH": 15,
+      "ATR_DEXTERITY": 15,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 88,
+      "ATR_HITPOINTS": 88
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_BOW",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_SNEAK",
+        "skill": 1
+      }
+    ],
+    "inventory": [
+      {
+        "action": "EquipItem",
+        "item": "ItMw_1H_Mace_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItKeLockpick",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiNugget",
+        "count": 12
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoRice",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoBooze",
+        "count": 3
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItLsTorch",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Potion_Health_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Plate_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Cup_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItAt_Claws_01",
+        "count": 1
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_845",
+        "slots": [
+          {
+            "activity": "TA_Stand",
+            "from": "08:10",
+            "to": "20:20",
+            "waypoint": "NC_PATH69"
+          },
+          {
+            "activity": "TA_SitCampfire",
+            "from": "20:20",
+            "to": "08:10",
+            "waypoint": "NC_PATH53"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "NC_DAM",
+        "note": "Ricelords Schläger, CF"
+      }
+    ],
+    "location": "NC_DAM",
+    "locationArea": "NC",
+    "role": "ROGUE",
+    "combatStyle": "BOW",
+    "names": {
+      "pl": "Bandzior",
+      "en": "Thug",
+      "de": "Schläger"
+    },
+    "aliases": [
+      "ORG_845_Schlaeger",
+      "Thug",
+      "Schläger"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "845.jpg"
   },
   {
     "id": "ORG_850_Wedge",
@@ -11404,7 +14192,8 @@
       "Wedge"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "850.jpg"
   },
   {
     "id": "ORG_851_Butch",
@@ -11545,7 +14334,8 @@
       "Butch"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "851.jpg"
   },
   {
     "id": "ORG_855_Wolf",
@@ -11702,7 +14492,319 @@
       "Wolf"
     ],
     "isTeacher": true,
+    "isFriend": false,
+    "photo": "855.jpg"
+  },
+  {
+    "id": "ORG_857_Calash",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/ORG_857_Calash.d",
+    "name": "Calash",
+    "nameExpression": "\"Calash\"",
+    "guild": "GIL_ORG",
+    "guildFamily": "NEW_CAMP",
+    "npctype": "Npctype_Main",
+    "level": 11,
+    "voice": 2,
+    "originalId": 857,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_prestart_857",
+    "attributes": {
+      "ATR_STRENGTH": 50,
+      "ATR_DEXTERITY": 30,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 172,
+      "ATR_HITPOINTS": 172
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_BOW",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_2H",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      }
+    ],
+    "inventory": [
+      {
+        "action": "CreateInvItem",
+        "item": "ItFoRice",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFoLoaf",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiNugget",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFoBooze",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItKeLockpick",
+        "count": 1
+      },
+      {
+        "action": "EquipItem",
+        "item": "ItMw_1H_Mace_War_01",
+        "count": 1
+      },
+      {
+        "action": "EquipItem",
+        "item": "ItRw_Bow_Long_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAmArrow",
+        "count": 10
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_prestart_857",
+        "slots": [
+          {
+            "activity": "TA_Position",
+            "from": "00:00",
+            "to": "12:00",
+            "waypoint": "OM_85"
+          },
+          {
+            "activity": "TA_Position",
+            "from": "12:00",
+            "to": "24:00",
+            "waypoint": "OM_85"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_start_857",
+        "slots": [
+          {
+            "activity": "TA_Position",
+            "from": "00:00",
+            "to": "12:00",
+            "waypoint": "OM_85"
+          },
+          {
+            "activity": "TA_Position",
+            "from": "12:00",
+            "to": "24:00",
+            "waypoint": "OM_85"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_OMFull_857",
+        "slots": [
+          {
+            "activity": "TA_Position",
+            "from": "00:00",
+            "to": "12:00",
+            "waypoint": "OM_85"
+          },
+          {
+            "activity": "TA_Position",
+            "from": "12:00",
+            "to": "24:00",
+            "waypoint": "OM_85"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [],
+    "location": "OM_85",
+    "locationArea": "OM",
+    "role": "ROGUE",
+    "combatStyle": "BOW",
+    "names": {
+      "pl": "Calash",
+      "en": "Calash",
+      "de": "Calash"
+    },
+    "aliases": [
+      "ORG_857_Calash",
+      "Calash"
+    ],
+    "isTeacher": false,
     "isFriend": false
+  },
+  {
+    "id": "ORG_858_Quentin",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/ORG_858_Quentin.d",
+    "name": "Quentin",
+    "nameExpression": "\"Quentin\"",
+    "guild": "GIL_NONE",
+    "guildFamily": "NONE",
+    "npctype": "Npctype_ROGUE",
+    "level": 12,
+    "voice": 7,
+    "originalId": 858,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_start_858",
+    "attributes": {
+      "ATR_STRENGTH": 60,
+      "ATR_DEXTERITY": 30,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 184,
+      "ATR_HITPOINTS": 184
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_BOW",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_2H",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      }
+    ],
+    "inventory": [
+      {
+        "action": "CreateInvItems",
+        "item": "ItKeLockpick",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiNugget",
+        "count": 15
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoRice",
+        "count": 8
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoBooze",
+        "count": 3
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItLsTorch",
+        "count": 2
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Potion_Health_01",
+        "count": 2
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Plate_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Barbknife_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFoLoaf",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItAt_Claws_01",
+        "count": 1
+      },
+      {
+        "action": "EquipItem",
+        "item": "ItMw_1H_Mace_War_01",
+        "count": 1
+      },
+      {
+        "action": "EquipItem",
+        "item": "ItRw_Bow_Long_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAmArrow",
+        "count": 20
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_858",
+        "slots": [
+          {
+            "activity": "TA_StandAround",
+            "from": "13:00",
+            "to": "14:00",
+            "waypoint": "LOCATION_11_13"
+          },
+          {
+            "activity": "TA_StandAround",
+            "from": "14:00",
+            "to": "13:00",
+            "waypoint": "LOCATION_11_13"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_OMFull_858",
+        "slots": [
+          {
+            "activity": "TA_StandAround",
+            "from": "13:00",
+            "to": "14:00",
+            "waypoint": "LOCATION_11_13"
+          },
+          {
+            "activity": "TA_StandAround",
+            "from": "14:00",
+            "to": "13:00",
+            "waypoint": "LOCATION_11_13"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "LOCATION_11_08"
+      }
+    ],
+    "location": "LOCATION_11_08",
+    "locationArea": "LOCATION_11",
+    "role": "OUTSIDER",
+    "combatStyle": "BOW",
+    "names": {
+      "pl": "Quentin",
+      "en": "Quentin",
+      "de": "Quentin"
+    },
+    "aliases": [
+      "ORG_858_Quentin",
+      "Quentin"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "858.jpg"
   },
   {
     "id": "ORG_859_Aidan",
@@ -11848,7 +14950,117 @@
       "Aidan"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "859.jpg"
+  },
+  {
+    "id": "ORG_860_Renyu",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/ORG_860_Renyu.d",
+    "name": "Mieszacz",
+    "nameExpression": "\"Mieszacz\"",
+    "guild": "GIL_ORG",
+    "guildFamily": "NEW_CAMP",
+    "npctype": "Npctype_Main",
+    "level": 8,
+    "voice": 6,
+    "originalId": 860,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_start_860",
+    "attributes": {
+      "ATR_STRENGTH": 30,
+      "ATR_DEXTERITY": 30,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 136,
+      "ATR_HITPOINTS": 136
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_BOW",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      }
+    ],
+    "inventory": [
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiNugget",
+        "count": 80
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Potion_Health_01",
+        "count": 2
+      },
+      {
+        "action": "EquipItem",
+        "item": "ItMw_1H_Mace_03",
+        "count": 1
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_860",
+        "slots": [
+          {
+            "activity": "TA_Smoke",
+            "from": "00:00",
+            "to": "08:00",
+            "waypoint": "LOCATION_23_CAVE_1_IN"
+          },
+          {
+            "activity": "TA_Smoke",
+            "from": "08:00",
+            "to": "24:00",
+            "waypoint": "LOCATION_23_CAVE_1_IN"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_arbeitslos_860",
+        "slots": [
+          {
+            "activity": "TA_Standaround",
+            "from": "20:00",
+            "to": "08:00",
+            "waypoint": "LOCATION_11_08"
+          },
+          {
+            "activity": "TA_Standaround",
+            "from": "08:00",
+            "to": "20:00",
+            "waypoint": "LOCATION_11_08"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "LOCATION_11_08"
+      }
+    ],
+    "location": "LOCATION_11_08",
+    "locationArea": "LOCATION_11",
+    "role": "ROGUE",
+    "combatStyle": "BOW",
+    "names": {
+      "pl": "Mieszacz",
+      "en": "Weed Mixer",
+      "de": "Krautmischer"
+    },
+    "aliases": [
+      "ORG_860_Renyu",
+      "Weed Mixer",
+      "Krautmischer"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "860.jpg"
   },
   {
     "id": "ORG_862_Jacko",
@@ -11976,7 +15188,8 @@
       "Jacko"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "862.jpg"
   },
   {
     "id": "ORG_873_Cipher",
@@ -12115,6 +15328,149 @@
     "aliases": [
       "ORG_873_Cipher",
       "Cipher"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "873.jpg"
+  },
+  {
+    "id": "ORG_875_Tuersteher",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/ORG_875_Tuersteher.d",
+    "name": "Wykidajło",
+    "nameExpression": "Name_Tuersteher",
+    "guild": "GIL_ORG",
+    "guildFamily": "NEW_CAMP",
+    "npctype": "NPCTYPE_MAIN",
+    "level": 8,
+    "voice": 13,
+    "originalId": 875,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_start_875",
+    "attributes": {
+      "ATR_STRENGTH": 30,
+      "ATR_DEXTERITY": 30,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 136,
+      "ATR_HITPOINTS": 136
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_BOW",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      }
+    ],
+    "inventory": [
+      {
+        "action": "CreateInvItems",
+        "item": "ItKeLockpick",
+        "count": 2
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiNugget",
+        "count": 15
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoRice",
+        "count": 8
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoBooze",
+        "count": 3
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItLsTorch",
+        "count": 2
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Potion_Health_01",
+        "count": 2
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Plate_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Barbknife_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFoMutton",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItAt_Claws_01",
+        "count": 1
+      },
+      {
+        "action": "EquipItem",
+        "item": "ItMw_1H_Mace_03",
+        "count": 1
+      },
+      {
+        "action": "EquipItem",
+        "item": "ItRw_Bow_Long_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAmArrow",
+        "count": 20
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_875",
+        "slots": [
+          {
+            "activity": "TA_GuardPassage",
+            "from": "23:00",
+            "to": "08:00",
+            "waypoint": "NC_TAVERN_OUT_GUARD1"
+          },
+          {
+            "activity": "TA_GuardPassage",
+            "from": "08:00",
+            "to": "23:00",
+            "waypoint": "NC_TAVERN_OUT_GUARD1"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "NC_DAM",
+        "note": "Kneipen-Tuersteher"
+      }
+    ],
+    "location": "NC_DAM",
+    "locationArea": "NC",
+    "role": "ROGUE",
+    "combatStyle": "BOW",
+    "names": {
+      "pl": "Wykidajło",
+      "en": "Bouncer",
+      "de": "Rausschmeisser"
+    },
+    "aliases": [
+      "ORG_875_Tuersteher",
+      "Bouncer",
+      "Rausschmeisser"
     ],
     "isTeacher": false,
     "isFriend": false
@@ -12593,6 +15949,56 @@
     "isFriend": true
   },
   {
+    "id": "PC_Hero",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/PC_Hero.d",
+    "name": "Ja",
+    "nameExpression": "\"Ja\"",
+    "guild": "GIL_NONE",
+    "guildFamily": "NONE",
+    "npctype": "NPCTYPE_MAIN",
+    "level": 0,
+    "voice": 15,
+    "originalId": 0,
+    "flags": null,
+    "fightTactic": null,
+    "dailyRoutine": null,
+    "attributes": {
+      "ATR_STRENGTH": 10,
+      "ATR_DEXTERITY": 10,
+      "ATR_MANA_MAX": 5,
+      "ATR_MANA": 5,
+      "ATR_HITPOINTS_MAX": 40,
+      "ATR_HITPOINTS": 40
+    },
+    "protection": {},
+    "talents": [],
+    "inventory": [
+      {
+        "action": "CreateInvItem",
+        "item": "ItWr_Fire_Letter_01",
+        "count": 1
+      }
+    ],
+    "routines": [],
+    "startupLocations": [],
+    "location": "UNKNOWN",
+    "locationArea": "UNKNOWN",
+    "role": "OUTSIDER",
+    "combatStyle": "NON_COMBAT",
+    "names": {
+      "pl": "Ja",
+      "en": "Me",
+      "de": "Ich"
+    },
+    "aliases": [
+      "PC_Hero",
+      "Me",
+      "Ich"
+    ],
+    "isTeacher": false,
+    "isFriend": false
+  },
+  {
     "id": "PC_Mage",
     "sourceFile": "_work/Data/Scripts/Content/Story/NPC/PC_Mage.d",
     "name": "Milten",
@@ -13059,6 +16465,1888 @@
     "isFriend": true
   },
   {
+    "id": "PC_Rockefeller",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/PC_Rockefeller.d",
+    "name": "Rockefeller",
+    "nameExpression": "\"Rockefeller\"",
+    "guild": "GIL_NONE",
+    "guildFamily": "NONE",
+    "npctype": "Npctype_Main",
+    "level": 30,
+    "voice": 15,
+    "originalId": 0,
+    "flags": null,
+    "fightTactic": null,
+    "dailyRoutine": null,
+    "attributes": {
+      "ATR_STRENGTH": 100,
+      "ATR_DEXTERITY": 100,
+      "ATR_MANA_MAX": 100,
+      "ATR_MANA": 100,
+      "ATR_HITPOINTS_MAX": 400,
+      "ATR_HITPOINTS": 400
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_PICKPOCKET",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_SNEAK",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_PICKLOCK",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_MAGE",
+        "skill": 6
+      },
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 2
+      },
+      {
+        "id": "NPC_TALENT_2H",
+        "skill": 2
+      },
+      {
+        "id": "NPC_TALENT_BOW",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_CROSSBOW",
+        "skill": 1
+      }
+    ],
+    "inventory": [
+      {
+        "action": "CreateInvItem",
+        "item": "ORE_ARMOR_H",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ORE_ARMOR_M",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "CRW_ARMOR_H",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "DMB_ARMOR_M",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "EBR_ARMOR_M",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "EBR_ARMOR_H",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "EBR_ARMOR_H2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "GRD_ARMOR_L",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "GRD_ARMOR_M",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "GRD_ARMOR_H",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "GUR_ARMOR_H",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "GUR_ARMOR_M",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "KDF_ARMOR_L",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "KDF_ARMOR_H",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "KDW_ARMOR_L",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "KDW_ARMOR_H",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "NOV_ARMOR_L",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "NOV_ARMOR_M",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "NOV_ARMOR_H",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ORG_ARMOR_L",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ORG_ARMOR_M",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ORG_ARMOR_H",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "SFB_ARMOR_L",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "SLD_ARMOR_L",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "SLD_ARMOR_M",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "SLD_ARMOR_H",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "STT_ARMOR_M",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "STT_ARMOR_H",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "TPL_ARMOR_L",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "TPL_ARMOR_M",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "TPL_ARMOR_H",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "VLK_ARMOR_M",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "VLK_ARMOR_L",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneLight",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneFirebolt",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneFireball",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneFirestorm",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneFireRain",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneTeleport1",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneTeleport2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneTeleport3",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollTeleport4",
+        "count": 20
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneTeleport5",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneHeal",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneChainLightning",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneThunderbolt",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneThunderball",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneIceCube",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneIceWave",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneDestroyUndead",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollTrfBloodfly",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollTrfCrawler",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollTrfLurker",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollTrfMeatbug",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollTrfMolerat",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollTrfOrcdog",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollTrfScavenger",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollTrfShadowbeast",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollTrfSnapper",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollTrfWaran",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollTrfWolf",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollSummonDemon",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollSummonSkeletons",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollSummonGolem",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollArmyOfDarkness",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneWindfist",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneStormfist",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneTelekinesis",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneCharm",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneSleep",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRunePyrokinesis",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneControl",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItArRuneBreathOfDeath",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollFear",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollBerzerk",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItArScrollShrink",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_mutton_01",
+        "count": 20
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoApple",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoLoaf",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoMutton",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoMuttonRaw",
+        "count": 20
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoCheese",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoRice",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoSoup",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoMeatbugragout",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoCrawlersoup",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoBooze",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoWine",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_wineberrys_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoBeer",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_Trollberrys_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_Flameberry_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_Nightshadow_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_Nightshadow_02",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_OrcHerb_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_OrcHerb_02",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_mushroom_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_mushroom_02",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_Stoneroot_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_Stoneroot_02",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_RavenHerb_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_RavenHerb_02",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_mountainmoos_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_mountainmoos_02",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_Berrys_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_Bloodwood_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_Towerwood_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_Seraphis_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_Velayis_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_Herb_03",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_Herb_02",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Plants_Herb_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMi_Plants_Swampherb_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItKeKey1",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItKeKey2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItKeKey3",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItKeKey4",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItKeLockpick",
+        "count": 100
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItLsTorch",
+        "count": 50
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiHammer",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiScoop",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiNugget",
+        "count": 1000
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMiAlarmhorn",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiSwordraw",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMiLute",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiStomper",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiFlask",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Pipe_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Barbknife_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_OldCoin_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Plate_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Candel_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Cup_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Cup_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Silverware_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Pan_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Mug_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Amphore_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Idol_Sleeper_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Idol_Ogront_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiJoint_1",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiJoint_2",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiJoint_3",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_Small_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_Small_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_Small_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_Small_04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_Small_05",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_Long_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_Long_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_Long_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_Long_04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_Long_05",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_Long_06",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_Long_07",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_Long_08",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_Long_09",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_War_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_War_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_War_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_War_04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_War_05",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Crossbow_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Crossbow_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Crossbow_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Crossbow_04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAmArrow",
+        "count": 50
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAmBolt",
+        "count": 50
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWrWorldmap",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWrWorldmap_Orc",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWrOMmap",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWrFocusmapPsi",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWrFocimap",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWrOCmap",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWrNCmap",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWrPSImap",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Goettergabe",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Geheimnisse_der_Zauberei",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Machtvolle_Kunst",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Elementare_Arcanei",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Wahre_Macht",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Das_magische_Erz",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schlacht_um_Varant1",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schlacht_um_Varant2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Myrtanas_Lyrik",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Lehren_der_Goetter1",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Lehren_der_Goetter2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Lehren_der_Goetter3",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Jagd_und_Beute",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Kampfkunst",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Astronomie",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Rezepturen",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Rezepturen2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWr_Book_Circle_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWr_Book_Circle_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWr_Book_Circle_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWr_Book_Circle_04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWr_Book_Circle_05",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWr_Book_Circle_06",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Club_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Poker_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sickle_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Mace_Light_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sledgehammer_01",
+        "count": 1
+      },
+      {
+        "action": "EquipItem",
+        "item": "ItMw_1H_Warhammer_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Warhammer_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Warhammer_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Hatchet_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Old_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Nailmace_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Short_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Short_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Short_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Short_04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Short_05",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Axe_Old_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Scythe_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Staff_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Staff_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Staff_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Mace_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Mace_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Mace_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Mace_04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_05",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Mace_War_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Mace_War_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Mace_War_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Mace_War_04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Long_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Long_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Long_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Long_04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Long_05",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Axe_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Axe_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Axe_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Broad_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Broad_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Broad_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Broad_04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Sword_Old_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Bastard_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Bastard_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Bastard_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_Bastard_04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Axe_Old_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Axe_Old_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Axe_Old_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Sword_Light_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Sword_Light_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Sword_Light_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Sword_Light_04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Sword_Light_05",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Axe_light_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Axe_light_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Axe_light_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Sword_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Sword_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Sword_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Sword_Heavy_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Sword_Heavy_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Sword_Heavy_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Sword_Heavy_04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Axe_Heavy_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Axe_Heavy_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Axe_Heavy_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_2H_Axe_Heavy_04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw2hOrcSword01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw2hOrcAxe01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw2hOrcAxe02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw2hOrcAxe03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw2hOrcAxe04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw2hOrcMace01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Amulet_Psi_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzamulett_Waffen",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzamulett_Feuer",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzamulett_Geschosse",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzamulett_Magie",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzamulett_Magie_Feuer",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzamulett_Waffen_Geschosse",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzamulett_Total",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Gewandtheitsamulett",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Gewandtheitsamulett2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Staerkeamulett",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Staerkeamulett2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Lebensamulett",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Amulett_der_Magie",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Amulett_der_Macht",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Amulett_der_Erleuchtung",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzring_Feuer1",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzring_Feuer2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzring_Geschosse1",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzring_Geschosse2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzring_Waffen1",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzring_Waffen2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzring_Magie1",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzring_Magie2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzring_Magie1_Fire1",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzring_Magie2_Fire2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzring_Geschosse1_Waffen1",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzring_Geschosse1_Waffen1",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzring_Geschosse2_Waffen2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzring_Total1",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Schutzring_Total2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Ring_des_Geschicks",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Ring_des_Geschicks2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Ring_des_Lebens",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Ring_des_Lebens2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Staerkering",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Staerkering2",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Ring_der_Magie",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Ring_der_Erleuchtung",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Machtring",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Mana_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Mana_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Mana_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Health_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Health_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Health_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Elixier",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Elixier_Egg",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Strength_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Strength_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Strength_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Dex_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Dex_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Dex_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Health_Perma_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Health_Perma_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Health_Perma_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Mana_Perma_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Mana_Perma_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Mana_Perma_03",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Master_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Master_02",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Water_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItFo_Potion_Haste_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Teeth_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Wolf_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Wolf_02",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Waran_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Claws_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Crawler_02",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Crawler_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Shadow_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Shadow_02",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Lurker_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Lurker_02",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Troll_02",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Troll_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Swampshark_02",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Swampshark_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Bloodfly_02",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Bloodfly_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAt_Meatbug_01",
+        "count": 5
+      }
+    ],
+    "routines": [],
+    "startupLocations": [],
+    "location": "UNKNOWN",
+    "locationArea": "UNKNOWN",
+    "role": "MAGE",
+    "combatStyle": "MAGIC",
+    "names": {
+      "pl": "Rockefeller",
+      "en": "Rockefeller",
+      "de": "Rockefeller"
+    },
+    "aliases": [
+      "PC_Rockefeller",
+      "Rockefeller"
+    ],
+    "isTeacher": false,
+    "isFriend": false
+  },
+  {
     "id": "PC_Thief",
     "sourceFile": "_work/Data/Scripts/Content/Story/NPC/PC_Thief.d",
     "name": "Diego",
@@ -13401,6 +18689,105 @@
       "Senyan"
     ],
     "isTeacher": false,
+    "isFriend": false,
+    "photo": "1000.jpg"
+  },
+  {
+    "id": "SFB_1001_Schuerfer",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/SFB_1001_Schuerfer.d",
+    "name": "Kret",
+    "nameExpression": "NAME_Schuerfer",
+    "guild": "GIL_SFB",
+    "guildFamily": "FREE_MINE",
+    "npctype": "NPCTYPE_MAIN",
+    "level": 3,
+    "voice": 2,
+    "originalId": 1001,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_COWARD",
+    "dailyRoutine": "Rtn_start_1001",
+    "attributes": {
+      "ATR_STRENGTH": 15,
+      "ATR_DEXTERITY": 10,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 76,
+      "ATR_HITPOINTS": 76
+    },
+    "protection": {},
+    "talents": [],
+    "inventory": [
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoRice",
+        "count": 6
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiNugget",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Cup_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Plate_01",
+        "count": 1
+      },
+      {
+        "action": "EquipItem",
+        "item": "ItMwPickaxe",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Hatchet_01",
+        "count": 1
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_1001",
+        "slots": [
+          {
+            "activity": "TA_StandAround",
+            "from": "10:00",
+            "to": "03:00",
+            "waypoint": "NC_TAVERN_ROOM06"
+          },
+          {
+            "activity": "TA_StandAround",
+            "from": "03:00",
+            "to": "10:00",
+            "waypoint": "NC_TAVERN_ROOM06"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "NC_DAM",
+        "note": "-------------Lagerfremde---------------------------------"
+      }
+    ],
+    "location": "NC_DAM",
+    "locationArea": "NC",
+    "role": "MINER",
+    "combatStyle": "NON_COMBAT",
+    "names": {
+      "pl": "Kret",
+      "en": "Scraper",
+      "de": "Schürfer"
+    },
+    "aliases": [
+      "SFB_1001_Schuerfer",
+      "Scraper",
+      "Schürfer"
+    ],
+    "isTeacher": false,
     "isFriend": false
   },
   {
@@ -13498,7 +18885,8 @@
       "Swiney"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1037.jpg"
   },
   {
     "id": "SLD_700_Lee",
@@ -13668,6 +19056,148 @@
       "Lee"
     ],
     "isTeacher": true,
+    "isFriend": false,
+    "photo": "700.jpg"
+  },
+  {
+    "id": "SLD_702_Soeldner",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/SLD_702_Soeldner.d",
+    "name": "Najemnik",
+    "nameExpression": "NAME_Soeldner",
+    "guild": "GIL_SLD",
+    "guildFamily": "NEW_CAMP",
+    "npctype": "NPCTYPE_MAIN",
+    "level": 18,
+    "voice": 4,
+    "originalId": 702,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_MASTER",
+    "dailyRoutine": "Rtn_start_702",
+    "attributes": {
+      "ATR_STRENGTH": 90,
+      "ATR_DEXTERITY": 70,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 256,
+      "ATR_HITPOINTS": 256
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_2H",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_BOW",
+        "skill": 1
+      }
+    ],
+    "inventory": [
+      {
+        "action": "EquipItem",
+        "item": "ItMw_1H_Mace_War_03",
+        "count": 1
+      },
+      {
+        "action": "EquipItem",
+        "item": "ItRw_Bow_Long_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAmArrow",
+        "count": 20
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoRice",
+        "count": 7
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoLoaf",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoMutton",
+        "count": 4
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiNugget",
+        "count": 24
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoBooze",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItLsTorch",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Potion_Health_02",
+        "count": 8
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Barbknife_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Mug_01",
+        "count": 1
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_702",
+        "slots": [
+          {
+            "activity": "TA_Guard",
+            "from": "06:00",
+            "to": "23:00",
+            "waypoint": "NC_SMALL_CAVE_ENTRANCE_GUARD"
+          },
+          {
+            "activity": "TA_Guard",
+            "from": "23:00",
+            "to": "06:00",
+            "waypoint": "NC_SMALL_CAVE_ENTRANCE_GUARD"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "NC_DAM",
+        "note": "24h Wache vor Lee (Ex-Grunt)"
+      }
+    ],
+    "location": "NC_DAM",
+    "locationArea": "NC",
+    "role": "MERCENARY",
+    "combatStyle": "BOW",
+    "names": {
+      "pl": "Najemnik",
+      "en": "Mercenary",
+      "de": "Söldner"
+    },
+    "aliases": [
+      "SLD_702_Soeldner",
+      "Mercenary",
+      "Söldner"
+    ],
+    "isTeacher": false,
     "isFriend": false
   },
   {
@@ -13825,7 +19355,8 @@
       "Cord"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "709.jpg"
   },
   {
     "id": "SLD_728_Jarvis",
@@ -13961,7 +19492,8 @@
       "Jarvis"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "728.jpg"
   },
   {
     "id": "SLD_729_Kharim",
@@ -14133,7 +19665,8 @@
       "Kharim"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "729.jpg"
   },
   {
     "id": "SLD_737_Torlof",
@@ -14279,7 +19812,154 @@
       "Torlof"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "737.jpg"
+  },
+  {
+    "id": "SLD_752_Okyl",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/SLD_752_Okyl.d",
+    "name": "Okyl",
+    "nameExpression": "\"Okyl\"",
+    "guild": "GIL_SLD",
+    "guildFamily": "NEW_CAMP",
+    "npctype": "NpcType_Main",
+    "level": 18,
+    "voice": 11,
+    "originalId": 752,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_RANGED",
+    "dailyRoutine": "Rtn_FMCstart_752",
+    "attributes": {
+      "ATR_STRENGTH": 90,
+      "ATR_DEXTERITY": 70,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 256,
+      "ATR_HITPOINTS": 256
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_2H",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_BOW",
+        "skill": 1
+      }
+    ],
+    "inventory": [
+      {
+        "action": "EquipItem",
+        "item": "ItMw_2H_Axe_Heavy_02",
+        "count": 1
+      },
+      {
+        "action": "EquipItem",
+        "item": "ItRw_Bow_Long_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAmArrow",
+        "count": 20
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoRice",
+        "count": 7
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoLoaf",
+        "count": 6
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoMutton",
+        "count": 4
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMiNugget",
+        "count": 18
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoBooze",
+        "count": 4
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItLsTorch",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Potion_Health_02",
+        "count": 9
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Barbknife_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_Amphore_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMi_Stuff_OldCoin_02",
+        "count": 1
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_FMCstart_752",
+        "slots": [
+          {
+            "activity": "TA_GuardPalisade",
+            "from": "01:00",
+            "to": "13:00",
+            "waypoint": "FMC_PATH07"
+          },
+          {
+            "activity": "TA_GuardPalisade",
+            "from": "13:00",
+            "to": "01:00",
+            "waypoint": "FMC_PATH07"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "FMC_ENTRANCE",
+        "note": "FMC-PalisadenWache"
+      }
+    ],
+    "location": "FMC_ENTRANCE",
+    "locationArea": "FMC",
+    "role": "MERCENARY",
+    "combatStyle": "BOW",
+    "names": {
+      "pl": "Okyl",
+      "en": "Okyl",
+      "de": "Okyl"
+    },
+    "aliases": [
+      "SLD_752_Okyl",
+      "Okyl"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "752.jpg"
   },
   {
     "id": "SLD_753_Baloro",
@@ -14410,7 +20090,251 @@
       "Baloro"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "753.jpg"
+  },
+  {
+    "id": "STT_300_Alberto",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/STT_300_Alberto.d",
+    "name": "Alberto",
+    "nameExpression": "\"Alberto\"",
+    "guild": "GIL_STT",
+    "guildFamily": "OLD_CAMP",
+    "npctype": "npctype_main",
+    "level": 13,
+    "voice": 12,
+    "originalId": 300,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_Start_300",
+    "attributes": {
+      "ATR_STRENGTH": 70,
+      "ATR_DEXTERITY": 40,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 196,
+      "ATR_HITPOINTS": 196
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 2
+      },
+      {
+        "id": "NPC_TALENT_SNEAK",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_PICKPOCKET",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_PICKLOCK",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_BOW",
+        "skill": 1
+      }
+    ],
+    "inventory": [
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoApple",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoBeer",
+        "count": 3
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Potion_Health_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMinugget",
+        "count": 50
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItMw_1H_Sword_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItRw_Bow_Small_04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAmArrow",
+        "count": 100
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_Start_300",
+        "slots": [
+          {
+            "activity": "TA_Stay",
+            "from": "00:00",
+            "to": "18:00",
+            "waypoint": "OM_203"
+          },
+          {
+            "activity": "TA_Stay",
+            "from": "18:03",
+            "to": "00:00",
+            "waypoint": "OM_203"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "OM_122"
+      }
+    ],
+    "location": "OM_122",
+    "locationArea": "OM",
+    "role": "SHADOW",
+    "combatStyle": "BOW",
+    "names": {
+      "pl": "Alberto",
+      "en": "Alberto",
+      "de": "Alberto"
+    },
+    "aliases": [
+      "STT_300_Alberto",
+      "Alberto"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "300.jpg"
+  },
+  {
+    "id": "STT_301_Ian",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/STT_301_Ian.d",
+    "name": "Ian",
+    "nameExpression": "\"Ian\"",
+    "guild": "GIL_STT",
+    "guildFamily": "OLD_CAMP",
+    "npctype": "NPCTYPE_MAIN",
+    "level": 13,
+    "voice": 13,
+    "originalId": 301,
+    "flags": "NPC_FLAG_IMMORTAL",
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_start_301",
+    "attributes": {
+      "ATR_STRENGTH": 70,
+      "ATR_DEXTERITY": 40,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 196,
+      "ATR_HITPOINTS": 196
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_BOW",
+        "skill": 2
+      },
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 2
+      },
+      {
+        "id": "NPC_TALENT_SNEAK",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_PICKPOCKET",
+        "skill": 1
+      },
+      {
+        "id": "NPC_TALENT_PICKLOCK",
+        "skill": 1
+      }
+    ],
+    "inventory": [
+      {
+        "action": "EquipItem",
+        "item": "ItMw_1H_Sword_04",
+        "count": 1
+      },
+      {
+        "action": "EquipItem",
+        "item": "ItRw_Bow_Small_04",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAmArrow",
+        "count": 25
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_301",
+        "slots": [
+          {
+            "activity": "TA_StandAround",
+            "from": "08:00",
+            "to": "18:00",
+            "waypoint": "OM_CAVE1_47_IAN"
+          },
+          {
+            "activity": "TA_StandAround",
+            "from": "18:00",
+            "to": "08:00",
+            "waypoint": "OM_CAVE1_47_IAN"
+          }
+        ]
+      },
+      {
+        "name": "Rtn_Kapitel2_301",
+        "slots": [
+          {
+            "activity": "TA_StandAround",
+            "from": "08:00",
+            "to": "18:00",
+            "waypoint": "OM_CAVE3_19"
+          },
+          {
+            "activity": "TA_Standaround",
+            "from": "18:00",
+            "to": "08:00",
+            "waypoint": "OM_CAVE3_19"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "OM_122"
+      }
+    ],
+    "location": "OM_122",
+    "locationArea": "OM",
+    "role": "SHADOW",
+    "combatStyle": "BOW",
+    "names": {
+      "pl": "Ian",
+      "en": "Ian",
+      "de": "Ian"
+    },
+    "aliases": [
+      "STT_301_Ian",
+      "Ian"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "301.jpg"
   },
   {
     "id": "STT_302_Viper",
@@ -14507,7 +20431,8 @@
       "Viper"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "302.jpg"
   },
   {
     "id": "STT_309_Whistler",
@@ -14615,7 +20540,8 @@
       "Whistler"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "309.jpg"
   },
   {
     "id": "STT_311_Fisk",
@@ -14692,7 +20618,8 @@
       "Fisk"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "311.jpg"
   },
   {
     "id": "STT_315_Sly",
@@ -14800,7 +20727,8 @@
       "Sly"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "315.jpg"
   },
   {
     "id": "STT_329_Dexter",
@@ -14959,7 +20887,8 @@
       "Dexter"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "329.jpg"
   },
   {
     "id": "STT_331_Fingers",
@@ -15059,7 +20988,125 @@
       "Fingers"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "331.jpg"
+  },
+  {
+    "id": "STT_335_Santino",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/STT_335_Santino.d",
+    "name": "Santino",
+    "nameExpression": "\"Santino\"",
+    "guild": "GIL_STT",
+    "guildFamily": "OLD_CAMP",
+    "npctype": "NPCTYPE_MAIN",
+    "level": 7,
+    "voice": 7,
+    "originalId": 335,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_STRONG",
+    "dailyRoutine": "Rtn_start_335",
+    "attributes": {
+      "ATR_STRENGTH": 30,
+      "ATR_DEXTERITY": 18,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 124,
+      "ATR_HITPOINTS": 124
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      }
+    ],
+    "inventory": [
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Potion_Water_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItKeLockpick",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItMinugget",
+        "count": 50
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "Itlstorch",
+        "count": 10
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFoBeer",
+        "count": 7
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Potion_Mana_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItFo_Potion_Health_01",
+        "count": 5
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAmArrow",
+        "count": 100
+      },
+      {
+        "action": "CreateInvItems",
+        "item": "ItAmBolt",
+        "count": 100
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_335",
+        "slots": [
+          {
+            "activity": "TA_Stay",
+            "from": "00:00",
+            "to": "12:00",
+            "waypoint": "OM_202"
+          },
+          {
+            "activity": "TA_Stay",
+            "from": "12:00",
+            "to": "24:00",
+            "waypoint": "OM_202"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "OM_122"
+      }
+    ],
+    "location": "OM_122",
+    "locationArea": "OM",
+    "role": "SHADOW",
+    "combatStyle": "ONE_H",
+    "names": {
+      "pl": "Santino",
+      "en": "Santino",
+      "de": "Santino"
+    },
+    "aliases": [
+      "STT_335_Santino",
+      "Santino"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "335.jpg"
   },
   {
     "id": "STT_336_Cavalorn",
@@ -15169,7 +21216,8 @@
       "Cavalorn"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "336.jpg"
   },
   {
     "id": "TPL_1400_GorNaBar",
@@ -15285,7 +21333,8 @@
       "Gor Na Bar"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1400.jpg"
   },
   {
     "id": "TPL_1401_GorNaKosh",
@@ -15392,7 +21441,8 @@
       "Gor Na Kosh"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1401.jpg"
   },
   {
     "id": "TPL_1402_GorNaToth",
@@ -15479,7 +21529,8 @@
       "Gor Na Toth"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1402.jpg"
   },
   {
     "id": "TPL_1405_GorNaRan",
@@ -15644,7 +21695,8 @@
       "Gor Na Ran"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1405.jpg"
   },
   {
     "id": "TPL_1406_Templer",
@@ -15732,7 +21784,8 @@
       "Kalom's Leibwache"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1406.jpg"
   },
   {
     "id": "TPL_1422_GorHanis",
@@ -15842,7 +21895,8 @@
       "Gor Hanis"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1422.jpg"
   },
   {
     "id": "TPL_1433_GorNaVid",
@@ -15945,7 +21999,8 @@
       "Gor Na Vid"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1433.jpg"
   },
   {
     "id": "TPL_1438_Templer",
@@ -16033,7 +22088,8 @@
       "Templer"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1438.jpg"
   },
   {
     "id": "TPL_1439_GorNaDrak",
@@ -16137,7 +22193,8 @@
       "Gor Na Drak"
     ],
     "isTeacher": true,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1439.jpg"
   },
   {
     "id": "TPL_1455_GorBoba",
@@ -16253,7 +22310,8 @@
       "Gor Boba"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "1455.jpg"
   },
   {
     "id": "VLK_511_Herek",
@@ -16363,7 +22421,8 @@
       "Herek"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "511.jpg"
   },
   {
     "id": "VLK_524_Dusty",
@@ -16474,7 +22533,8 @@
       "Dusty"
     ],
     "isTeacher": false,
-    "isFriend": true
+    "isFriend": true,
+    "photo": "524.jpg"
   },
   {
     "id": "VLK_530_Guy",
@@ -16575,7 +22635,8 @@
       "Guy"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "530.jpg"
   },
   {
     "id": "VLK_536_Kyle",
@@ -16667,7 +22728,8 @@
       "Kyle"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "536.jpg"
   },
   {
     "id": "VLK_538_Huno",
@@ -17262,7 +23324,8 @@
       "Huno"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "538.jpg"
   },
   {
     "id": "VLK_564_Jesse",
@@ -17356,7 +23419,8 @@
       "Jesse"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "564.jpg"
   },
   {
     "id": "VLK_572_Gravo",
@@ -17456,7 +23520,141 @@
       "Gravo"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "572.jpg"
+  },
+  {
+    "id": "VLK_573_Graham",
+    "sourceFile": "_work/Data/Scripts/Content/Story/NPC/VLK_573_Graham.d",
+    "name": "Graham",
+    "nameExpression": "\"Graham\"",
+    "guild": "GIL_VLK",
+    "guildFamily": "OLD_CAMP",
+    "npctype": "npctype_main",
+    "level": 4,
+    "voice": 2,
+    "originalId": 573,
+    "flags": null,
+    "fightTactic": "FAI_HUMAN_COWARD",
+    "dailyRoutine": "Rtn_start_573",
+    "attributes": {
+      "ATR_STRENGTH": 20,
+      "ATR_DEXTERITY": 10,
+      "ATR_MANA_MAX": 0,
+      "ATR_MANA": 0,
+      "ATR_HITPOINTS_MAX": 88,
+      "ATR_HITPOINTS": 88
+    },
+    "protection": {},
+    "talents": [
+      {
+        "id": "NPC_TALENT_1H",
+        "skill": 1
+      }
+    ],
+    "inventory": [
+      {
+        "action": "EquipItem",
+        "item": "ItMw_1H_Mace_Light_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "Itfo_Potion_Water_01",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWrOMmap",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWrWorldmap",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWrOCmap",
+        "count": 1
+      },
+      {
+        "action": "CreateInvItem",
+        "item": "ItWrPinup",
+        "count": 1
+      }
+    ],
+    "routines": [
+      {
+        "name": "Rtn_start_573",
+        "slots": [
+          {
+            "activity": "TA_Sleep",
+            "from": "22:30",
+            "to": "06:00",
+            "waypoint": "OCR_HUT_76"
+          },
+          {
+            "activity": "TA_SitAround",
+            "from": "06:00",
+            "to": "07:00",
+            "waypoint": "OCR_OUTSIDE_HUT_76"
+          },
+          {
+            "activity": "TA_StandAround",
+            "from": "07:00",
+            "to": "11:00",
+            "waypoint": "OCR_OUSIDE_HUT_77_INSERT"
+          },
+          {
+            "activity": "TA_WashSelf",
+            "from": "11:00",
+            "to": "11:30",
+            "waypoint": "OCR_LAKE_4"
+          },
+          {
+            "activity": "TA_RepairHut",
+            "from": "11:30",
+            "to": "12:00",
+            "waypoint": "OCR_OUTSIDE_HUT_76"
+          },
+          {
+            "activity": "TA_Boss",
+            "from": "12:00",
+            "to": "18:00",
+            "waypoint": "OCR_HUT_76"
+          },
+          {
+            "activity": "TA_SitCampfire",
+            "from": "18:00",
+            "to": "22:30",
+            "waypoint": "OCR_OUSIDE_HUT_77_INSERT"
+          }
+        ]
+      }
+    ],
+    "startupLocations": [
+      {
+        "waypoint": "OC1",
+        "note": "Hut 76, Graham Platz"
+      }
+    ],
+    "location": "OC1",
+    "locationArea": "OC1",
+    "role": "OUTSIDER",
+    "combatStyle": "ONE_H",
+    "names": {
+      "pl": "Graham",
+      "en": "Graham",
+      "de": "Graham"
+    },
+    "aliases": [
+      "VLK_573_Graham",
+      "Graham"
+    ],
+    "isTeacher": false,
+    "isFriend": false,
+    "photo": "573.jpg"
   },
   {
     "id": "VLK_574_Mud",
@@ -17555,7 +23753,8 @@
       "Mud"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "574.jpg"
   },
   {
     "id": "VLK_580_Grim",
@@ -17714,7 +23913,8 @@
       "Grim"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "580.jpg"
   },
   {
     "id": "VLK_581_Snaf",
@@ -17800,7 +24000,8 @@
       "Snaf"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "581.jpg"
   },
   {
     "id": "VLK_582_Melvin",
@@ -17882,7 +24083,8 @@
       "Melvin"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "582.jpg"
   },
   {
     "id": "VLK_583_Glen",
@@ -17958,7 +24160,8 @@
       "Glen"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "583.jpg"
   },
   {
     "id": "VLK_584_Snipes",
@@ -18049,7 +24252,8 @@
       "Snipes"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "584.jpg"
   },
   {
     "id": "VLK_585_Aleph",
@@ -18167,7 +24371,8 @@
       "Aleph"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "585.jpg"
   },
   {
     "id": "VLK_586_Grimes",
@@ -18254,7 +24459,8 @@
       "Grimes"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "586.jpg"
   },
   {
     "id": "VLK_587_Garp",
@@ -18350,6 +24556,7 @@
       "Garp"
     ],
     "isTeacher": false,
-    "isFriend": false
+    "isFriend": false,
+    "photo": "587.jpg"
   }
 ]

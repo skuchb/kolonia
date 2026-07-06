@@ -5,12 +5,14 @@
     "en": "Unified-EN",
     "de": "Unified-DE"
   },
-  "generatedAt": "2026-06-15T12:55:16.851Z",
-  "npcCount": 132,
-  "quoteCount": 1372,
+  "generatedAt": "2026-07-06T13:06:07.270Z",
+  "npcCount": 175,
+  "quoteCount": 1395,
+  "manhuntPoolCount": 121,
+  "portraitCount": 163,
   "rawNpcCount": 565,
   "rawQuoteCount": 1618,
-  "removedNpcCount": 433,
-  "removedQuoteCount": 246,
+  "removedNpcCount": 390,
+  "removedQuoteCount": 223,
   "duplicateNameCount": 22
 }

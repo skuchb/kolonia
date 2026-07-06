@@ -16,7 +16,7 @@ export function getDictionary(locale: Locale): Dictionary {
 }
 
 export function detectLocale(): Locale {
-  if (typeof navigator === "undefined") return "en";
+  if (typeof navigator === "undefined") return "pl";
   const candidates = [navigator.language, ...(navigator.languages ?? [])].map((value) =>
     value.toLowerCase(),
   );
@@ -25,7 +25,7 @@ export function detectLocale(): Locale {
     if (language.startsWith("de")) return "de";
     if (language.startsWith("en")) return "en";
   }
-  return "en";
+  return "pl";
 }
 
 export function campLabel(locale: Locale, camp: string): string {

@@ -51,7 +51,7 @@ function emptyStats(): ModeStats {
 export function defaultPersisted(): Persisted {
   return {
     version: 1,
-    lang: "en",
+    lang: "pl",
     camp: null,
     totalXp: 0,
     modes: {},

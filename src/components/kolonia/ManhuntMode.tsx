@@ -2,15 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { autocompleteNpc, resolveNpcByInput } from "@/src/core/autocomplete";
-import { shareResult } from "@/src/core/share";
-import { sendResult } from "@/src/core/telemetry";
 import type { Locale, Npc, PlayerCamp, Quote } from "@/src/core/types";
 import { npcDisplayName, npcPool } from "@/src/data";
 import { getDictionary } from "@/src/i18n";
 import { MANHUNT_CONFIG } from "@/src/modes/manhunt/config";
 import { manhuntFieldValue, manhuntPortraitUrl, manhuntQuoteLines } from "@/src/modes/manhunt/fields";
 import { manhuntPurseLabel } from "@/src/modes/manhunt/nuggets";
-import { buildManhuntShareText } from "@/src/modes/manhunt/share";
 import {
   canRevealManhuntField,
   isFieldRevealed,
@@ -27,12 +24,18 @@ import type { ManhuntFieldId, ManhuntState } from "@/src/modes/manhunt/types";
 import {
   trackManhuntMiss,
   trackManhuntReveal,
-  trackManhuntShare,
   trackManhuntStart,
   trackManhuntWin,
   trackManhuntZero,
 } from "@/src/modes/manhunt/telemetry";
-import { hunterLevelAfterGain, telemetryAttemptsFromNuggets, xpForManhunt } from "@/src/modes/manhunt/xp";
+import { xpForManhunt } from "@/src/modes/manhunt/xp";
+
+export type ManhuntWinResult = {
+  score: number;
+  xpEarned: number;
+  reveals: number;
+  misses: number;
+};
 
 const ORE_ICON = "/ruda.webp";
 
@@ -47,7 +50,7 @@ function NuggetPurse({ count }: { count: number }) {
   if (count <= 0) return null;
 
   return (
-    <div className="flex flex-wrap justify-end gap-1.5">
+    <div className="grid max-w-full grid-cols-[repeat(7,1.25rem)] justify-items-center gap-1.5 sm:flex sm:flex-wrap sm:justify-end">
       {Array.from({ length: count }, (_, index) => (
         <NuggetIcon key={index} />
       ))}
@@ -85,8 +88,6 @@ export function ManhuntMode({
   lang,
   camp,
   userId,
-  totalXp,
-  onXpGain,
   onWin,
 }: {
   targetNpc: Npc;
@@ -95,18 +96,13 @@ export function ManhuntMode({
   lang: Locale;
   camp: PlayerCamp | null;
   userId: string | null;
-  totalXp: number;
-  onXpGain: (amount: number) => void;
-  onWin: () => void;
+  onWin: (result: ManhuntWinResult) => void;
 }) {
   const dict = getDictionary(lang);
   const mh = dict.ui.manhunt;
   const [state, setState] = useState<ManhuntState>(() => loadManhuntState(puzzle));
   const [input, setInput] = useState("");
   const [activeSuggestion, setActiveSuggestion] = useState(0);
-  const [shareDone, setShareDone] = useState(false);
-  const [xpAwarded, setXpAwarded] = useState<number | null>(null);
-  const [levelUp, setLevelUp] = useState<number | null>(null);
   const winAwardedRef = useRef(false);
   const startSentRef = useRef(false);
   const zeroSentRef = useRef(false);
@@ -124,9 +120,6 @@ export function ManhuntMode({
     const loaded = loadManhuntState(puzzle);
     setState(loaded);
     setInput("");
-    setShareDone(false);
-    setXpAwarded(null);
-    setLevelUp(null);
     winAwardedRef.current = loaded.status === "won";
     startSentRef.current = loaded.revealCount > 0 || loaded.misses.length > 0 || loaded.status === "won";
     zeroSentRef.current = loaded.nuggets === 0 && loaded.status === "playing";
@@ -176,22 +169,16 @@ export function ManhuntMode({
     const xpEarned = xpForManhunt(score);
     const stats = recordManhuntStatsWin(puzzle, score);
     saveManhuntStats(stats);
-    setXpAwarded(xpEarned);
-    setLevelUp(hunterLevelAfterGain(totalXp, xpEarned));
-    onXpGain(xpEarned);
 
     const ms = Math.max(0, Date.now() - (nextState.startedAt ?? Date.now()));
     trackManhuntWin(puzzle, score, nextState.revealCount, nextState.misses.length, ms, camp, userId);
 
-    sendResult({
-      mode: "manhunt",
-      puzzle,
-      attempts: telemetryAttemptsFromNuggets(score),
-      solved: true,
-      camp,
-      userId,
+    onWin({
+      score,
+      xpEarned,
+      reveals: nextState.revealCount,
+      misses: nextState.misses.length,
     });
-    onWin();
   }
 
   function handleAccuse(npc?: Npc) {
@@ -236,22 +223,6 @@ export function ManhuntMode({
     }
   }
 
-  async function handleShare() {
-    const text = buildManhuntShareText({
-      puzzle,
-      score: state.nuggets,
-      reveals: state.revealCount,
-      misses: state.misses.length,
-      lang,
-    });
-    const result = await shareResult(text);
-    setShareDone(true);
-    trackManhuntShare(puzzle, state.nuggets, camp, userId);
-    if (result === "copied") {
-      // parent may show toast
-    }
-  }
-
   const missNames = state.misses
     .map((id) => {
       const npc = npcPool.find((entry) => entry.id === id);
@@ -262,7 +233,7 @@ export function ManhuntMode({
   return (
     <div className="space-y-5">
       <div className="flex flex-col gap-4 border-b border-[var(--panel-ink)]/20 pb-4 sm:flex-row sm:items-end sm:justify-end">
-        <div className="text-left sm:text-right">
+        <div className="min-w-0 w-full max-w-full text-left sm:ml-auto sm:w-auto sm:text-right">
           <div className="font-mono text-[10pt] uppercase tracking-[0.14em] text-[var(--panel-ink)]/70">
             {manhuntPurseLabel(state.nuggets, lang)}
           </div>
@@ -309,15 +280,6 @@ export function ManhuntMode({
             <div className="mt-4 border border-[var(--rust)]/40 bg-[var(--rust)]/10 p-4 text-center">
               <p className="font-mono text-[10pt] uppercase tracking-[0.14em] text-[var(--rust)]">{mh.brokeTitle}</p>
               <p className="mt-2 font-serif text-base leading-relaxed text-[var(--panel-ink)]">{brokeMessage}</p>
-            </div>
-          ) : null}
-
-          {state.status === "won" && xpAwarded !== null ? (
-            <div className="mt-4 space-y-1 border border-[var(--ember)]/35 bg-[var(--ember)]/10 p-4 text-center font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--panel-ink)]">
-              <p className="text-[var(--ember-bright)]">
-                {mh.experience}: +{xpAwarded} XP
-              </p>
-              {levelUp ? <p>{mh.levelUp.replace("{n}", String(levelUp))}</p> : null}
             </div>
           ) : null}
         </article>
@@ -385,15 +347,7 @@ export function ManhuntMode({
         ) : null}
       </div>
 
-      {state.status === "won" ? (
-        <button
-          className="min-h-12 w-full border border-[var(--panel-ink)] bg-[var(--panel-ink)] px-5 py-3 font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--panel)] transition-colors hover:bg-[var(--rust)] sm:w-auto"
-          onClick={() => void handleShare()}
-          type="button"
-        >
-          {shareDone ? dict.ui.shareShared : dict.ui.share}
-        </button>
-      ) : brokeOpen ? null : (
+      {state.status === "won" || brokeOpen ? null : (
         <div className="relative">
           <div className="flex flex-col border-2 border-[var(--panel-ink)]/70 bg-[var(--panel)]/60 sm:flex-row">
             <div className="flex min-w-0 flex-1">

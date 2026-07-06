@@ -56,6 +56,18 @@ const CANONICAL_DUPLICATE_NPC_IDS = new Set([
 const NON_STORY_QUOTE_PATTERN =
   /(trade|buy|sell|teach|train|learn|betterarmor|armor|refusetrain|pleaseTeachSTR|wherelearn)/i;
 
+const GENERIC_NPC_NAME_PATTERN = /^(kopacz|górnik|gornik)$/i;
+
+const GENERIC_NPC_NAME_KEYS = new Set([
+  "kopacz",
+  "gornik",
+  "straznik bramy",
+  "martwy straznik",
+  "straznik obozu",
+]);
+
+const EXCLUDED_NPC_TYPE_PATTERN = /(AMBIENT|GUARD|MINE)/;
+
 const MANUAL_TEACHER_NPC_IDS = new Set([
   "GUR_1202_CorAngar",
   "PC_Thief",
@@ -85,7 +97,7 @@ const MANUAL_TEACHER_NPC_IDS = new Set([
 ]);
 
 const MANHUNT_BUDGET = 14;
-const MANHUNT_PAID_FIELD_COSTS = [2, 3, 6, 1, 1, 7];
+const MANHUNT_PAID_FIELD_COSTS = [2, 3, 7, 1, 1, 7];
 const MANHUNT_MIN_POOL_SIZE = 30;
 const MANHUNT_CAMP_FAMILIES = new Set([
   "OLD_CAMP",
@@ -134,8 +146,7 @@ function enrichNpcPhotos(npcs, portraitIds) {
   });
 }
 
-function buildManhuntAnswerPool(npcs, quotes, portraitIds) {
-  const quoteNpcIds = new Set(quotes.map((quote) => quote.npcId));
+function buildManhuntAnswerPool(npcs, portraitIds) {
   const requirePhoto = portraitIds.size > 0;
   const pool = [];
 
@@ -144,7 +155,6 @@ function buildManhuntAnswerPool(npcs, quotes, portraitIds) {
     const issues = [];
 
     if (requirePhoto && (!portraitId || !portraitIds.has(portraitId))) issues.push("photo");
-    if (!quoteNpcIds.has(npc.id)) issues.push("quote");
     if (!npc.guild || npc.guild === "GIL_NONE") issues.push("guild");
     if (!MANHUNT_CAMP_FAMILIES.has(npc.guildFamily)) issues.push("camp");
     if (!npc.location || npc.location === "UNKNOWN") issues.push("location");
@@ -166,7 +176,7 @@ function validateManhuntAnswerPool(pool, portraitIds) {
 
   if (pool.length < MANHUNT_MIN_POOL_SIZE) {
     fail(
-      `manhunt answer pool too small: ${pool.length} eligible NPC (need ≥${MANHUNT_MIN_POOL_SIZE} with quote, camp, guild, location${portraitIds.size > 0 ? ", photo" : ""})`,
+      `manhunt answer pool too small: ${pool.length} eligible NPC (need ≥${MANHUNT_MIN_POOL_SIZE} with camp, guild, location${portraitIds.size > 0 ? ", photo" : ""})`,
     );
   }
 }
@@ -776,16 +786,51 @@ function duplicateStoryNameCounts(npcs) {
   return counts;
 }
 
-function isStoryNpcCandidate(npc, duplicateNameCounts) {
+function pickCanonicalDuplicateNpcs(npcs) {
+  const duplicateNameCounts = duplicateStoryNameCounts(npcs);
+  const chosenByName = new Map();
+
+  for (const npc of npcs) {
+    const name = normalizedStoryName(npc);
+    if (!name) continue;
+    if ((duplicateNameCounts.get(name) ?? 0) <= 1) continue;
+
+    const current = chosenByName.get(name);
+    if (!current) {
+      chosenByName.set(name, npc);
+      continue;
+    }
+
+    const prefer =
+      (CANONICAL_DUPLICATE_NPC_IDS.has(npc.id) ? 4 : 0) +
+      (MANUAL_TEACHER_NPC_IDS.has(npc.id) ? 2 : 0) +
+      (npc.npctype.toUpperCase().includes("MAIN") ? 1 : 0);
+    const currentScore =
+      (CANONICAL_DUPLICATE_NPC_IDS.has(current.id) ? 4 : 0) +
+      (MANUAL_TEACHER_NPC_IDS.has(current.id) ? 2 : 0) +
+      (current.npctype.toUpperCase().includes("MAIN") ? 1 : 0);
+
+    if (prefer > currentScore || (prefer === currentScore && npc.id.localeCompare(current.id) < 0)) {
+      chosenByName.set(name, npc);
+    }
+  }
+
+  return new Set([...chosenByName.values()].map((npc) => npc.id));
+}
+
+function isStoryNpcCandidate(npc, duplicateNameCounts, canonicalDuplicateIds) {
   if (CANONICAL_DUPLICATE_NPC_IDS.has(npc.id)) return true;
 
-  const duplicateCount = duplicateNameCounts.get(normalizedStoryName(npc)) ?? 0;
-  if (duplicateCount > 1) return false;
+  const name = normalizedStoryName(npc);
+  if (!name || GENERIC_NPC_NAME_PATTERN.test(name) || GENERIC_NPC_NAME_KEYS.has(name)) return false;
+
+  const duplicateCount = duplicateNameCounts.get(name) ?? 0;
+  if (duplicateCount > 1 && !canonicalDuplicateIds.has(npc.id)) return false;
 
   if (MANUAL_TEACHER_NPC_IDS.has(npc.id)) return true;
 
   const type = npc.npctype.toUpperCase();
-  if (type.includes("AMBIENT") || type.includes("GUARD") || type.includes("MINE")) return false;
+  if (EXCLUDED_NPC_TYPE_PATTERN.test(type)) return false;
 
   return true;
 }
@@ -798,15 +843,19 @@ function isStoryQuoteCandidate(quote) {
 
 function curateStoryData(npcs, quotes) {
   const duplicateNameCounts = duplicateStoryNameCounts(npcs);
+  const canonicalDuplicateIds = pickCanonicalDuplicateNpcs(npcs);
   const storyCandidateIds = new Set(
-    npcs.filter((npc) => isStoryNpcCandidate(npc, duplicateNameCounts)).map((npc) => npc.id),
+    npcs
+      .filter((npc) => isStoryNpcCandidate(npc, duplicateNameCounts, canonicalDuplicateIds))
+      .map((npc) => npc.id),
   );
 
   const storyQuotes = quotes.filter(
     (quote) => storyCandidateIds.has(quote.npcId) && isStoryQuoteCandidate(quote),
   );
-  const npcIdsWithQuotes = new Set(storyQuotes.map((quote) => quote.npcId));
-  const storyNpcs = npcs.filter((npc) => npcIdsWithQuotes.has(npc.id) || MANUAL_TEACHER_NPC_IDS.has(npc.id));
+  const storyNpcs = npcs.filter(
+    (npc) => storyCandidateIds.has(npc.id) || MANUAL_TEACHER_NPC_IDS.has(npc.id),
+  );
 
   return {
     npcs: storyNpcs,
@@ -920,13 +969,13 @@ async function main() {
   const npcs = curated.npcs;
   const quotes = curated.quotes;
 
-  if (npcs.length < 80) fail(`expected at least 80 story NPC from Gothic scripts, got ${npcs.length}`);
+  if (npcs.length < 150) fail(`expected at least 150 named NPC from Gothic scripts, got ${npcs.length}`);
   if (quotes.length < 400) fail(`expected at least 400 story dialogue quotes, got ${quotes.length}`);
 
   validateManhuntEconomy();
   const portraitIds = syncPortraitsToPublic();
   const npcsWithPhotos = enrichNpcPhotos(npcs, portraitIds);
-  const manhuntPool = buildManhuntAnswerPool(npcsWithPhotos, quotes, portraitIds);
+  const manhuntPool = buildManhuntAnswerPool(npcsWithPhotos, portraitIds);
   validateManhuntAnswerPool(manhuntPool, portraitIds);
   validateManhuntPoolPortraits(manhuntPool, npcsWithPhotos, portraitIds);
 
@@ -969,7 +1018,7 @@ async function main() {
   );
 
   console.log(
-    `build-data: OK - ${npcsWithPhotos.length} story NPC, ${quotes.length} story quotes, ` +
+    `build-data: OK - ${npcsWithPhotos.length} named NPC, ${quotes.length} story quotes, ` +
       `${manhuntPool.length} manhunt answers, ${portraitIds.size} portraits ` +
       `(removed ${curated.removedNpcCount} NPC, ${curated.removedQuoteCount} quotes)`,
   );

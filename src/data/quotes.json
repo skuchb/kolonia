@@ -9624,6 +9624,39 @@
     }
   },
   {
+    "id": "missions_dia_grd_281_gardist_dia_grd_281_guard_gate_15_00_0",
+    "npcId": "GRD_281_Gardist",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_GRD_281_Gardist.d",
+    "sourceFunction": "DIA_Grd_281_GuardGate_Info",
+    "outputIds": [
+      "DIA_Grd_281_GuardGate_15_00",
+      "DIA_Grd_281_GuardGate_07_01"
+    ],
+    "lines": [
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Co słychać?",
+          "en": "How's it going?",
+          "de": "Wie steht's?"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Wszystko w porządku. Jak okiem sięgnąć - żadnego bandyty z Nowego Obozu!",
+          "en": "Good. None of the rogues from the New Camp are to be seen anywhere!",
+          "de": "Gut. Weit und breit keiner von den Banditen aus dem Neuen Lager zu sehen!"
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
     "id": "missions_dia_gur_1200_yberion_sit_2_psi_yberion_bring_focus_fokus_15_01_0",
     "npcId": "GUR_1200_YBerion",
     "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_GUR_1200_YBerion.d",
@@ -29772,6 +29805,195 @@
     }
   },
   {
+    "id": "missions_dia_org_804_organisator_info_org_804_first_warn_info_06_00_0",
+    "npcId": "ORG_804_Organisator",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_ORG_804_Organisator.d",
+    "sourceFunction": "Info_Org_804_FirstWarn_Info",
+    "outputIds": [
+      "Info_Org_804_FirstWarn_Info_06_00"
+    ],
+    "lines": [
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Ludzie Gomeza nie mają tu wstępu! Spadaj!",
+          "en": "Gomez' servants don't get in here! Go!",
+          "de": "Gomez' Schergen kommen hier nicht rein! Geh!"
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_org_804_organisator_info_org_804_last_warn_06_00_0",
+    "npcId": "ORG_804_Organisator",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_ORG_804_Organisator.d",
+    "sourceFunction": "Info_Org_804_LastWarn_Info",
+    "outputIds": [
+      "Info_Org_804_LastWarn_06_00"
+    ],
+    "lines": [
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Idź stąd, póki jeszcze możesz!",
+          "en": "Go while you can still walk!",
+          "de": "Geh, solange du noch gehen KANNST!"
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_org_804_organisator_org_804_organisator_greet_06_00_0",
+    "npcId": "ORG_804_Organisator",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_ORG_804_Organisator.d",
+    "sourceFunction": "Org_804_Organisator_Greet_Info",
+    "outputIds": [
+      "Org_804_Organisator_Greet_06_00"
+    ],
+    "lines": [
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "A dokąd to się wybieramy?",
+          "en": "Now where are YOU going?",
+          "de": "Wo willst du denn hin?"
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_org_804_organisator_org_804_organisator_perm_15_00_0",
+    "npcId": "ORG_804_Organisator",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_ORG_804_Organisator.d",
+    "sourceFunction": "Org_804_Organisator_PERM_Info",
+    "outputIds": [
+      "Org_804_Organisator_PERM_15_00",
+      "Org_804_Organisator_PERM_06_01"
+    ],
+    "lines": [
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Mogę porozmawiać z Laresem?",
+          "en": "Can I see Lares?",
+          "de": "Kann ich zu Lares?"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Pogadaj najpierw z Roscoe.",
+          "en": "Sort that out with Roscoe.",
+          "de": "Klär das mit Roscoe."
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_org_804_organisator_org_804_organisator_to_lares_15_00_0",
+    "npcId": "ORG_804_Organisator",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_ORG_804_Organisator.d",
+    "sourceFunction": "Org_804_Organisator_ToLares_Info",
+    "outputIds": [
+      "Org_804_Organisator_ToLares_15_00",
+      "Org_804_Organisator_ToLares_06_01",
+      "Org_804_Organisator_ToLares_15_02",
+      "Org_804_Organisator_ToLares_06_03"
+    ],
+    "lines": [
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Chcę porozmawiać z Laresem.",
+          "en": "I want to see Lares.",
+          "de": "Ich will zu Lares."
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Ale Lares raczej nie będzie chciał rozmawiać z tobą.",
+          "en": "I doubt he'll talk to you.",
+          "de": "Kann mir kaum vorstell'n, dass er mit dir redet."
+        }
+      },
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "To już mój problem.",
+          "en": "Just you leave that to me.",
+          "de": "Das kannst du getrost mir überlassen."
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Jak sobie chcesz...",
+          "en": "I won't stop you.",
+          "de": "Ich werde dich nicht aufhalten."
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_org_804_organisator_org_804_organisator_way_to_15_00_0",
+    "npcId": "ORG_804_Organisator",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_ORG_804_Organisator.d",
+    "sourceFunction": "Org_804_Organisator_WayTo_Info",
+    "outputIds": [
+      "Org_804_Organisator_WayTo_15_00",
+      "Org_804_Organisator_WayTo_06_01"
+    ],
+    "lines": [
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "A gdzie MOGĘ pójść?",
+          "en": "Where CAN I go?",
+          "de": "Wo GEHT's hier denn hin?"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Do Laresa.",
+          "en": "To Lares.",
+          "de": "Zu Lares."
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
     "id": "missions_dia_org_818_ratford_org_818_ratford_more_locations_07_04_4",
     "npcId": "ORG_818_Ratford",
     "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_ORG_818_Ratford.d",
@@ -32679,6 +32901,48 @@
     }
   },
   {
+    "id": "missions_dia_org_845_schlaeger_dia_845_hello_15_00_0",
+    "npcId": "ORG_845_Schlaeger",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_ORG_845_Schlaeger.d",
+    "sourceFunction": "DIA_845_Hello_Info",
+    "outputIds": [
+      "DIA_845_Hello_15_00",
+      "DIA_845_Hello_13_01",
+      "DIA_845_Hello_13_02"
+    ],
+    "lines": [
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Co tu robisz?",
+          "en": "What are you doing here?",
+          "de": "Was machst du hier?"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Pracuję dla Ryżowego Księcia.",
+          "en": "I'm working for the Rice Lord.",
+          "de": "Ich arbeite für den Reislord."
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Jakbyś czegoś potrzebował, zapytaj Lewusa.",
+          "en": "If you need something, ask Lefty.",
+          "de": "Wenn du was willst, rede mit Lefty."
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
     "id": "missions_dia_org_850_wedge_dia_wedge_hello_15_00_0",
     "npcId": "ORG_850_Wedge",
     "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_ORG_850_Wedge.d",
@@ -33900,6 +34164,207 @@
     }
   },
   {
+    "id": "missions_dia_org_860_renyu_org_860_renyu_deal_250_info_15_01_0",
+    "npcId": "ORG_860_Renyu",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_ORG_860_Renyu.d",
+    "sourceFunction": "ORG_860_Renyu_DEAL_250",
+    "outputIds": [
+      "ORG_860_Renyu_DEAL_250_Info_15_01",
+      "ORG_860_Renyu_DEAL_250_Info_06_02",
+      "ORG_860_Renyu_DEAL_250_Info_15_03"
+    ],
+    "lines": [
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Gebt mir 250 erz, dann sorge ich dafür, das die Bruderschaft euch in ruhe lässt.",
+          "en": "Gebt mir 250 erz, dann sorge ich dafür, das die Bruderschaft euch in ruhe lässt.",
+          "de": "Gebt mir 250 erz, dann sorge ich dafür, das die Bruderschaft euch in ruhe lässt."
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Hmmm.... nun gut. Einverstanden.Aber wenn du versuchst, mich reinzulegen, dann wirst du dri wünschen mich nie getroffen zu haben.Habn wir eine Abmachung?",
+          "en": "Hmmm.... nun gut. Einverstanden.Aber wenn du versuchst, mich reinzulegen, dann wirst du dri wünschen mich nie getroffen zu haben.Habn wir eine Abmachung?",
+          "de": "Hmmm.... nun gut. Einverstanden.Aber wenn du versuchst, mich reinzulegen, dann wirst du dri wünschen mich nie getroffen zu haben.Habn wir eine Abmachung?"
+        }
+      },
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Klar, her mit dem Erz!",
+          "en": "Klar, her mit dem Erz!",
+          "de": "Klar, her mit dem Erz!"
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_org_860_renyu_org_860_renyu_deal_500_info_15_01_0",
+    "npcId": "ORG_860_Renyu",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_ORG_860_Renyu.d",
+    "sourceFunction": "ORG_860_Renyu_DEAL_500",
+    "outputIds": [
+      "ORG_860_Renyu_DEAL_500_Info_15_01",
+      "ORG_860_Renyu_DEAL_500_Info_06_02",
+      "ORG_860_Renyu_DEAL_500_Info_15_03",
+      "ORG_860_Renyu_DEAL_500_Info_06_04"
+    ],
+    "lines": [
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Gebt mir 500 Erz dann sorge ich dafür, das die Bruderschaft euch in Ruhe lässt.!",
+          "en": "Gebt mir 500 Erz dann sorge ich dafür, das die Bruderschaft euch in Ruhe lässt.!",
+          "de": "Gebt mir 500 Erz dann sorge ich dafür, das die Bruderschaft euch in Ruhe lässt.!"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Und wenn wir nicht zahlen? Was machst du dann?",
+          "en": "Und wenn wir nicht zahlen? Was machst du dann?",
+          "de": "Und wenn wir nicht zahlen? Was machst du dann?"
+        }
+      },
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Dann schicke ich euch ein paar Templer vorbei, die bekommen alle einen dicken Sack Kraut von mir, wenn sich euch fertigmachen!",
+          "en": "Dann schicke ich euch ein paar Templer vorbei, die bekommen alle einen dicken Sack Kraut von mir, wenn sich euch fertigmachen!",
+          "de": "Dann schicke ich euch ein paar Templer vorbei, die bekommen alle einen dicken Sack Kraut von mir, wenn sich euch fertigmachen!"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Weißt du, ich denke wir sollten der Bruderschaft zeigen,das wir es ernst meinen. Wir schicken ihnen deine Überreste, als Warnung!",
+          "en": "Weißt du, ich denke wir sollten der Bruderschaft zeigen,das wir es ernst meinen. Wir schicken ihnen deine Überreste, als Warnung!",
+          "de": "Weißt du, ich denke wir sollten der Bruderschaft zeigen,das wir es ernst meinen. Wir schicken ihnen deine Überreste, als Warnung!"
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_org_860_renyu_org_860_renyu_deal_info_15_01_0",
+    "npcId": "ORG_860_Renyu",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_ORG_860_Renyu.d",
+    "sourceFunction": "ORG_860_Renyu_DEAL_Info",
+    "outputIds": [
+      "ORG_860_Renyu_DEAL_Info_15_01",
+      "ORG_860_Renyu_DEAL_Info_06_02",
+      "ORG_860_Renyu_DEAL_Info_15_03",
+      "ORG_860_Renyu_DEAL_Info_06_04"
+    ],
+    "lines": [
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Ich bin hier, um euch ein Angebot zu unterbreiten.",
+          "en": "Ich bin hier, um euch ein Angebot zu unterbreiten.",
+          "de": "Ich bin hier, um euch ein Angebot zu unterbreiten."
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Da bin ich ja mal gespannt, um was gehts?",
+          "en": "Da bin ich ja mal gespannt, um was gehts?",
+          "de": "Da bin ich ja mal gespannt, um was gehts?"
+        }
+      },
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Die Bruderschaft weiß, was ihr hier veranstaltet.Sie schicken mich um dafür zu sorgen das ihr aufhört!",
+          "en": "Die Bruderschaft weiß, was ihr hier veranstaltet.Sie schicken mich um dafür zu sorgen das ihr aufhört!",
+          "de": "Die Bruderschaft weiß, was ihr hier veranstaltet.Sie schicken mich um dafür zu sorgen das ihr aufhört!"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Komm zur Sache!",
+          "en": "Komm zur Sache!",
+          "de": "Komm zur Sache!"
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_org_860_renyu_org_860_renyu_get_lost_info_06_00_0",
+    "npcId": "ORG_860_Renyu",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_ORG_860_Renyu.d",
+    "sourceFunction": "ORG_860_Renyu_GetLost_Info",
+    "outputIds": [
+      "Org_860_Renyu_GetLost_Info_06_00"
+    ],
+    "lines": [
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Spadaj!",
+          "en": "Get lost!",
+          "de": "Verpiß dich!"
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_org_860_renyu_org_860_renyu_lost_info_15_01_0",
+    "npcId": "ORG_860_Renyu",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_ORG_860_Renyu.d",
+    "sourceFunction": "ORG_860_Renyu_LOST_Info",
+    "outputIds": [
+      "ORG_860_Renyu_LOST_Info_15_01",
+      "ORG_860_Renyu_LOST_Info_06_02"
+    ],
+    "lines": [
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Was sagst du jetzt? Du mieser Schwächling!",
+          "en": "Was sagst du jetzt? Du mieser Schwächling!",
+          "de": "Was sagst du jetzt? Du mieser Schwächling!"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "In Ordnung, mann du hast gewonnen! Wir werden aufhören! Das Kraut gehört dir!",
+          "en": "In Ordnung, mann du hast gewonnen! Wir werden aufhören! Das Kraut gehört dir!",
+          "de": "In Ordnung, mann du hast gewonnen! Wir werden aufhören! Das Kraut gehört dir!"
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
     "id": "missions_dia_org_862_jacko_org_862_jacko_angebot_info_15_01_0",
     "npcId": "ORG_862_Jacko",
     "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_ORG_862_Jacko.d",
@@ -34433,6 +34898,48 @@
           "pl": "Jesteś jednym z ludzi, którzy bez przerwy napadają Stary Obóz?",
           "en": "You're one of the guys who keep raiding the Old Camp?",
           "de": "Du bist einer von den Jungs, die ständig das alte Lager überfallen?"
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_org_875_tuersteher_dia_org_875_perm_15_00_0",
+    "npcId": "ORG_875_Tuersteher",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_ORG_875_Tuersteher.d",
+    "sourceFunction": "DIA_Org_875_PERM_Info",
+    "outputIds": [
+      "DIA_Org_875_PERM_15_00",
+      "DIA_Org_875_PERM_13_01",
+      "DIA_Org_875_PERM_13_02"
+    ],
+    "lines": [
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Wpuszczacie tu tylko Szkodniki i Krety?",
+          "en": "You only let in rogues and scrapers?",
+          "de": "Ihr lasst hier nur Banditen und Schürfer rein?"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Nie mamy też nic do Braci z Sekty.",
+          "en": "We don't mind the sect brothers either.",
+          "de": "Gegen die Brüder aus der Sekte haben wir auch nichts."
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Ale poza nimi nie wpuszczamy tu nikogo.",
+          "en": "But apart from that, nobody gets in here.",
+          "de": "Aber sonst kommt uns hier keiner rein."
         }
       }
     ],
@@ -43422,6 +43929,39 @@
     }
   },
   {
+    "id": "missions_dia_sfb_1001_schuerfer_dia_sfb_1001_hello_15_00_0",
+    "npcId": "SFB_1001_Schuerfer",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_SFB_1001_Schuerfer.d",
+    "sourceFunction": "DIA_Sfb_1001_Hello_Info",
+    "outputIds": [
+      "DIA_Sfb_1001_Hello_15_00",
+      "DIA_Sfb_1001_Hello_02_01"
+    ],
+    "lines": [
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Co słychać w kopalni?",
+          "en": "Well, how's the mine going on?",
+          "de": "Na, wie steht's in der Mine?"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Większość roboty mamy już za sobą. Jeszcze tylko kilka tygodni i będziemy mieli dość.",
+          "en": "We've done most of it. Just a few more weeks and we'll have enough.",
+          "de": "Wir haben das Meiste hinter uns. Nur noch wenige Wochen, dann haben wir genug."
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
     "id": "missions_dia_sfb_1037_swiney_info_swiney_hello_15_00_0",
     "npcId": "SFB_1037_Swiney",
     "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_SFB_1037_Swiney.d",
@@ -44528,6 +45068,123 @@
           "pl": "Twój przeciwnik nie będzie miał okazji podejść bliżej.",
           "en": "Your opponent won't stand a chance of coming at you.",
           "de": "Damit bietest du dem Gegner keine Chance, an dich ranzukommen."
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_sld_702_soeldner_dia_sld_702_first_04_00_0",
+    "npcId": "SLD_702_Soeldner",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_SLD_702_Soeldner.d",
+    "sourceFunction": "DIA_Sld_702_First_Info",
+    "outputIds": [
+      "DIA_Sld_702_First_04_00",
+      "DIA_Sld_702_First_15_01",
+      "DIA_Sld_702_First_04_02"
+    ],
+    "lines": [
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Wiesz dokąd leziesz?",
+          "en": "D'you know where you're heading?",
+          "de": "Du weißt, wo du hier hinkommst?"
+        }
+      },
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Nie, dokąd?",
+          "en": "Where?",
+          "de": "Wohin?"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "To droga do siedziby naszego przywódcy - Lee.",
+          "en": "You're heading straight for Lee, our leader.",
+          "de": "Hier geht es zu Lee, unserem Anführer."
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_sld_702_soeldner_dia_sld_702_perm_04_04_4",
+    "npcId": "SLD_702_Soeldner",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_SLD_702_Soeldner.d",
+    "sourceFunction": "DIA_Sld_702_PERM_Info",
+    "outputIds": [
+      "DIA_Sld_702_PERM_04_04"
+    ],
+    "lines": [
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "MY jesteśmy tu tylko na wypadek, gdyby nas potrzebował.",
+          "en": "WE are only here in case he needs us.",
+          "de": "WIR sind nur hier, falls er uns braucht."
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_sld_702_soeldner_dia_sld_702_perm_15_00_0",
+    "npcId": "SLD_702_Soeldner",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_SLD_702_Soeldner.d",
+    "sourceFunction": "DIA_Sld_702_PERM_Info",
+    "outputIds": [
+      "DIA_Sld_702_PERM_15_00",
+      "DIA_Sld_702_PERM_04_01",
+      "DIA_Sld_702_PERM_04_02",
+      "DIA_Sld_702_PERM_04_03"
+    ],
+    "lines": [
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Co muszę zrobić, żebyś pozwolił mi zobaczyć się z Lee?",
+          "en": "What do I need to do to make you let me see Lee?",
+          "de": "Was muss ich machen, damit du mich zu Lee läßt?"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Nic!",
+          "en": "Nothing!",
+          "de": "Gar nichts!"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Tu nie Stary Obóz, a Lee to nie Gomez!",
+          "en": "This isn't the Old Camp, and Lee isn't Gomez!",
+          "de": "Das hier ist nicht das alte Lager und Lee ist nicht Gomez!"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "On nie musi chować się za plecami całej armii siepaczy. Sam potrafi o siebie zadbać.",
+          "en": "He doesn't need an army of henchmen to hide behind. He can defend himself.",
+          "de": "Er braucht keine Armee von Schergen, hinter denen er sich verstecken kann. Er kann sich selber verteidigen."
         }
       }
     ],
@@ -49769,6 +50426,207 @@
           "pl": "W pobliżu głównego szybu znajduje się wiele jaskiń, ale nie udało się nam jeszcze odnaleźć gniazda.",
           "en": "There are many caves next to the main shaft in the mine, but we haven't found any nest.",
           "de": "Hier in der Mine gibt es viele Höhlen neben dem Hauptschacht, aber dort haben wir noch kein Nest gefunden."
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_tpl_1438_templer_tpl_1438_templer_eggsearch_info_15_01_0",
+    "npcId": "TPL_1438_Templer",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_TPL_1438_Templer.d",
+    "sourceFunction": "Tpl_1438_Templer_EGGSEARCH_Info",
+    "outputIds": [
+      "Tpl_1438_Templer_EGGSEARCH_Info_15_01",
+      "Tpl_1438_Templer_EGGSEARCH_Info_13_02"
+    ],
+    "lines": [
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Szukam gniazda pełzaczy.",
+          "en": "I'm looking for the nest of the crawlers.",
+          "de": "Ich bin auf der Suche nach dem Crawlernest."
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Porozmawiaj z Gor Na Videm, Gor Na Koshem lub Gor Na Barem. Oni wiedzą więcej o pełzaczach niż ja.",
+          "en": "Go and see Gor Na Vid, Gor Na Kosh or Gor Na Bar. They know more about the crawlers than I do.",
+          "de": "Wende dich an Gor Na Vid, Gor Na Kosh oder Gor Na Bar. Die kennen sich da unten bei den Crawlern besser aus als ich."
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_tpl_1438_templer_tpl_1438_templer_exit_info_15_01_0",
+    "npcId": "TPL_1438_Templer",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_TPL_1438_Templer.d",
+    "sourceFunction": "Tpl_1438_Templer_Exit_Info",
+    "outputIds": [
+      "Tpl_1438_Templer_Exit_Info_15_01",
+      "Tpl_1438_Templer_Exit_Info_13_02"
+    ],
+    "lines": [
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Do zobaczenia.",
+          "en": "See you later.",
+          "de": "Bis dann."
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Niech nadejdzie przebudzenie Śniącego.",
+          "en": "May the Sleeper awaken!",
+          "de": "Möge der Schläfer erwachen!"
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_tpl_1438_templer_tpl_1438_templer_kalom_info_15_01_0",
+    "npcId": "TPL_1438_Templer",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_TPL_1438_Templer.d",
+    "sourceFunction": "Tpl_1438_Templer_KALOM_Info",
+    "outputIds": [
+      "Tpl_1438_Templer_KALOM_Info_15_01",
+      "Tpl_1438_Templer_KALOM_Info_13_02",
+      "Tpl_1438_Templer_KALOM_Info_13_03",
+      "Tpl_1438_Templer_KALOM_Info_15_04"
+    ],
+    "lines": [
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Kim jest Cor Kalom?",
+          "en": "Who is Cor Kalom?",
+          "de": "Wer ist Cor Kalom?"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "To jeden z najpotężniejszych ludzi w całym Bractwie. Posiadł wiele tajemnic magii i potrafi kontrolować ludzkie myśli!",
+          "en": "One of the most powerful men in the whole Brotherhood. He knows many secrets, he can control other people's thoughts!",
+          "de": "Er ist einer der mächtigsten Männer in der Bruderschaft. Er kennt viele Geheimnisse und kann die Gedanken anderer kontrollieren!"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Oprócz tego jest również alchemikiem. Przygotowuje wywary, które pozwolą nam nawiązać kontakt ze Śniącym. Jeśli chcesz go poznać, udaj się do naszego obozu. Zawsze chętnie witamy nowych gości!",
+          "en": "Apart from that, he's an alchemist. He brews potions so we can make spiritual contact with the Sleeper. Just go down to the Camp. We're always looking for people!",
+          "de": "Zudem ist er der Alchemist. Er braut Tränke, damit wir geistigen Kontakt zum Schläfer herstellen können. Geh doch einfach mal ins Lager. Wir suchen immer gute Leute!"
+        }
+      },
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Zastanowię się...",
+          "en": "I'll think about it.",
+          "de": "Ich werde mal darüber nachdenken."
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_tpl_1438_templer_tpl_1438_templer_why_info_15_01_0",
+    "npcId": "TPL_1438_Templer",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_TPL_1438_Templer.d",
+    "sourceFunction": "Tpl_1438_Templer_WHY_Info",
+    "outputIds": [
+      "Tpl_1438_Templer_WHY_Info_15_01",
+      "Tpl_1438_Templer_WHY_Info_13_02",
+      "Tpl_1438_Templer_WHY_Info_15_03",
+      "Tpl_1438_Templer_WHY_Info_13_04"
+    ],
+    "lines": [
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Dlaczego polujecie na pełzacze?",
+          "en": "Why do you hunt the crawlers?",
+          "de": "Warum jagt ihr die Crawler?"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Ich wnętrzności zawierają niezwykle cenną wydzielinę.",
+          "en": "For their mandibles. They contain a valuable secretion.",
+          "de": "Wegen ihren Zangen. Sie enthalten ein wertvolles Sekret."
+        }
+      },
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Co to za wydzielina?",
+          "en": "What kind of secretion?",
+          "de": "Was für ein Sekret?"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "Trucizna. Tylko nasz wielki Guru, Cor Kalom, potrafi przyrządzać z niej magiczne wywary.",
+          "en": "A poison. Only our Guru Cor Kalom knows how to brew potions with it.",
+          "de": "Ein Gift. Nur unser Guru Cor Kalom weiß, wie man daraus Tränke brauen kann."
+        }
+      }
+    ],
+    "context": {
+      "pl": "Oryginalny dialog z Gothic 1.",
+      "en": "Original Gothic 1 dialogue.",
+      "de": "Originaldialog aus Gothic 1."
+    }
+  },
+  {
+    "id": "missions_dia_tpl_1438_templer_tpl_1438_templer_zangen_info_15_01_0",
+    "npcId": "TPL_1438_Templer",
+    "sourceFile": "_work/Data/Scripts/Content/Story/Missions/DIA_TPL_1438_Templer.d",
+    "sourceFunction": "Tpl_1438_Templer_ZANGEN_Info",
+    "outputIds": [
+      "Tpl_1438_Templer_ZANGEN_Info_15_01",
+      "Tpl_1438_Templer_ZANGEN_Info_13_02"
+    ],
+    "lines": [
+      {
+        "speaker": "hero",
+        "text": {
+          "pl": "Jak mogę pozyskać wydzielinę z wnętrzności pełzaczy?",
+          "en": "How can I remove the mandibles from the minecrawlers?",
+          "de": "Wie kann ich den Minecrawlern die Zangen entfernen?"
+        }
+      },
+      {
+        "speaker": "npc",
+        "text": {
+          "pl": "To nie takie proste, ale mogę cię nauczyć.",
+          "en": "It's not that easy to do that. I can teach you.",
+          "de": "Das ist ein Vorgang, der nicht so einfach ist. Ich kann dir das beibringen."
         }
       }
     ],

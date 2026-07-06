@@ -55,8 +55,11 @@ import {
   rankLabel,
 } from "@/src/i18n";
 import { quoteHints } from "@/src/modes/quote/hints";
-import { loadManhuntState, resetManhuntState } from "@/src/modes/manhunt/state";
-import { ManhuntMode } from "./ManhuntMode";
+import { loadManhuntState, loadManhuntStats, resetManhuntState } from "@/src/modes/manhunt/state";
+import { buildManhuntShareText } from "@/src/modes/manhunt/share";
+import { trackManhuntShare } from "@/src/modes/manhunt/telemetry";
+import { telemetryAttemptsFromNuggets } from "@/src/modes/manhunt/xp";
+import { ManhuntMode, type ManhuntWinResult } from "./ManhuntMode";
 import { MapMode } from "./MapMode";
 import { HelpModal, ResultModal, SettingsModal } from "./modals";
 import { Line, Panel, ParchmentPanel, Pip, Stat } from "./ui";
@@ -92,6 +95,7 @@ export default function KoloniaGame() {
     stats: DayStats | null;
     statsLoading: boolean;
   } | null>(null);
+  const [manhuntWinContext, setManhuntWinContext] = useState<ManhuntWinResult | null>(null);
   const [campWarStats, setCampWarStats] = useState<CampWarStats | null>(null);
 
   const puzzle = puzzleNumber();
@@ -194,14 +198,23 @@ export default function KoloniaGame() {
     }
   }
 
-  function handleManhuntXpGain(amount: number) {
-    setPersisted((current) => ({
-      ...current,
-      totalXp: (current.totalXp ?? 0) + amount,
-    }));
-    showToast(dict.ui.solved);
-    void fetchCampWarStats(puzzle).then((stats) => {
-      if (stats) setCampWarStats(stats);
+  function handleManhuntWin(result: ManhuntWinResult) {
+    if (!manhuntTarget) return;
+
+    setManhuntWinContext(result);
+    const nextState = {
+      ...persisted,
+      totalXp: (persisted.totalXp ?? 0) + result.xpEarned,
+    };
+    setPersisted(nextState);
+
+    openWinModal({
+      mode: "manhunt",
+      attempts: telemetryAttemptsFromNuggets(result.score),
+      npc: manhuntTarget,
+      streak: loadManhuntStats().streak,
+      xpEarned: result.xpEarned,
+      nextState,
     });
   }
 
@@ -416,6 +429,22 @@ export default function KoloniaGame() {
   }
 
   async function handleShare() {
+    if (resultContext?.mode === "manhunt") {
+      if (!manhuntWinContext) return;
+
+      const text = buildManhuntShareText({
+        puzzle,
+        score: manhuntWinContext.score,
+        reveals: manhuntWinContext.reveals,
+        misses: manhuntWinContext.misses,
+        lang: persisted.lang,
+      });
+      const result = await shareResult(text);
+      trackManhuntShare(puzzle, manhuntWinContext.score, persisted.camp, authSession?.userId ?? null);
+      showToast(result === "shared" ? dict.ui.shareShared : dict.ui.copied);
+      return;
+    }
+
     if (!modeDay.solved) return;
 
     const attempts =
@@ -647,11 +676,6 @@ export default function KoloniaGame() {
                     >
                       <span className="flex items-center gap-2">
                         {modeTabLabel(modeId)}
-                        {modeId === "manhunt" ? (
-                          <span className="rounded-sm border border-[var(--ember)]/50 px-1.5 py-0.5 text-[8pt] text-[var(--ember-bright)]">
-                            {dict.ui.manhuntNew}
-                          </span>
-                        ) : null}
                       </span>
                       {badge ? (
                         <span aria-hidden="true" title={badgeLabel ?? undefined}>
@@ -742,16 +766,10 @@ export default function KoloniaGame() {
                 <ManhuntMode
                   camp={persisted.camp}
                   lang={persisted.lang}
-                  onWin={() => {
-                    void fetchCampWarStats(puzzle).then((stats) => {
-                      if (stats) setCampWarStats(stats);
-                    });
-                  }}
-                  onXpGain={handleManhuntXpGain}
+                  onWin={handleManhuntWin}
                   puzzle={puzzle}
                   targetNpc={manhuntTarget}
                   targetQuote={manhuntQuote}
-                  totalXp={persisted.totalXp ?? 0}
                   userId={authSession?.userId ?? null}
                 />
               ) : null}

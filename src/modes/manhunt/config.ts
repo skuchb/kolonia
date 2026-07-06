@@ -8,7 +8,7 @@ export const MANHUNT_CONFIG = {
   fields: [
     { id: "guild" as const, cost: 2 },
     { id: "location" as const, cost: 3 },
-    { id: "letter" as const, cost: 6 },
+    { id: "letter" as const, cost: 7 },
     { id: "teacher" as const, cost: 1 },
     { id: "trade" as const, cost: 1 },
     { id: "quote" as const, cost: 7 },
