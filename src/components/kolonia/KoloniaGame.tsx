@@ -28,7 +28,6 @@ import {
   ensureModeDay,
   ensureModeStats,
   loadPersisted,
-  markHelpSeen,
   recordGuess,
   recordMapGuess,
   setCamp,
@@ -50,7 +49,7 @@ import {
   rankLabel,
 } from "@/src/i18n";
 import { quoteHints } from "@/src/modes/quote/hints";
-import { loadManhuntState, hasSeenManhuntHelp, markManhuntHelpSeen, resetManhuntState } from "@/src/modes/manhunt/state";
+import { loadManhuntState, resetManhuntState } from "@/src/modes/manhunt/state";
 import { ManhuntMode } from "./ManhuntMode";
 import { MapMode } from "./MapMode";
 import { HelpModal, ResultModal, SettingsModal } from "./modals";
@@ -163,10 +162,7 @@ export default function KoloniaGame() {
 
   const quoteHintList =
     mode === "quote" && targetNpc ? quoteHints(modeDay.guesses.length, targetNpc, persisted.lang) : [];
-  const showHelp =
-    helpManualOpen ||
-    (hydrated && Boolean(persisted.camp) && !persisted.seenHelp) ||
-    (hydrated && mode === "manhunt" && !hasSeenManhuntHelp());
+  const showHelp = helpManualOpen;
   const visibleModeTabs = useMemo<ModeId[]>(
     () => (isAdmin ? ["manhunt", "quote", "map", "card"] : ["classic", "quote", "map", "card"]),
     [isAdmin],
@@ -450,8 +446,10 @@ export default function KoloniaGame() {
 
   function closeHelp() {
     setHelpManualOpen(false);
-    if (mode === "manhunt") markManhuntHelpSeen();
-    setPersisted((current) => markHelpSeen(current));
+  }
+
+  function openModeHelp() {
+    setHelpManualOpen(true);
   }
 
   function handleGoogleLogin() {
@@ -661,17 +659,27 @@ export default function KoloniaGame() {
                             ? dict.ui.cardOfDay
                             : dict.ui.mapOfDay}
                   </div>
-                  <h1 className="mt-2 text-[1.35rem] leading-tight tracking-tight text-[var(--panel-ink)] sm:text-[25pt]">
-                    {mode === "quote"
-                      ? dict.ui.whoSaid
-                      : mode === "manhunt"
-                        ? dict.ui.manhuntLead
-                        : mode === "classic"
-                          ? dict.ui.whoIsNpc
-                          : mode === "card"
-                            ? dict.ui.whoIsCard
-                            : dict.ui.whereIsNpc}
-                  </h1>
+                  <div className="mt-2 flex flex-wrap items-center gap-3">
+                    <h1 className="text-[1.35rem] leading-tight tracking-tight text-[var(--panel-ink)] sm:text-[25pt]">
+                      {mode === "quote"
+                        ? dict.ui.whoSaid
+                        : mode === "manhunt"
+                          ? dict.ui.manhuntLead
+                          : mode === "classic"
+                            ? dict.ui.whoIsNpc
+                            : mode === "card"
+                              ? dict.ui.whoIsCard
+                              : dict.ui.whereIsNpc}
+                    </h1>
+                    <button
+                      aria-label={dict.ui.helpBtn}
+                      className="flex size-9 shrink-0 items-center justify-center border border-[var(--panel-ink)]/35 font-mono text-sm text-[var(--panel-ink)]/70 transition-colors hover:border-[var(--rust)] hover:text-[var(--rust)]"
+                      onClick={openModeHelp}
+                      type="button"
+                    >
+                      ?
+                    </button>
+                  </div>
                   {mode === "map" && mapTarget ? (
                     <p className="mt-4 inline-block border border-[var(--rust)]/40 bg-[var(--panel-ink)]/10 px-4 py-2 font-serif text-3xl font-semibold leading-none text-[var(--rust)] shadow-sm sm:text-4xl">
                       {mapTarget.npcName[persisted.lang] ?? mapTarget.npcName.pl}

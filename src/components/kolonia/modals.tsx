@@ -40,6 +40,21 @@ function ModalShell({
   );
 }
 
+function modeHelpTitle(help: ReturnType<typeof getDictionary>["ui"]["help"], mode: ModeId): string {
+  switch (mode) {
+    case "manhunt":
+      return help.manhuntTitle;
+    case "quote":
+      return help.quoteTitle;
+    case "map":
+      return help.mapTitle;
+    case "card":
+      return help.cardTitle;
+    default:
+      return help.classicTitle;
+  }
+}
+
 export function HelpModal({
   lang,
   focusMode,
@@ -51,57 +66,76 @@ export function HelpModal({
 }) {
   const dict = getDictionary(lang);
   const help = dict.ui.help;
-  const highlightManhunt = focusMode === "manhunt";
+  const title = focusMode ? modeHelpTitle(help, focusMode) : help.title;
 
   return (
-    <ModalShell title={help.title} onClose={onClose}>
+    <ModalShell title={title} onClose={onClose}>
       <div className="space-y-5 font-mono text-[10pt] uppercase leading-relaxed tracking-[0.12em] text-[var(--bone-dim)]">
-        <section className={highlightManhunt ? "border border-[var(--ember)]/40 bg-[var(--ember)]/10 p-3" : undefined}>
-          <h3 className="mb-2 text-[var(--bone)]">{help.manhuntTitle}</h3>
-          <p className="mb-3 text-[var(--ember-bright)]">{help.manhuntFiction}</p>
-          <ul className="list-inside list-disc space-y-2">
-            <li>{help.manhuntTip1}</li>
-            <li>{help.manhuntTip2}</li>
-            <li>{help.manhuntTip3}</li>
-          </ul>
-        </section>
-        <section>
-          <h3 className="mb-2 text-[var(--bone)]">{help.classicTitle}</h3>
-          <p>{help.classicBody}</p>
-        </section>
-        <section>
-          <h3 className="mb-2 text-[var(--bone)]">{help.quoteTitle}</h3>
-          <p>{help.quoteBody}</p>
-        </section>
-        <section>
-          <h3 className="mb-2 text-[var(--bone)]">{help.mapTitle}</h3>
-          <p>{help.mapBody}</p>
-        </section>
-        <section>
-          <h3 className="mb-2 text-[var(--bone)]">{help.cardTitle}</h3>
-          <p>{help.cardBody}</p>
-        </section>
-        <section>
-          <h3 className="mb-2 text-[var(--bone)]">{help.legendTitle}</h3>
-          <ul className="space-y-2">
-            <li className="flex items-center gap-3">
-              <span className="size-3 bg-[var(--moss)]" />
-              {help.legendHit}
-            </li>
-            <li className="flex items-center gap-3">
-              <span className="size-3 bg-[var(--ember)]" />
-              {help.legendNear}
-            </li>
-            <li className="flex items-center gap-3">
-              <span className="size-3 bg-[var(--panel-ink)]/25" />
-              {help.legendMiss}
-            </li>
-            <li>{help.legendArrows}</li>
-          </ul>
-        </section>
-        <p className="border-t border-[var(--hairline)] pt-4 text-[10pt] text-[var(--bone)]/80">
-          {dict.ui.footerCanon}
-        </p>
+        {(!focusMode || focusMode === "manhunt") ? (
+          <section>
+            {focusMode ? null : <h3 className="mb-2 text-[var(--bone)]">{help.manhuntTitle}</h3>}
+            <p className="mb-3 text-[var(--ember-bright)]">{help.manhuntFiction}</p>
+            <ul className="list-inside list-disc space-y-2">
+              <li>{help.manhuntTip1}</li>
+              <li>{help.manhuntTip2}</li>
+              <li>{help.manhuntTip3}</li>
+            </ul>
+          </section>
+        ) : null}
+
+        {(!focusMode || focusMode === "classic") ? (
+          <section>
+            {focusMode ? null : <h3 className="mb-2 text-[var(--bone)]">{help.classicTitle}</h3>}
+            <p>{help.classicBody}</p>
+            {!focusMode || focusMode === "classic" ? (
+              <div className="mt-4 space-y-2 border-t border-[var(--hairline)] pt-4">
+                <h4 className="text-[var(--bone)]">{help.legendTitle}</h4>
+                <ul className="space-y-2">
+                  <li className="flex items-center gap-3">
+                    <span className="size-3 bg-[var(--moss)]" />
+                    {help.legendHit}
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <span className="size-3 bg-[var(--ember)]" />
+                    {help.legendNear}
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <span className="size-3 bg-[var(--panel-ink)]/25" />
+                    {help.legendMiss}
+                  </li>
+                  <li>{help.legendArrows}</li>
+                </ul>
+              </div>
+            ) : null}
+          </section>
+        ) : null}
+
+        {(!focusMode || focusMode === "quote") ? (
+          <section>
+            {focusMode ? null : <h3 className="mb-2 text-[var(--bone)]">{help.quoteTitle}</h3>}
+            <p>{help.quoteBody}</p>
+          </section>
+        ) : null}
+
+        {(!focusMode || focusMode === "map") ? (
+          <section>
+            {focusMode ? null : <h3 className="mb-2 text-[var(--bone)]">{help.mapTitle}</h3>}
+            <p>{help.mapBody}</p>
+          </section>
+        ) : null}
+
+        {(!focusMode || focusMode === "card") ? (
+          <section>
+            {focusMode ? null : <h3 className="mb-2 text-[var(--bone)]">{help.cardTitle}</h3>}
+            <p>{help.cardBody}</p>
+          </section>
+        ) : null}
+
+        {!focusMode ? (
+          <p className="border-t border-[var(--hairline)] pt-4 text-[10pt] text-[var(--bone)]/80">
+            {dict.ui.footerCanon}
+          </p>
+        ) : null}
         <button
           className="w-full border border-[var(--ember)]/50 px-4 py-3 text-[var(--ember-bright)] hover:border-[var(--ember)]"
           onClick={onClose}

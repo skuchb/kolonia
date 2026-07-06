@@ -10,10 +10,23 @@ function firstLetter(name: string): string {
   return trimmed[0]!.toUpperCase();
 }
 
-function quoteLineForNpc(quote: Quote | null | undefined, lang: Locale): string | null {
+function quoteTextForManhunt(quote: Quote | null | undefined, lang: Locale): string | null {
   if (!quote) return null;
-  const npcLine = quote.lines.find((line) => line.speaker === "npc");
-  return npcLine?.text[lang] ?? quote.lines[0]?.text[lang] ?? null;
+
+  const npcLines = quote.lines
+    .filter((line) => line.speaker === "npc")
+    .map((line) => line.text[lang]?.trim())
+    .filter((line): line is string => Boolean(line));
+
+  if (npcLines.length > 0) {
+    return npcLines.join("\n");
+  }
+
+  const allLines = quote.lines
+    .map((line) => line.text[lang]?.trim())
+    .filter((line): line is string => Boolean(line));
+
+  return allLines.length > 0 ? allLines.join("\n") : null;
 }
 
 export function manhuntFieldValue(
@@ -47,8 +60,8 @@ export function manhuntFieldValue(
       return dict.ui.manhunt.tradeCategories[category] ?? dict.ui.manhunt.notTrader;
     }
     case "quote": {
-      const line = quoteLineForNpc(quote, lang);
-      return line || empty;
+      const text = quoteTextForManhunt(quote, lang);
+      return text || empty;
     }
     default:
       return empty;

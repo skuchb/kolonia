@@ -131,7 +131,7 @@ export function recordManhuntReveal(state: ManhuntState, field: ManhuntFieldId):
 }
 
 export function recordManhuntMiss(state: ManhuntState, npcId: string): ManhuntState | null {
-  if (state.status === "won" || state.misses.includes(npcId)) return null;
+  if (state.status === "won" || state.misses.includes(npcId) || state.nuggets === 0) return null;
 
   const next: ManhuntState = {
     ...state,

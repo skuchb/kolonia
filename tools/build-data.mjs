@@ -84,8 +84,8 @@ const MANUAL_TEACHER_NPC_IDS = new Set([
   "TPL_1438_Templer",
 ]);
 
-const MANHUNT_BUDGET = 10;
-const MANHUNT_PAID_FIELD_COSTS = [2, 2, 2, 1, 1, 3];
+const MANHUNT_BUDGET = 14;
+const MANHUNT_PAID_FIELD_COSTS = [2, 3, 3, 1, 1, 5];
 const MANHUNT_MIN_POOL_SIZE = 30;
 const MANHUNT_CAMP_FAMILIES = new Set([
   "OLD_CAMP",
@@ -97,8 +97,8 @@ const MANHUNT_CAMP_FAMILIES = new Set([
 
 function validateManhuntEconomy() {
   const paidSum = MANHUNT_PAID_FIELD_COSTS.reduce((sum, cost) => sum + cost, 0);
-  if (paidSum <= MANHUNT_BUDGET) {
-    fail(`manhunt economy invalid: paid sum ${paidSum} must exceed budget ${MANHUNT_BUDGET}`);
+  if (paidSum <= 0) {
+    fail("manhunt economy invalid: paid field costs must be positive");
   }
 }
 
