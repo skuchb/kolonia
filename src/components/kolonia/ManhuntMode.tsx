@@ -8,7 +8,7 @@ import type { Locale, Npc, PlayerCamp, Quote } from "@/src/core/types";
 import { npcDisplayName, npcPool } from "@/src/data";
 import { getDictionary } from "@/src/i18n";
 import { MANHUNT_CONFIG } from "@/src/modes/manhunt/config";
-import { manhuntFieldValue, manhuntPortraitUrl } from "@/src/modes/manhunt/fields";
+import { manhuntFieldValue, manhuntPortraitUrl, manhuntQuoteLines } from "@/src/modes/manhunt/fields";
 import { manhuntPurseLabel } from "@/src/modes/manhunt/nuggets";
 import { buildManhuntShareText } from "@/src/modes/manhunt/share";
 import {
@@ -115,6 +115,9 @@ export function ManhuntMode({
   const portraitUrl = manhuntPortraitUrl(targetNpc, portraitRevealed);
   const campLine = manhuntFieldValue("camp", targetNpc, targetQuote, lang);
   const brokeOpen = state.nuggets === 0 && state.status === "playing";
+  const fugitiveName = npcDisplayName(targetNpc, lang);
+  const brokeMessage = mh.brokeBody.replace("{name}", fugitiveName);
+  const quoteLines = manhuntQuoteLines(targetQuote, targetNpc, lang);
 
   useEffect(() => {
     const loaded = loadManhuntState(puzzle);
@@ -290,20 +293,21 @@ export function ManhuntMode({
             </div>
           </div>
 
-          <p className="mt-4 font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--rust)]">{campLine}</p>
-          <p className="mt-3 font-serif text-sm italic leading-relaxed text-[var(--panel-ink)]/80">{mh.wantedFlavor}</p>
+          {brokeOpen ? (
+            <p className="mt-4 text-center font-serif text-2xl font-semibold leading-tight text-[var(--panel-ink)] sm:text-3xl">
+              {fugitiveName}
+            </p>
+          ) : null}
 
-          <div
-            aria-hidden="true"
-            className="pointer-events-none mt-4 flex size-14 items-center justify-center self-end rounded-full border-2 border-[var(--rust)]/60 text-center font-mono text-[7pt] uppercase leading-tight tracking-[0.08em] text-[var(--rust)]"
-          >
-            {mh.guardsSeal}
-          </div>
+          <p className={`font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--rust)] ${brokeOpen ? "mt-3" : "mt-4"}`}>
+            {campLine}
+          </p>
+          <p className="mt-3 font-serif text-sm italic leading-relaxed text-[var(--panel-ink)]/80">{mh.wantedFlavor}</p>
 
           {brokeOpen ? (
             <div className="mt-4 border border-[var(--rust)]/40 bg-[var(--rust)]/10 p-4 text-center">
               <p className="font-mono text-[10pt] uppercase tracking-[0.14em] text-[var(--rust)]">{mh.brokeTitle}</p>
-              <p className="mt-2 font-serif text-base leading-relaxed text-[var(--panel-ink)]">{mh.brokeBody}</p>
+              <p className="mt-2 font-serif text-base leading-relaxed text-[var(--panel-ink)]">{brokeMessage}</p>
             </div>
           ) : null}
 
@@ -330,11 +334,26 @@ export function ManhuntMode({
                   <div className="font-mono text-[9pt] uppercase tracking-[0.12em] text-[var(--panel-ink)]/60">
                     {label}
                   </div>
-                  {revealed ? <div className={fieldValueClass(field.id, multiline)}>{value}</div> : null}
+                  {revealed ? (
+                    field.id === "quote" && quoteLines.length > 0 ? (
+                      <div className="mt-1.5 space-y-2">
+                        {quoteLines.map((line, index) => (
+                          <p className="font-serif text-base leading-snug text-[var(--panel-ink)] sm:text-lg" key={index}>
+                            <span className="font-mono text-[9pt] uppercase tracking-[0.1em] text-[var(--panel-ink)]/55">
+                              {line.who}:
+                            </span>{" "}
+                            <span className="italic">{line.text}</span>
+                          </p>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className={fieldValueClass(field.id, multiline)}>{value}</div>
+                    )
+                  ) : null}
                 </div>
                 {!revealed ? (
                   <button
-                    className="mt-0.5 flex shrink-0 items-center gap-1.5 border border-[var(--panel-ink)]/45 bg-[var(--panel-ink)] px-3 py-2 font-mono text-[9pt] uppercase tracking-[0.1em] text-[var(--panel)] transition-colors hover:border-[var(--rust)] hover:bg-[var(--rust)] disabled:cursor-not-allowed disabled:opacity-40"
+                    className="mt-0.5 flex shrink-0 items-center gap-1.5 border border-[var(--panel-ink)]/35 bg-[var(--panel)] px-3 py-2 font-mono text-[9pt] uppercase tracking-[0.1em] text-[var(--panel-ink)] shadow-sm transition-colors hover:border-[var(--rust)] hover:bg-[var(--panel)]/90 disabled:cursor-not-allowed disabled:opacity-40"
                     disabled={field.cost > state.nuggets || state.status === "won"}
                     onClick={() => handleReveal(field.id)}
                     type="button"
@@ -401,7 +420,7 @@ export function ManhuntMode({
           </div>
 
           {suggestions.length > 0 ? (
-            <ul className="kolonia-scroll absolute z-50 mt-1 max-h-[min(20rem,45vh)] w-full overflow-y-auto border border-[var(--panel-ink)]/30 bg-[var(--panel)] shadow-lg">
+            <ul className="kolonia-scroll absolute z-[60] mt-1 max-h-[min(20rem,45vh)] w-full overflow-y-auto border border-[var(--panel-ink)]/30 bg-[var(--panel)] shadow-lg">
               {suggestions.map((npc, index) => (
                 <li key={npc.id}>
                   <button

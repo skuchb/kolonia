@@ -777,7 +777,7 @@ export default function KoloniaGame() {
                   </div>
 
                   {suggestions.length > 0 ? (
-                    <ul className="kolonia-scroll absolute z-50 mt-1 max-h-[min(24rem,50vh)] w-full overflow-y-auto border border-[var(--panel-ink)]/30 bg-[var(--panel)] shadow-lg">
+                    <ul className="kolonia-scroll absolute z-[60] mt-1 max-h-[min(24rem,50vh)] w-full overflow-y-auto border border-[var(--panel-ink)]/30 bg-[var(--panel)] shadow-lg">
                       {suggestions.map((npc, index) => (
                         <li key={npc.id}>
                           <button
@@ -936,7 +936,7 @@ export default function KoloniaGame() {
         </div>
       </main>
 
-      <footer className="relative z-10 mt-auto space-y-3 border-t border-[var(--hairline)] bg-black/50 px-6 py-5 font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--bone-dim)] lg:px-10">
+      <footer className="relative z-0 mt-auto space-y-3 border-t border-[var(--hairline)] bg-black/50 px-6 py-5 font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--bone-dim)] lg:px-10">
         <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
           <span>{dict.ui.footerRights}</span>
           <span>{dict.ui.footerReset}</span>

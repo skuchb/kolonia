@@ -1,4 +1,4 @@
-import type { Locale, Npc, Quote } from "@/src/core/types";
+import type { Locale, Npc, Quote, QuoteLine } from "@/src/core/types";
 import { npcDisplayName } from "@/src/data";
 import { campLabel, getDictionary, guildLabel, npcLocationLabel } from "@/src/i18n";
 import { teacherCategoryForName, tradeCategoryForName } from "./categories";
@@ -10,23 +10,31 @@ function firstLetter(name: string): string {
   return trimmed[0]!.toUpperCase();
 }
 
-function quoteTextForManhunt(quote: Quote | null | undefined, lang: Locale): string | null {
-  if (!quote) return null;
+function quoteTextForManhunt(quote: Quote | null | undefined, npc: Npc, lang: Locale): string | null {
+  const lines = manhuntQuoteLines(quote, npc, lang);
+  if (lines.length === 0) return null;
+  return lines.map((line) => `${line.who}: ${line.text}`).join("\n");
+}
 
-  const npcLines = quote.lines
-    .filter((line) => line.speaker === "npc")
-    .map((line) => line.text[lang]?.trim())
-    .filter((line): line is string => Boolean(line));
+export function manhuntQuoteLines(
+  quote: Quote | null | undefined,
+  npc: Npc,
+  lang: Locale,
+): Array<{ who: string; text: string }> {
+  if (!quote) return [];
 
-  if (npcLines.length > 0) {
-    return npcLines.join("\n");
-  }
+  const dict = getDictionary(lang);
+  const heroLabel = dict.ui.hero;
+  const npcLabel = npcDisplayName(npc, lang);
 
-  const allLines = quote.lines
-    .map((line) => line.text[lang]?.trim())
-    .filter((line): line is string => Boolean(line));
-
-  return allLines.length > 0 ? allLines.join("\n") : null;
+  return quote.lines
+    .map((line: QuoteLine) => {
+      const text = line.text[lang]?.trim();
+      if (!text) return null;
+      const who = line.speaker === "hero" ? heroLabel : npcLabel;
+      return { who, text };
+    })
+    .filter((line): line is { who: string; text: string } => Boolean(line));
 }
 
 export function manhuntFieldValue(
@@ -60,7 +68,7 @@ export function manhuntFieldValue(
       return dict.ui.manhunt.tradeCategories[category] ?? dict.ui.manhunt.notTrader;
     }
     case "quote": {
-      const text = quoteTextForManhunt(quote, lang);
+      const text = quoteTextForManhunt(quote, npc, lang);
       return text || empty;
     }
     default:

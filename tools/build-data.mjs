@@ -85,7 +85,7 @@ const MANUAL_TEACHER_NPC_IDS = new Set([
 ]);
 
 const MANHUNT_BUDGET = 14;
-const MANHUNT_PAID_FIELD_COSTS = [2, 3, 3, 1, 1, 5];
+const MANHUNT_PAID_FIELD_COSTS = [2, 3, 6, 1, 1, 7];
 const MANHUNT_MIN_POOL_SIZE = 30;
 const MANHUNT_CAMP_FAMILIES = new Set([
   "OLD_CAMP",
