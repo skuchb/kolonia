@@ -148,6 +148,8 @@ export interface Persisted {
   totalXp: number;
   seenHelp?: boolean;
   modes: Partial<Record<ModeId, ModeDay>>;
+  /** Progress for puzzles before today — no XP or streak stats. */
+  archive?: Partial<Record<ModeId, Record<string, ModeDay>>>;
   stats: Partial<Record<ModeId, ModeStats>>;
 }
 

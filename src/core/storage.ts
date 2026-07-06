@@ -1,4 +1,5 @@
 import { detectLocale } from "@/src/i18n";
+import { isArchivePuzzle } from "./archive";
 import { puzzleNumber } from "./daily";
 import { xpForSolve } from "./xp";
 import type { Locale, MapGuess, ModeDay, ModeId, ModeStats, Persisted, PlayerCamp } from "./types";
@@ -99,15 +100,29 @@ export function savePersisted(state: Persisted) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
-export function ensureModeDay(state: Persisted, mode: ModeId): ModeDay {
-  const puzzle = puzzleNumber();
-  const current = state.modes[mode];
+export function ensureModeDay(state: Persisted, mode: ModeId, puzzle = puzzleNumber()): ModeDay {
+  const today = puzzleNumber();
+  if (isArchivePuzzle(puzzle, today)) {
+    const archived = state.archive?.[mode]?.[String(puzzle)];
+    if (archived) return archived;
+    return freshModeDay(mode, puzzle);
+  }
 
+  const current = state.modes[mode];
   if (!current || current.puzzle !== puzzle) {
-    return { puzzle, guesses: [], mapGuesses: mode === "map" ? [] : undefined, solved: false };
+    return freshModeDay(mode, puzzle);
   }
 
   return current;
+}
+
+function freshModeDay(mode: ModeId, puzzle: number): ModeDay {
+  return {
+    puzzle,
+    guesses: [],
+    mapGuesses: mode === "map" ? [] : undefined,
+    solved: false,
+  };
 }
 
 export function ensureModeStats(state: Persisted, mode: ModeId): ModeStats {
@@ -119,10 +134,10 @@ export function recordMapGuess(
   guess: MapGuess,
   solved: boolean,
   xpEarned: number,
+  puzzle = puzzleNumber(),
 ): Persisted {
-  const puzzle = puzzleNumber();
-  const day = ensureModeDay(state, "map");
-  const stats = ensureModeStats(state, "map");
+  const today = puzzleNumber();
+  const day = ensureModeDay(state, "map", puzzle);
   const attempts = (day.mapGuesses?.length ?? 0) + 1;
   const nextDay: ModeDay = {
     puzzle,
@@ -131,6 +146,20 @@ export function recordMapGuess(
     solved: solved || day.solved,
   };
 
+  if (isArchivePuzzle(puzzle, today)) {
+    return {
+      ...state,
+      archive: {
+        ...state.archive,
+        map: {
+          ...state.archive?.map,
+          [String(puzzle)]: nextDay,
+        },
+      },
+    };
+  }
+
+  const stats = ensureModeStats(state, "map");
   let nextState: Persisted = {
     ...state,
     modes: { ...state.modes, map: nextDay },
@@ -168,10 +197,10 @@ export function recordGuess(
   mode: ModeId,
   npcId: string,
   solved: boolean,
+  puzzle = puzzleNumber(),
 ): Persisted {
-  const puzzle = puzzleNumber();
-  const day = ensureModeDay(state, mode);
-  const stats = ensureModeStats(state, mode);
+  const today = puzzleNumber();
+  const day = ensureModeDay(state, mode, puzzle);
   const attempts = day.guesses.length + 1;
   const nextDay: ModeDay = {
     puzzle,
@@ -179,6 +208,20 @@ export function recordGuess(
     solved: solved || day.solved,
   };
 
+  if (isArchivePuzzle(puzzle, today)) {
+    return {
+      ...state,
+      archive: {
+        ...state.archive,
+        [mode]: {
+          ...state.archive?.[mode],
+          [String(puzzle)]: nextDay,
+        },
+      },
+    };
+  }
+
+  const stats = ensureModeStats(state, mode);
   let nextStats = { ...stats };
 
   if (solved && !day.solved) {

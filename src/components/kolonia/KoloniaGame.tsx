@@ -16,6 +16,12 @@ import { fetchCampWarStats, type CampWarStats } from "@/src/core/camp-war";
 import { fetchDayStats, type DayStats } from "@/src/core/day-stats";
 import { dailyItem, formatCountdown, msUntilReset, puzzleNumber } from "@/src/core/daily";
 import {
+  canGoToNextPuzzle,
+  canGoToPreviousPuzzle,
+  isArchivePuzzle,
+  minArchivePuzzle,
+} from "@/src/core/archive";
+import {
   fallbackDailyManhunt,
   fallbackDailyMap,
   submitMapGuess,
@@ -94,6 +100,7 @@ export default function KoloniaGame() {
     npc: Npc;
     streak: number;
     xpEarned: number;
+    archivePlay?: boolean;
     distanceMeters?: number | null;
     stats: DayStats | null;
     statsLoading: boolean;
@@ -101,25 +108,27 @@ export default function KoloniaGame() {
   const [manhuntWinContext, setManhuntWinContext] = useState<ManhuntWinResult | null>(null);
   const [campWarStats, setCampWarStats] = useState<CampWarStats | null>(null);
 
-  const puzzle = puzzleNumber();
+  const todayPuzzle = puzzleNumber();
+  const [viewPuzzle, setViewPuzzle] = useState(todayPuzzle);
+  const archivePlay = isArchivePuzzle(viewPuzzle, todayPuzzle);
   const { manhuntNpc: scheduledManhunt, manhuntQuote: scheduledManhuntQuote, quote: scheduledQuote, mapPuzzle, cardNpc: scheduledCard, loading: dailyLoading } =
-    useDailyPuzzles(puzzle);
+    useDailyPuzzles(viewPuzzle);
   const dict = getDictionary(persisted.lang);
   const quoteTarget = useMemo(
-    () => scheduledQuote ?? dailyItem(quotePool, puzzle, "quote"),
-    [puzzle, scheduledQuote],
+    () => scheduledQuote ?? dailyItem(quotePool, viewPuzzle, "quote"),
+    [viewPuzzle, scheduledQuote],
   );
   const mapTarget = useMemo(
-    () => mapPuzzle ?? fallbackDailyMap(puzzle),
-    [mapPuzzle, puzzle],
+    () => mapPuzzle ?? fallbackDailyMap(viewPuzzle),
+    [mapPuzzle, viewPuzzle],
   );
   const cardTarget = useMemo(
-    () => scheduledCard ?? dailyItem(npcPool, puzzle, "card"),
-    [puzzle, scheduledCard],
+    () => scheduledCard ?? dailyItem(npcPool, viewPuzzle, "card"),
+    [viewPuzzle, scheduledCard],
   );
   const manhuntTarget = useMemo(
-    () => scheduledManhunt ?? fallbackDailyManhunt(puzzle),
-    [puzzle, scheduledManhunt],
+    () => scheduledManhunt ?? fallbackDailyManhunt(viewPuzzle),
+    [viewPuzzle, scheduledManhunt],
   );
   const manhuntQuote = useMemo(() => {
     if (scheduledManhuntQuote) return scheduledManhuntQuote;
@@ -138,10 +147,10 @@ export default function KoloniaGame() {
     return targetId ? getNpcById(targetId) : undefined;
   }, [cardTarget, manhuntTarget, mapTarget, mode, quoteTarget]);
 
-  const modeDay = ensureModeDay(persisted, mode);
-  const quoteDay = ensureModeDay(persisted, "quote");
-  const mapDay = ensureModeDay(persisted, "map");
-  const cardDay = ensureModeDay(persisted, "card");
+  const modeDay = ensureModeDay(persisted, mode, viewPuzzle);
+  const quoteDay = ensureModeDay(persisted, "quote", viewPuzzle);
+  const mapDay = ensureModeDay(persisted, "map", viewPuzzle);
+  const cardDay = ensureModeDay(persisted, "card", viewPuzzle);
   const modeStats = ensureModeStats(persisted, mode);
   const quoteStats = ensureModeStats(persisted, "quote");
   const suggestions = useMemo(
@@ -176,7 +185,7 @@ export default function KoloniaGame() {
     mode === "quote" && targetNpc ? quoteHints(modeDay.guesses.length, targetNpc, persisted.lang) : [];
   const showHelp = helpManualOpen;
   const visibleModeTabs = PLAYER_MODE_TABS;
-  const manhuntState = hydrated ? loadManhuntState(puzzle) : null;
+  const manhuntState = hydrated ? loadManhuntState(viewPuzzle) : null;
 
   function modeTabLabel(modeId: ModeId) {
     switch (modeId) {
@@ -197,11 +206,15 @@ export default function KoloniaGame() {
     if (!manhuntTarget) return;
 
     setManhuntWinContext(result);
-    const nextState = {
-      ...persisted,
-      totalXp: (persisted.totalXp ?? 0) + result.xpEarned,
-    };
-    setPersisted(nextState);
+    const nextState = archivePlay
+      ? persisted
+      : {
+          ...persisted,
+          totalXp: (persisted.totalXp ?? 0) + result.xpEarned,
+        };
+    if (!archivePlay) {
+      setPersisted(nextState);
+    }
 
     openWinModal({
       mode: "manhunt",
@@ -210,15 +223,30 @@ export default function KoloniaGame() {
       npc: manhuntTarget,
       streak: loadManhuntStats().streak,
       xpEarned: result.xpEarned,
-      nextState,
+      archivePlay,
+      nextState: archivePlay ? undefined : nextState,
     });
   }
 
   useEffect(() => {
     if (!hydrated || manhuntWinContext) return;
-    const snapshot = manhuntWinSnapshot(loadManhuntState(puzzle));
+    const snapshot = manhuntWinSnapshot(loadManhuntState(viewPuzzle));
     if (snapshot) setManhuntWinContext(snapshot);
-  }, [hydrated, manhuntWinContext, puzzle]);
+  }, [hydrated, manhuntWinContext, viewPuzzle]);
+
+  useEffect(() => {
+    setManhuntWinContext(null);
+    setResultContext(null);
+    setInput("");
+    setActiveSuggestion(0);
+  }, [viewPuzzle]);
+
+  useEffect(() => {
+    const min = minArchivePuzzle(mode);
+    if (viewPuzzle < min) {
+      setViewPuzzle(min);
+    }
+  }, [mode, viewPuzzle]);
 
   useEffect(() => {
     const timer = window.setInterval(() => setResetMs(msUntilReset()), 1000);
@@ -237,13 +265,13 @@ export default function KoloniaGame() {
 
   useEffect(() => {
     let cancelled = false;
-    void fetchCampWarStats(puzzle).then((stats) => {
+    void fetchCampWarStats(todayPuzzle).then((stats) => {
       if (!cancelled) setCampWarStats(stats);
     });
     return () => {
       cancelled = true;
     };
-  }, [puzzle]);
+  }, [todayPuzzle]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -310,6 +338,16 @@ export default function KoloniaGame() {
     setToast(message);
   }
 
+  function goToPreviousPuzzle() {
+    if (!canGoToPreviousPuzzle(mode, viewPuzzle)) return;
+    setViewPuzzle(viewPuzzle - 1);
+  }
+
+  function goToNextPuzzle() {
+    if (!canGoToNextPuzzle(viewPuzzle, todayPuzzle)) return;
+    setViewPuzzle(viewPuzzle + 1);
+  }
+
   function openWinModal(options: {
     mode: ModeId;
     attempts: number;
@@ -317,9 +355,13 @@ export default function KoloniaGame() {
     npc: Npc;
     streak: number;
     xpEarned: number;
+    archivePlay?: boolean;
     distanceMeters?: number | null;
     nextState?: typeof persisted;
   }) {
+    const isArchive = options.archivePlay ?? archivePlay;
+    const xpEarned = isArchive ? 0 : options.xpEarned;
+
     showToast(dict.ui.solved);
     setResultContext({
       mode: options.mode,
@@ -327,41 +369,44 @@ export default function KoloniaGame() {
       manhuntNuggets: options.manhuntNuggets,
       npc: options.npc,
       streak: options.streak,
-      xpEarned: options.xpEarned,
+      xpEarned,
+      archivePlay: isArchive,
       distanceMeters: options.distanceMeters,
       stats: null,
-      statsLoading: true,
+      statsLoading: !isArchive,
     });
 
-    sendResult({
-      mode: options.mode,
-      puzzle,
-      attempts: options.attempts,
-      solved: true,
-      camp: persisted.camp,
-      userId: loadAuth()?.userId ?? null,
-    });
+    if (!isArchive) {
+      sendResult({
+        mode: options.mode,
+        puzzle: viewPuzzle,
+        attempts: options.attempts,
+        solved: true,
+        camp: persisted.camp,
+        userId: loadAuth()?.userId ?? null,
+      });
 
-    void fetchDayStats(options.mode, puzzle, options.attempts).then((stats) => {
-      setResultContext((current) =>
-        current?.mode === options.mode && current.attempts === options.attempts
-          ? { ...current, stats, statsLoading: false }
-          : current,
-      );
-    });
+      void fetchDayStats(options.mode, viewPuzzle, options.attempts).then((stats) => {
+        setResultContext((current) =>
+          current?.mode === options.mode && current.attempts === options.attempts
+            ? { ...current, stats, statsLoading: false }
+            : current,
+        );
+      });
 
-    void fetchCampWarStats(puzzle).then((stats) => {
-      if (stats) setCampWarStats(stats);
-    });
+      void fetchCampWarStats(todayPuzzle).then((stats) => {
+        if (stats) setCampWarStats(stats);
+      });
+    }
 
     const session = loadAuth();
-    if (session && options.nextState) {
+    if (!isArchive && session && options.nextState) {
       void syncProfile(session.token, options.nextState);
       void syncProgressToServer(session.token, options.nextState, {
         mode: options.mode,
-        puzzle,
+        puzzle: viewPuzzle,
         attempts: options.attempts,
-        xpEarned: options.xpEarned,
+        xpEarned,
         distanceMeters: options.distanceMeters,
       });
     }
@@ -381,19 +426,20 @@ export default function KoloniaGame() {
     }
 
     const solved = resolved.id === targetNpc.id;
-    const nextState = recordGuess(persisted, mode, resolved.id, solved);
+    const nextState = recordGuess(persisted, mode, resolved.id, solved, viewPuzzle);
     setPersisted(nextState);
     setInput("");
     setActiveSuggestion(0);
 
     if (solved) {
-      const attempts = nextState.modes[mode]?.guesses.length ?? 0;
+      const attempts = ensureModeDay(nextState, mode, viewPuzzle).guesses.length;
       openWinModal({
         mode,
         attempts,
         npc: targetNpc,
         streak: ensureModeStats(nextState, mode).streak,
         xpEarned: xpForSolve(attempts),
+        archivePlay,
         nextState,
       });
     }
@@ -403,11 +449,11 @@ export default function KoloniaGame() {
     if (!mapTarget || !targetNpc || modeDay.solved || mode !== "map") return;
 
     try {
-      const result = await submitMapGuess(puzzle, x, y);
+      const result = await submitMapGuess(viewPuzzle, x, y);
       const guess = { x, y, distanceMeters: result.distanceMeters };
       const attempts = (modeDay.mapGuesses?.length ?? 0) + 1;
-      const xpEarned = result.solved ? xpForSolve(attempts) : 0;
-      const nextState = recordMapGuess(persisted, guess, result.solved, xpEarned);
+      const xpEarned = !archivePlay && result.solved ? xpForSolve(attempts) : 0;
+      const nextState = recordMapGuess(persisted, guess, result.solved, xpEarned, viewPuzzle);
       setPersisted(nextState);
 
       if (result.solved) {
@@ -417,6 +463,7 @@ export default function KoloniaGame() {
           npc: targetNpc,
           streak: ensureModeStats(nextState, "map").streak,
           xpEarned,
+          archivePlay,
           distanceMeters: result.distanceMeters,
           nextState,
         });
@@ -433,11 +480,11 @@ export default function KoloniaGame() {
     if (resultContext?.mode === "manhunt" || manhuntWon) {
       const shareData =
         manhuntWinContext ??
-        (manhuntState?.status === "won" ? manhuntWinSnapshot(manhuntState) : manhuntWinSnapshot(loadManhuntState(puzzle)));
+        (manhuntState?.status === "won" ? manhuntWinSnapshot(manhuntState) : manhuntWinSnapshot(loadManhuntState(viewPuzzle)));
       if (!shareData) return;
 
       const text = buildManhuntShareText({
-        puzzle,
+        puzzle: viewPuzzle,
         score: shareData.score,
         reveals: shareData.reveals,
         misses: shareData.misses,
@@ -445,7 +492,7 @@ export default function KoloniaGame() {
       });
       try {
         const result = await shareResult(text);
-        trackManhuntShare(puzzle, shareData.score, persisted.camp, authSession?.userId ?? null);
+        trackManhuntShare(viewPuzzle, shareData.score, persisted.camp, authSession?.userId ?? null);
         showToast(result === "shared" ? dict.ui.shareShared : dict.ui.copied);
       } catch {
         showToast(dict.ui.copied);
@@ -459,7 +506,7 @@ export default function KoloniaGame() {
       mode === "map" ? (modeDay.mapGuesses?.length ?? 0) : modeDay.guesses.length;
 
     const text = buildShareText({
-      puzzle,
+      puzzle: viewPuzzle,
       mode,
       attempts,
       streak: modeStats.streak,
@@ -470,7 +517,7 @@ export default function KoloniaGame() {
     const result = await shareResult(text);
     sendShareEvent({
       mode,
-      puzzle,
+      puzzle: viewPuzzle,
       attempts,
       camp: persisted.camp,
       userId: loadAuth()?.userId ?? null,
@@ -539,7 +586,9 @@ export default function KoloniaGame() {
   }
 
   const playerCamp = persisted.camp;
-  const weekLabel = `${dict.ui.week} ${Math.floor(puzzle / 7) + 1}`;
+  const weekLabel = `${dict.ui.week} ${Math.floor(todayPuzzle / 7) + 1}`;
+  const showPreviousPuzzle = canGoToPreviousPuzzle(mode, viewPuzzle);
+  const showNextPuzzle = canGoToNextPuzzle(viewPuzzle, todayPuzzle);
   const gridTemplate =
     "grid-cols-[2rem_minmax(10rem,1fr)_repeat(5,minmax(5.5rem,6.5rem))]";
   const guessTable = (
@@ -632,7 +681,7 @@ export default function KoloniaGame() {
       <Header
         dict={dict}
         lang={persisted.lang}
-        puzzle={puzzle}
+        puzzle={todayPuzzle}
         resetLabel={formatCountdown(resetMs)}
         onLanguageChange={handleLanguageChange}
         onOpenHelp={() => setHelpManualOpen(true)}
@@ -695,8 +744,34 @@ export default function KoloniaGame() {
 
               <div className="mb-5 flex flex-col gap-3 border-b border-[var(--panel-ink)]/30 pb-4 sm:mb-6 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
                 <div className="min-w-0">
-                  <div className="font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--rust)]">
-                    {dict.ui.puzzle} №{puzzle} ·{" "}
+                  <div className="flex flex-wrap items-center gap-2">
+                    {showPreviousPuzzle ? (
+                      <button
+                        className="flex min-h-9 items-center gap-1.5 border border-[var(--panel-ink)]/35 px-2.5 py-1.5 font-mono text-[9pt] uppercase tracking-[0.1em] text-[var(--panel-ink)] transition-colors hover:border-[var(--rust)] hover:text-[var(--rust)]"
+                        onClick={goToPreviousPuzzle}
+                        type="button"
+                      >
+                        <span aria-hidden="true">←</span>
+                        {dict.ui.previousPuzzle}
+                      </button>
+                    ) : null}
+                    {showNextPuzzle ? (
+                      <button
+                        className="flex min-h-9 items-center gap-1.5 border border-[var(--panel-ink)]/35 px-2.5 py-1.5 font-mono text-[9pt] uppercase tracking-[0.1em] text-[var(--panel-ink)] transition-colors hover:border-[var(--rust)] hover:text-[var(--rust)]"
+                        onClick={goToNextPuzzle}
+                        type="button"
+                      >
+                        {dict.ui.nextPuzzle}
+                        <span aria-hidden="true">→</span>
+                      </button>
+                    ) : null}
+                  </div>
+                  <div className="mt-2 font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--rust)]">
+                    {dict.ui.puzzle} №{viewPuzzle}
+                    {archivePlay ? (
+                      <span className="text-[var(--panel-ink)]/60"> · {dict.ui.archiveNoXp}</span>
+                    ) : null}
+                    {" · "}
                     {mode === "quote"
                       ? dict.ui.quoteOfDay
                       : mode === "manhunt"
@@ -770,10 +845,11 @@ export default function KoloniaGame() {
 
               {mode === "manhunt" && manhuntTarget ? (
                 <ManhuntMode
+                  awardProgress={!archivePlay}
                   camp={persisted.camp}
                   lang={persisted.lang}
                   onWin={handleManhuntWin}
-                  puzzle={puzzle}
+                  puzzle={viewPuzzle}
                   targetNpc={manhuntTarget}
                   targetQuote={manhuntQuote}
                   userId={authSession?.userId ?? null}
@@ -932,7 +1008,7 @@ export default function KoloniaGame() {
           </aside>
 
           <aside className="order-3 col-span-12 min-w-0 space-y-4 md:col-span-6 2xl:order-none 2xl:col-span-1 2xl:col-start-3 2xl:row-start-1">
-            <Panel title={dict.ui.campWar} subtitle={`${weekLabel.toUpperCase()} / ${dict.ui.day} ${(puzzle % 7) + 1}`}>
+            <Panel title={dict.ui.campWar} subtitle={`${weekLabel.toUpperCase()} / ${dict.ui.day} ${(todayPuzzle % 7) + 1}`}>
               {campWarStats && campWarStats.totalSolves > 0 ? (
                 campWarStats.camps.map((row) => (
                   <Stat
@@ -1025,6 +1101,7 @@ export default function KoloniaGame() {
       ) : null}
       {resultContext ? (
         <ResultModal
+          archivePlay={resultContext.archivePlay}
           attempts={resultContext.attempts}
           manhuntNuggets={resultContext.manhuntNuggets}
           distanceMeters={resultContext.distanceMeters}

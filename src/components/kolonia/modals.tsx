@@ -237,6 +237,7 @@ export function ResultModal({
   stats,
   statsLoading,
   xpEarned,
+  archivePlay,
   distanceMeters,
   isLoggedIn,
   onClose,
@@ -254,6 +255,7 @@ export function ResultModal({
   stats: DayStats | null;
   statsLoading: boolean;
   xpEarned: number;
+  archivePlay?: boolean;
   distanceMeters?: number | null;
   isLoggedIn: boolean;
   onClose: () => void;
@@ -270,7 +272,7 @@ export function ResultModal({
       <div className="space-y-5">
         <div className="border border-[var(--ember)]/30 bg-[var(--ember)]/10 p-4">
           <div className="font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--ember-bright)]">
-            {xp.gained.replace("{n}", String(xpEarned))}
+            {archivePlay ? dict.ui.archiveNoXp : xp.gained.replace("{n}", String(xpEarned))}
           </div>
         </div>
 

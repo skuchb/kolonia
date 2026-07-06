@@ -88,6 +88,7 @@ export function ManhuntMode({
   lang,
   camp,
   userId,
+  awardProgress = true,
   onWin,
 }: {
   targetNpc: Npc;
@@ -96,6 +97,7 @@ export function ManhuntMode({
   lang: Locale;
   camp: PlayerCamp | null;
   userId: string | null;
+  awardProgress?: boolean;
   onWin: (result: ManhuntWinResult) => void;
 }) {
   const dict = getDictionary(lang);
@@ -166,12 +168,13 @@ export function ManhuntMode({
     winAwardedRef.current = true;
 
     const score = nextState.nuggets;
-    const xpEarned = xpForManhunt(score);
-    const stats = recordManhuntStatsWin(puzzle, score);
-    saveManhuntStats(stats);
-
-    const ms = Math.max(0, Date.now() - (nextState.startedAt ?? Date.now()));
-    trackManhuntWin(puzzle, score, nextState.revealCount, nextState.misses.length, ms, camp, userId);
+    const xpEarned = awardProgress ? xpForManhunt(score) : 0;
+    if (awardProgress) {
+      const stats = recordManhuntStatsWin(puzzle, score);
+      saveManhuntStats(stats);
+      const ms = Math.max(0, Date.now() - (nextState.startedAt ?? Date.now()));
+      trackManhuntWin(puzzle, score, nextState.revealCount, nextState.misses.length, ms, camp, userId);
+    }
 
     onWin({
       score,

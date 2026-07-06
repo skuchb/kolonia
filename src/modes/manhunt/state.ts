@@ -11,6 +11,7 @@ export type ManhuntWinSnapshot = {
 };
 
 export const MANHUNT_STORAGE_KEY = "kolonia.manhunt.v1";
+export const MANHUNT_DAYS_KEY = "kolonia.manhunt.days.v1";
 export const MANHUNT_STATS_KEY = "kolonia.manhunt.stats.v1";
 
 const ALL_PAID_FIELDS = MANHUNT_CONFIG.fields.map((field) => field.id);
@@ -61,30 +62,56 @@ export function manhuntWinSnapshot(state: ManhuntState): ManhuntWinSnapshot | nu
   };
 }
 
+function readManhuntDays(): Record<string, ManhuntState> {
+  if (typeof window === "undefined") return {};
+
+  try {
+    const raw = window.localStorage.getItem(MANHUNT_DAYS_KEY);
+    if (raw) return JSON.parse(raw) as Record<string, ManhuntState>;
+
+    const legacy = window.localStorage.getItem(MANHUNT_STORAGE_KEY);
+    if (!legacy) return {};
+
+    const parsed = JSON.parse(legacy) as ManhuntState;
+    const map = { [String(parsed.day)]: parsed };
+    window.localStorage.setItem(MANHUNT_DAYS_KEY, JSON.stringify(map));
+    window.localStorage.removeItem(MANHUNT_STORAGE_KEY);
+    return map;
+  } catch {
+    return {};
+  }
+}
+
+function writeManhuntDays(days: Record<string, ManhuntState>) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(MANHUNT_DAYS_KEY, JSON.stringify(days));
+}
+
+function normalizeManhuntState(parsed: ManhuntState, day: number): ManhuntState {
+  return {
+    ...freshManhuntState(day),
+    ...parsed,
+    day,
+    revealed: Array.from(new Set([...MANHUNT_CONFIG.freeFields, ...(parsed.revealed ?? [])])),
+    misses: parsed.misses ?? [],
+    revealCount: parsed.revealCount ?? 0,
+    startedAt: parsed.startedAt ?? Date.now(),
+  };
+}
+
 export function loadManhuntState(day = puzzleNumber()): ManhuntState {
   if (typeof window === "undefined") return freshManhuntState(day);
 
-  try {
-    const raw = window.localStorage.getItem(MANHUNT_STORAGE_KEY);
-    if (!raw) return freshManhuntState(day);
-    const parsed = JSON.parse(raw) as ManhuntState;
-    if (parsed.day !== day) return freshManhuntState(day);
-    return {
-      ...freshManhuntState(day),
-      ...parsed,
-      revealed: Array.from(new Set([...MANHUNT_CONFIG.freeFields, ...(parsed.revealed ?? [])])),
-      misses: parsed.misses ?? [],
-      revealCount: parsed.revealCount ?? 0,
-      startedAt: parsed.startedAt ?? Date.now(),
-    };
-  } catch {
-    return freshManhuntState(day);
-  }
+  const parsed = readManhuntDays()[String(day)];
+  if (!parsed) return freshManhuntState(day);
+  return normalizeManhuntState(parsed, day);
 }
 
 export function saveManhuntState(state: ManhuntState) {
   if (typeof window === "undefined") return;
-  window.localStorage.setItem(MANHUNT_STORAGE_KEY, JSON.stringify(state));
+  const days = readManhuntDays();
+  days[String(state.day)] = state;
+  writeManhuntDays(days);
 }
 
 export function resetManhuntState(day = puzzleNumber()): ManhuntState {
