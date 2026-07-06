@@ -1,6 +1,14 @@
 import { puzzleNumber } from "@/src/core/daily";
 import { MANHUNT_CONFIG } from "./config";
 import { MANHUNT_HELP_KEY, type ManhuntFieldId, ManhuntState, ManhuntStats } from "./types";
+import { xpForManhunt } from "./xp";
+
+export type ManhuntWinSnapshot = {
+  score: number;
+  xpEarned: number;
+  reveals: number;
+  misses: number;
+};
 
 export const MANHUNT_STORAGE_KEY = "kolonia.manhunt.v1";
 export const MANHUNT_STATS_KEY = "kolonia.manhunt.stats.v1";
@@ -40,6 +48,17 @@ export function hasSeenManhuntHelp(): boolean {
 export function markManhuntHelpSeen() {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(MANHUNT_HELP_KEY, "1");
+}
+
+export function manhuntWinSnapshot(state: ManhuntState): ManhuntWinSnapshot | null {
+  if (state.status !== "won") return null;
+  const score = state.nuggets;
+  return {
+    score,
+    xpEarned: xpForManhunt(score),
+    reveals: state.revealCount,
+    misses: state.misses.length,
+  };
 }
 
 export function loadManhuntState(day = puzzleNumber()): ManhuntState {

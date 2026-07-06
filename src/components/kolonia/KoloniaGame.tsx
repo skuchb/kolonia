@@ -56,7 +56,7 @@ import {
   rankLabel,
 } from "@/src/i18n";
 import { quoteHints } from "@/src/modes/quote/hints";
-import { loadManhuntState, loadManhuntStats, resetManhuntState } from "@/src/modes/manhunt/state";
+import { loadManhuntState, loadManhuntStats, manhuntWinSnapshot, resetManhuntState } from "@/src/modes/manhunt/state";
 import { buildManhuntShareText } from "@/src/modes/manhunt/share";
 import { trackManhuntShare } from "@/src/modes/manhunt/telemetry";
 import { telemetryAttemptsFromNuggets } from "@/src/modes/manhunt/xp";
@@ -213,6 +213,12 @@ export default function KoloniaGame() {
       nextState,
     });
   }
+
+  useEffect(() => {
+    if (!hydrated || manhuntWinContext) return;
+    const snapshot = manhuntWinSnapshot(loadManhuntState(puzzle));
+    if (snapshot) setManhuntWinContext(snapshot);
+  }, [hydrated, manhuntWinContext, puzzle]);
 
   useEffect(() => {
     const timer = window.setInterval(() => setResetMs(msUntilReset()), 1000);
@@ -428,18 +434,25 @@ export default function KoloniaGame() {
   async function handleShare() {
     const manhuntWon = mode === "manhunt" && manhuntState?.status === "won";
     if (resultContext?.mode === "manhunt" || manhuntWon) {
-      if (!manhuntWinContext) return;
+      const shareData =
+        manhuntWinContext ??
+        (manhuntState?.status === "won" ? manhuntWinSnapshot(manhuntState) : manhuntWinSnapshot(loadManhuntState(puzzle)));
+      if (!shareData) return;
 
       const text = buildManhuntShareText({
         puzzle,
-        score: manhuntWinContext.score,
-        reveals: manhuntWinContext.reveals,
-        misses: manhuntWinContext.misses,
+        score: shareData.score,
+        reveals: shareData.reveals,
+        misses: shareData.misses,
         lang: persisted.lang,
       });
-      const result = await shareResult(text);
-      trackManhuntShare(puzzle, manhuntWinContext.score, persisted.camp, authSession?.userId ?? null);
-      showToast(result === "shared" ? dict.ui.shareShared : dict.ui.copied);
+      try {
+        const result = await shareResult(text);
+        trackManhuntShare(puzzle, shareData.score, persisted.camp, authSession?.userId ?? null);
+        showToast(result === "shared" ? dict.ui.shareShared : dict.ui.copied);
+      } catch {
+        showToast(dict.ui.copied);
+      }
       return;
     }
 
