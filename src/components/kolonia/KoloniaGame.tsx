@@ -56,7 +56,7 @@ import {
   rankLabel,
 } from "@/src/i18n";
 import { quoteHints } from "@/src/modes/quote/hints";
-import { loadManhuntState, loadManhuntStats, manhuntWinSnapshot, resetManhuntState } from "@/src/modes/manhunt/state";
+import { loadManhuntState, loadManhuntStats, manhuntWinSnapshot } from "@/src/modes/manhunt/state";
 import { buildManhuntShareText } from "@/src/modes/manhunt/share";
 import { trackManhuntShare } from "@/src/modes/manhunt/telemetry";
 import { telemetryAttemptsFromNuggets } from "@/src/modes/manhunt/xp";
@@ -303,9 +303,6 @@ export default function KoloniaGame() {
   }, [mode]);
 
   function enterMode(nextMode: ModeId) {
-    if (nextMode === "manhunt" && isAdmin) {
-      resetManhuntState(puzzle);
-    }
     setMode(nextMode);
   }
 
@@ -768,7 +765,7 @@ export default function KoloniaGame() {
               ) : null}
 
               {mode === "card" && cardTarget ? (
-                <CharacterCard npc={cardTarget} lang={persisted.lang} revealed={modeDay.solved || isAdmin} />
+                <CharacterCard npc={cardTarget} lang={persisted.lang} revealed={modeDay.solved} />
               ) : null}
 
               {mode === "manhunt" && manhuntTarget ? (
