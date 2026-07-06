@@ -68,6 +68,12 @@ export function saveManhuntState(state: ManhuntState) {
   window.localStorage.setItem(MANHUNT_STORAGE_KEY, JSON.stringify(state));
 }
 
+export function resetManhuntState(day = puzzleNumber()): ManhuntState {
+  const state = freshManhuntState(day);
+  saveManhuntState(state);
+  return state;
+}
+
 export function loadManhuntStats(): ManhuntStats {
   if (typeof window === "undefined") return emptyStats();
 

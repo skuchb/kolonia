@@ -174,7 +174,7 @@ export default function AdminPanel() {
           }
         }
 
-        if (tab === "quotes") {
+        if (tab === "quotes" || tab === "manhunt") {
           const quoteRes = await fetch(`/api/admin/quotes?q=${encodeURIComponent(search)}`, { headers });
           if (quoteRes.ok && !cancelled) {
             const data = (await quoteRes.json()) as { quotes: AdminQuote[] };
@@ -349,6 +349,13 @@ export default function AdminPanel() {
     setSelectedManhuntDay(targetPuzzle);
     setPuzzle(targetPuzzle);
     await saveScheduleForPuzzle(targetPuzzle, "manhunt", { npcId });
+  }
+
+  async function assignManhuntQuoteToDay(targetPuzzle: number, quoteOrId: Quote | string) {
+    const quoteId = typeof quoteOrId === "string" ? quoteOrId : quoteOrId.id;
+    setSelectedManhuntDay(targetPuzzle);
+    setPuzzle(targetPuzzle);
+    await saveScheduleForPuzzle(targetPuzzle, "manhunt", { quoteId });
   }
 
   async function assignCardNpcToDay(targetPuzzle: number, npcOrId: Npc | string) {
@@ -737,18 +744,19 @@ export default function AdminPanel() {
         ) : null}
 
         {tab === "manhunt" ? (
-          <section className="grid gap-6 lg:grid-cols-[minmax(320px,0.95fr)_minmax(420px,1.25fr)]">
+          <section className="grid gap-6 xl:grid-cols-[minmax(320px,0.95fr)_minmax(360px,1fr)_minmax(360px,1fr)]">
             <div className="space-y-3">
               <div>
                 <h2 className="text-xl">Śledztwo po dniach</h2>
                 <p className="text-sm text-[var(--bone-dim)]">
-                  Upuść poszukiwaną osobę na wybrany dzień. To osobny harmonogram trybu Śledztwo (admin).
+                  Przeciągnij zbiega albo cytat na wybrany dzień. Osobny harmonogram trybu Śledztwo (admin).
                 </p>
               </div>
               <div className="max-h-[72vh] space-y-3 overflow-y-auto pr-2">
                 {quoteDays.map((day) => {
                   const row = snapshot?.dailyPuzzles.find((entry) => entry.puzzle === day && entry.mode === "manhunt");
                   const assignedNpc = row?.npcId ? npcById.get(row.npcId) : undefined;
+                  const assignedQuote = row?.quoteId ? quoteById.get(row.quoteId) : undefined;
                   return (
                     <article
                       className={`border p-3 transition-colors ${dayCardClass(day, selectedManhuntDay === day)}`}
@@ -765,9 +773,16 @@ export default function AdminPanel() {
                       }}
                       onDrop={(event) => {
                         event.preventDefault();
-                        const npcId = event.dataTransfer.getData("text/plain");
+                        const id = event.dataTransfer.getData("text/plain");
                         setDragOverDay(null);
-                        if (npcId) void assignManhuntNpcToDay(day, npcId);
+                        if (!id) return;
+                        if (quoteById.has(id)) {
+                          void assignManhuntQuoteToDay(day, id);
+                          return;
+                        }
+                        if (npcById.has(id)) {
+                          void assignManhuntNpcToDay(day, id);
+                        }
                       }}
                     >
                       <div className="mb-2 flex items-center justify-between gap-3">
@@ -783,14 +798,32 @@ export default function AdminPanel() {
                         <span className="text-xs text-[var(--bone-dim)]">{row?.published === 0 ? "draft" : "live"}</span>
                       </div>
                       {assignedNpc ? (
-                        <div>
+                        <div className="mb-3">
+                          <div className="text-[10pt] uppercase tracking-widest text-[var(--bone-dim)]">Zbieg</div>
                           <div className="font-serif text-lg">{npcDisplayName(assignedNpc, "pl" as Locale)}</div>
                           <div className="text-xs text-[var(--bone-dim)]">{assignedNpc.id}</div>
                         </div>
                       ) : row?.npcId ? (
-                        <p className="text-sm text-[var(--bone-dim)]">Przypisany NPC: {row.npcId}</p>
+                        <p className="mb-3 text-sm text-[var(--bone-dim)]">Przypisany NPC: {row.npcId}</p>
                       ) : (
-                        <p className="text-sm text-[var(--bone-dim)]">Brak zbiega. Przeciągnij tutaj osobę z prawej.</p>
+                        <p className="mb-3 text-sm text-[var(--bone-dim)]">Brak zbiega. Przeciągnij osobę z prawej.</p>
+                      )}
+                      {assignedQuote ? (
+                        <div className="space-y-2 border-t border-[var(--hairline)] pt-3">
+                          <div className="text-[10pt] uppercase tracking-widest text-[var(--bone-dim)]">Cytat</div>
+                          <div className="text-xs text-[var(--bone-dim)]">{assignedQuote.id}</div>
+                          <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed">
+                            {quoteLinePreview(assignedQuote)}
+                          </pre>
+                        </div>
+                      ) : row?.quoteId ? (
+                        <p className="border-t border-[var(--hairline)] pt-3 text-sm text-[var(--bone-dim)]">
+                          Przypisany cytat: {row.quoteId}
+                        </p>
+                      ) : (
+                        <p className="border-t border-[var(--hairline)] pt-3 text-sm text-[var(--bone-dim)]">
+                          Brak cytatu. Przeciągnij dialog z prawej kolumny.
+                        </p>
                       )}
                     </article>
                   );
@@ -847,6 +880,55 @@ export default function AdminPanel() {
               </ul>
               {enabledNpcs.length === 0 ? (
                 <p className="text-sm text-[var(--bone-dim)]">Brak dostępnych osób dla aktualnego wyszukiwania.</p>
+              ) : null}
+            </div>
+
+            <div className="space-y-3">
+              <div>
+                <h2 className="text-xl">Dostępne cytaty</h2>
+                <p className="text-sm text-[var(--bone-dim)]">
+                  Dialog przypisany do dnia Śledztwa — niezależnie od trybu Cytat.
+                </p>
+              </div>
+              <input
+                className="w-full border border-[var(--hairline)] bg-black px-3 py-2"
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Szukaj dialogu, NPC albo tekstu…"
+                value={search}
+              />
+              <ul className="max-h-[64vh] divide-y divide-[var(--hairline)] overflow-y-auto border border-[var(--hairline)]">
+                {enabledQuotes.map((quote) => (
+                  <li
+                    className="cursor-grab space-y-3 p-3 active:cursor-grabbing"
+                    draggable
+                    key={quote.id}
+                    onDragStart={(event) => {
+                      event.dataTransfer.setData("text/plain", quote.id);
+                      event.dataTransfer.effectAllowed = "move";
+                    }}
+                  >
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div>
+                        <div className="text-xs text-[var(--bone-dim)]">{quote.id}</div>
+                        <div className="text-sm text-[var(--ember)]">{quote.npcId}</div>
+                      </div>
+                      <button
+                        className="border border-[var(--ember)] px-3 py-1 text-xs"
+                        onClick={() => void assignManhuntQuoteToDay(selectedManhuntDay, quote)}
+                        type="button"
+                      >
+                        Do dnia {selectedManhuntDay}
+                      </button>
+                    </div>
+                    <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed">
+                      {quoteLinePreview(quote)}
+                      {quote.lines.length > 4 ? "\n…" : ""}
+                    </pre>
+                  </li>
+                ))}
+              </ul>
+              {enabledQuotes.length === 0 ? (
+                <p className="text-sm text-[var(--bone-dim)]">Brak dostępnych dialogów dla aktualnego wyszukiwania.</p>
               ) : null}
             </div>
           </section>

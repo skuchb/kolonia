@@ -22,7 +22,7 @@ const FALLBACK_MAP_TARGETS: Array<{ npcId: string; chapter?: LocalizedText | nul
 ];
 
 export type DailyClassicResponse = { mode: "classic"; puzzle: number; npc: Npc };
-export type DailyManhuntResponse = { mode: "manhunt"; puzzle: number; npc: Npc };
+export type DailyManhuntResponse = { mode: "manhunt"; puzzle: number; npc: Npc; quote: Quote | null };
 export type DailyQuoteResponse = { mode: "quote"; puzzle: number; quote: Quote };
 export type DailyMapResponse = DailyMapPuzzle;
 export type DailyCardResponse = DailyCardPuzzle;

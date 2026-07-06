@@ -1,6 +1,6 @@
 import type { Locale, Npc, Quote } from "@/src/core/types";
 import { npcDisplayName } from "@/src/data";
-import { campLabel, getDictionary, guildLabel, npcLocationLabel, roleLabel } from "@/src/i18n";
+import { campLabel, getDictionary, guildLabel, npcLocationLabel } from "@/src/i18n";
 import { teacherCategoryForName, tradeCategoryForName } from "./categories";
 import type { ManhuntFieldId } from "./types";
 
@@ -27,28 +27,24 @@ export function manhuntFieldValue(
 
   switch (field) {
     case "camp": {
-      const camp = dict.ui.manhunt.escapedCamps[npc.guildFamily as keyof typeof dict.ui.manhunt.escapedCamps];
-      return camp ?? campLabel(lang, npc.guildFamily);
+      const campName = campLabel(lang, npc.guildFamily);
+      return `${dict.ui.manhunt.campPrefix}: ${campName}`;
     }
-    case "guild": {
-      const role = roleLabel(lang, npc.role);
-      const guild = guildLabel(lang, npc.guild);
-      if (role && role !== npc.role) return role;
-      return guild || empty;
-    }
+    case "guild":
+      return guildLabel(lang, npc.guild) || empty;
     case "location":
       return npcLocationLabel(lang, npc) || empty;
     case "letter":
       return firstLetter(npcDisplayName(npc, lang));
     case "teacher": {
       const category = teacherCategoryForName(npc.name);
-      if (!category) return empty;
-      return dict.ui.manhunt.teacherCategories[category] ?? empty;
+      if (!category) return dict.ui.manhunt.notTeacher;
+      return dict.ui.manhunt.teacherCategories[category] ?? dict.ui.manhunt.notTeacher;
     }
     case "trade": {
       const category = tradeCategoryForName(npc.name);
-      if (!category) return empty;
-      return dict.ui.manhunt.tradeCategories[category] ?? empty;
+      if (!category) return dict.ui.manhunt.notTrader;
+      return dict.ui.manhunt.tradeCategories[category] ?? dict.ui.manhunt.notTrader;
     }
     case "quote": {
       const line = quoteLineForNpc(quote, lang);

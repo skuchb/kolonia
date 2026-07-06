@@ -62,10 +62,10 @@ export async function upsertDailyPuzzle(input: {
         await db
           .update(dailyPuzzles)
           .set({
-            npcId: input.npcId ?? null,
-            quoteId: input.quoteId ?? null,
-            mapPuzzleId: input.mapPuzzleId ?? null,
-            published: input.published ?? 1,
+            npcId: input.npcId !== undefined ? input.npcId : existing.npcId,
+            quoteId: input.quoteId !== undefined ? input.quoteId : existing.quoteId,
+            mapPuzzleId: input.mapPuzzleId !== undefined ? input.mapPuzzleId : existing.mapPuzzleId,
+            published: input.published ?? existing.published ?? 1,
             updatedAt: ts,
           })
           .where(eq(dailyPuzzles.id, existing.id));
@@ -93,13 +93,14 @@ export async function upsertDailyPuzzle(input: {
       const index = state.dailyPuzzles.findIndex(
         (row) => row.puzzle === input.puzzle && row.mode === input.mode,
       );
+      const existing = index >= 0 ? state.dailyPuzzles[index] : null;
       const next = {
         puzzle: input.puzzle,
         mode: input.mode,
-        npcId: input.npcId ?? null,
-        quoteId: input.quoteId ?? null,
-        mapPuzzleId: input.mapPuzzleId ?? null,
-        published: input.published ?? 1,
+        npcId: input.npcId !== undefined ? input.npcId : (existing?.npcId ?? null),
+        quoteId: input.quoteId !== undefined ? input.quoteId : (existing?.quoteId ?? null),
+        mapPuzzleId: input.mapPuzzleId !== undefined ? input.mapPuzzleId : (existing?.mapPuzzleId ?? null),
+        published: input.published ?? existing?.published ?? 1,
       };
       if (index >= 0) state.dailyPuzzles[index] = next;
       else state.dailyPuzzles.push(next);

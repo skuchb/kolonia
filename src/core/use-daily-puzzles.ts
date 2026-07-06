@@ -19,6 +19,7 @@ import {
 export function useDailyPuzzles(puzzle: number) {
   const [classicNpc, setClassicNpc] = useState<Npc | null>(null);
   const [manhuntNpc, setManhuntNpc] = useState<Npc | null>(null);
+  const [manhuntQuote, setManhuntQuote] = useState<Quote | null>(null);
   const [quote, setQuote] = useState<Quote | null>(null);
   const [mapPuzzle, setMapPuzzle] = useState<DailyMapPuzzle | null>(null);
   const [cardNpc, setCardNpc] = useState<Npc | null>(null);
@@ -43,12 +44,13 @@ export function useDailyPuzzles(puzzle: number) {
         classicRes?.mode === "classic"
           ? (classicRes as DailyClassicResponse).npc
           : fallbackDailyClassic(puzzle);
+      const manhuntFromApi = manhuntRes?.mode === "manhunt" ? (manhuntRes as DailyManhuntResponse) : null;
       const manhunt =
-        manhuntRes?.mode === "manhunt"
-          ? (manhuntRes as DailyManhuntResponse).npc
-          : classicRes?.mode === "classic"
-            ? (classicRes as DailyClassicResponse).npc
-            : fallbackDailyManhunt(puzzle);
+        manhuntFromApi?.npc ??
+        (classicRes?.mode === "classic"
+          ? (classicRes as DailyClassicResponse).npc
+          : fallbackDailyManhunt(puzzle));
+      const manhuntQuoteItem = manhuntFromApi?.quote ?? null;
       const quoteItem =
         quoteRes?.mode === "quote" ? (quoteRes as DailyQuoteResponse).quote : fallbackDailyQuote(puzzle);
       const mapItem =
@@ -58,6 +60,7 @@ export function useDailyPuzzles(puzzle: number) {
 
       setClassicNpc(classic);
       setManhuntNpc(manhunt);
+      setManhuntQuote(manhuntQuoteItem);
       setQuote(quoteItem);
       setMapPuzzle(mapItem);
       setCardNpc(cardItem);
@@ -79,6 +82,7 @@ export function useDailyPuzzles(puzzle: number) {
   return {
     classicNpc,
     manhuntNpc,
+    manhuntQuote,
     quote,
     mapPuzzle,
     cardNpc,

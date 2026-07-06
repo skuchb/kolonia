@@ -50,7 +50,7 @@ import {
   rankLabel,
 } from "@/src/i18n";
 import { quoteHints } from "@/src/modes/quote/hints";
-import { loadManhuntState, hasSeenManhuntHelp, markManhuntHelpSeen } from "@/src/modes/manhunt/state";
+import { loadManhuntState, hasSeenManhuntHelp, markManhuntHelpSeen, resetManhuntState } from "@/src/modes/manhunt/state";
 import { ManhuntMode } from "./ManhuntMode";
 import { MapMode } from "./MapMode";
 import { HelpModal, ResultModal, SettingsModal } from "./modals";
@@ -77,7 +77,7 @@ export default function KoloniaGame() {
   const [helpManualOpen, setHelpManualOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [authSession, setAuthSession] = useState<AuthSession | null>(null);
-  const [adminUserId, setAdminUserId] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [resultContext, setResultContext] = useState<{
     mode: ModeId;
     attempts: number;
@@ -91,7 +91,7 @@ export default function KoloniaGame() {
   const [campWarStats, setCampWarStats] = useState<CampWarStats | null>(null);
 
   const puzzle = puzzleNumber();
-  const { classicNpc: scheduledClassic, manhuntNpc: scheduledManhunt, quote: scheduledQuote, mapPuzzle, cardNpc: scheduledCard, loading: dailyLoading } =
+  const { classicNpc: scheduledClassic, manhuntNpc: scheduledManhunt, manhuntQuote: scheduledManhuntQuote, quote: scheduledQuote, mapPuzzle, cardNpc: scheduledCard, loading: dailyLoading } =
     useDailyPuzzles(puzzle);
   const dict = getDictionary(persisted.lang);
   const classicTarget = useMemo(
@@ -114,10 +114,11 @@ export default function KoloniaGame() {
     () => scheduledManhunt ?? classicTarget,
     [classicTarget, scheduledManhunt],
   );
-  const manhuntQuote = useMemo(
-    () => (manhuntTarget ? primaryQuoteForNpc(manhuntTarget.id) ?? null : null),
-    [manhuntTarget],
-  );
+  const manhuntQuote = useMemo(() => {
+    if (scheduledManhuntQuote) return scheduledManhuntQuote;
+    if (!manhuntTarget) return null;
+    return primaryQuoteForNpc(manhuntTarget.id) ?? null;
+  }, [manhuntTarget, scheduledManhuntQuote]);
   const targetNpc = useMemo(() => {
     if (mode === "map") {
       const id = mapTarget?.npcId;
@@ -166,7 +167,6 @@ export default function KoloniaGame() {
     helpManualOpen ||
     (hydrated && Boolean(persisted.camp) && !persisted.seenHelp) ||
     (hydrated && mode === "manhunt" && !hasSeenManhuntHelp());
-  const isAdmin = Boolean(authSession && adminUserId === authSession.userId);
   const visibleModeTabs = useMemo<ModeId[]>(
     () => (isAdmin ? ["manhunt", "quote", "map", "card"] : ["classic", "quote", "map", "card"]),
     [isAdmin],
@@ -256,7 +256,10 @@ export default function KoloniaGame() {
   }, [hydrated, setPersisted]);
 
   useEffect(() => {
-    if (!authSession) return;
+    if (!authSession) {
+      setIsAdmin(false);
+      return;
+    }
 
     let cancelled = false;
     void (async () => {
@@ -264,12 +267,7 @@ export default function KoloniaGame() {
         headers: { Authorization: `Bearer ${authSession.token}` },
       });
       if (cancelled) return;
-      if (!response.ok) {
-        setAdminUserId(null);
-        return;
-      }
-      const data = (await response.json()) as { userId: string };
-      setAdminUserId(data.userId);
+      setIsAdmin(response.ok);
     })();
 
     return () => {
@@ -279,9 +277,17 @@ export default function KoloniaGame() {
 
   useEffect(() => {
     if (isAdmin && mode === "classic") {
+      resetManhuntState(puzzle);
       setMode("manhunt");
     }
-  }, [isAdmin, mode]);
+  }, [isAdmin, mode, puzzle]);
+
+  function enterMode(nextMode: ModeId) {
+    if (nextMode === "manhunt" && isAdmin) {
+      resetManhuntState(puzzle);
+    }
+    setMode(nextMode);
+  }
 
   function showToast(message: string) {
     setToast(message);
@@ -620,7 +626,7 @@ export default function KoloniaGame() {
                           : "border-[var(--panel-ink)]/30 text-[var(--panel-ink)]/70"
                       }`}
                       key={modeId}
-                      onClick={() => setMode(modeId)}
+                      onClick={() => enterMode(modeId)}
                       type="button"
                     >
                       <span className="flex items-center gap-2">

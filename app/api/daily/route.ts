@@ -32,6 +32,16 @@ export async function GET(request: Request) {
     const npcs = await listContentNpcs(true);
     const npc = npcs.find((entry) => entry.id === npcId);
     if (!npc) return Response.json({ error: "npc_not_found" }, { status: 404 });
+
+    if (mode === "manhunt") {
+      let quote = null;
+      if (schedule.quoteId) {
+        const quotes = await listContentQuotes(true);
+        quote = quotes.find((entry) => entry.id === schedule.quoteId) ?? null;
+      }
+      return Response.json({ mode, puzzle, npc, quote });
+    }
+
     return Response.json({ mode, puzzle, npc });
   }
 
