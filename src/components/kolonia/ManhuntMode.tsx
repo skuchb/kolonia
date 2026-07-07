@@ -89,6 +89,7 @@ export function ManhuntMode({
   camp,
   userId,
   awardProgress = true,
+  syncRevision = 0,
   onWin,
 }: {
   targetNpc: Npc;
@@ -98,6 +99,7 @@ export function ManhuntMode({
   camp: PlayerCamp | null;
   userId: string | null;
   awardProgress?: boolean;
+  syncRevision?: number;
   onWin: (result: ManhuntWinResult) => void;
 }) {
   const dict = getDictionary(lang);
@@ -125,7 +127,7 @@ export function ManhuntMode({
     winAwardedRef.current = loaded.status === "won";
     startSentRef.current = loaded.revealCount > 0 || loaded.misses.length > 0 || loaded.status === "won";
     zeroSentRef.current = loaded.nuggets === 0 && loaded.status === "playing";
-  }, [puzzle, targetNpc.id]);
+  }, [puzzle, targetNpc.id, syncRevision]);
 
   useEffect(() => {
     saveManhuntState(state);

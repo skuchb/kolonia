@@ -1,10 +1,22 @@
-import type { Locale, ModeId, ModeStats, PlayerCamp } from "@/src/core/types";
+import type { Locale, ModeDay, ModeId, ModeStats, PlayerCamp } from "@/src/core/types";
+import type { ManhuntState, ManhuntStats } from "@/src/modes/manhunt/types";
+import {
+  mergeArchive,
+  mergeManhuntDays,
+  mergeManhuntStats,
+  mergeModeStats,
+  mergeModes,
+} from "@/src/core/sync-state";
 
 export interface StoredUserState {
   lang?: Locale;
   camp?: PlayerCamp | null;
   totalXp?: number;
   stats?: Partial<Record<ModeId, ModeStats>>;
+  modes?: Partial<Record<ModeId, ModeDay>>;
+  archive?: Partial<Record<ModeId, Record<string, ModeDay>>>;
+  manhuntDays?: Record<string, ManhuntState>;
+  manhuntStats?: ManhuntStats;
 }
 
 function emptyStats(): ModeStats {
@@ -18,19 +30,16 @@ function emptyStats(): ModeStats {
   };
 }
 
-function mergeStats(local: ModeStats, remote: ModeStats): ModeStats {
-  const dist = { ...remote.dist };
-  for (const [attempts, count] of Object.entries(local.dist)) {
-    dist[attempts] = Math.max(dist[attempts] ?? 0, count);
-  }
-
+function emptyManhuntStats(): ManhuntStats {
   return {
-    played: Math.max(local.played, remote.played),
-    won: Math.max(local.won, remote.won),
-    streak: Math.max(local.streak, remote.streak),
-    maxStreak: Math.max(local.maxStreak, remote.maxStreak),
-    lastWonPuzzle: Math.max(local.lastWonPuzzle, remote.lastWonPuzzle),
-    dist,
+    played: 0,
+    won: 0,
+    streak: 0,
+    maxStreak: 0,
+    lastWonDay: -1,
+    bestScore: 0,
+    totalScore: 0,
+    dist: {},
   };
 }
 
@@ -50,7 +59,7 @@ export function mergeUserState(left: StoredUserState, right: StoredUserState): S
     const a = left.stats?.[mode] ?? emptyStats();
     const b = right.stats?.[mode] ?? emptyStats();
     if (left.stats?.[mode] || right.stats?.[mode]) {
-      stats[mode] = mergeStats(a, b);
+      stats[mode] = mergeModeStats(a, b);
     }
   }
 
@@ -59,6 +68,13 @@ export function mergeUserState(left: StoredUserState, right: StoredUserState): S
     camp: right.camp ?? left.camp ?? null,
     totalXp: Math.max(left.totalXp ?? 0, right.totalXp ?? 0),
     stats,
+    modes: mergeModes(left.modes ?? {}, right.modes ?? {}),
+    archive: mergeArchive(left.archive, right.archive),
+    manhuntDays: mergeManhuntDays(left.manhuntDays ?? {}, right.manhuntDays ?? {}),
+    manhuntStats:
+      left.manhuntStats || right.manhuntStats
+        ? mergeManhuntStats(left.manhuntStats ?? emptyManhuntStats(), right.manhuntStats ?? emptyManhuntStats())
+        : undefined,
   };
 }
 

@@ -7,6 +7,7 @@ import {
   savePersisted,
   STORAGE_KEY,
 } from "./storage";
+import { scheduleAccountSync } from "./account-sync";
 import type { Persisted } from "./types";
 
 const listeners = new Set<() => void>();
@@ -31,6 +32,7 @@ function getSnapshot(): Persisted {
 function setSnapshot(next: Persisted) {
   clientSnapshot = next;
   savePersisted(next);
+  scheduleAccountSync(next);
   emit();
 }
 

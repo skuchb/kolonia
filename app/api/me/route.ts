@@ -30,6 +30,10 @@ function toProfile(user: { displayName: string; stateJson: string }, totalXp: nu
     rank: rankForXp(xp),
     stats: state.stats ?? {},
     lang: state.lang,
+    modes: state.modes ?? {},
+    archive: state.archive,
+    manhuntDays: state.manhuntDays ?? {},
+    manhuntStats: state.manhuntStats,
   };
 }
 

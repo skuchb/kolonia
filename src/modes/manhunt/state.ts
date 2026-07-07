@@ -112,6 +112,14 @@ export function saveManhuntState(state: ManhuntState) {
   const days = readManhuntDays();
   days[String(state.day)] = state;
   writeManhuntDays(days);
+  queueManhuntAccountSync();
+}
+
+function queueManhuntAccountSync() {
+  if (typeof window === "undefined") return;
+  void import("@/src/core/account-sync").then(({ scheduleAccountSync }) => {
+    scheduleAccountSync();
+  });
 }
 
 export function resetManhuntState(day = puzzleNumber()): ManhuntState {
@@ -135,6 +143,92 @@ export function loadManhuntStats(): ManhuntStats {
 export function saveManhuntStats(stats: ManhuntStats) {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(MANHUNT_STATS_KEY, JSON.stringify(stats));
+  queueManhuntAccountSync();
+}
+
+export function exportManhuntBundle(): { days: Record<string, ManhuntState>; stats: ManhuntStats } {
+  return {
+    days: readManhuntDays(),
+    stats: loadManhuntStats(),
+  };
+}
+
+export function importManhuntBundle(bundle: {
+  days: Record<string, ManhuntState>;
+  stats?: ManhuntStats;
+}) {
+  if (typeof window === "undefined") return;
+
+  const existing = readManhuntDays();
+  const merged = mergeManhuntDays(existing, bundle.days);
+  writeManhuntDays(merged);
+
+  if (bundle.stats) {
+    window.localStorage.setItem(
+      MANHUNT_STATS_KEY,
+      JSON.stringify(mergeManhuntStats(loadManhuntStats(), bundle.stats)),
+    );
+  }
+}
+
+function mergeManhuntDays(
+  left: Record<string, ManhuntState>,
+  right: Record<string, ManhuntState>,
+): Record<string, ManhuntState> {
+  const keys = new Set([...Object.keys(left), ...Object.keys(right)]);
+  const merged: Record<string, ManhuntState> = {};
+
+  for (const key of keys) {
+    const local = left[key];
+    const remote = right[key];
+    if (local && remote) {
+      merged[key] = mergeManhuntStates(local, remote);
+    } else {
+      merged[key] = (local ?? remote)!;
+    }
+  }
+
+  return merged;
+}
+
+function mergeManhuntStates(left: ManhuntState, right: ManhuntState): ManhuntState {
+  if (left.status === "won" && right.status === "won") {
+    return left.nuggets >= right.nuggets ? left : right;
+  }
+  if (left.status === "won") return left;
+  if (right.status === "won") return right;
+
+  const progress = (state: ManhuntState) =>
+    state.revealCount * 10 + state.misses.length * 5 + (MANHUNT_CONFIG.budget - state.nuggets);
+  const preferred = progress(left) >= progress(right) ? left : right;
+  const other = preferred === left ? right : left;
+
+  return {
+    ...preferred,
+    day: left.day,
+    revealed: Array.from(new Set([...preferred.revealed, ...other.revealed])),
+    misses: [...new Set([...preferred.misses, ...other.misses])],
+    nuggets: Math.min(preferred.nuggets, other.nuggets),
+    revealCount: Math.max(preferred.revealCount, other.revealCount),
+  };
+}
+
+function mergeManhuntStats(left: ManhuntStats, right: ManhuntStats): ManhuntStats {
+  const dist = { ...right.dist };
+  for (const [attempts, count] of Object.entries(left.dist)) {
+    dist[attempts] = Math.max(dist[attempts] ?? 0, count);
+  }
+
+  return {
+    played: Math.max(left.played, right.played),
+    won: Math.max(left.won, right.won),
+    streak: Math.max(left.streak, right.streak),
+    maxStreak: Math.max(left.maxStreak, right.maxStreak),
+    lastWonDay: Math.max(left.lastWonDay, right.lastWonDay),
+    bestScore: Math.max(left.bestScore, right.bestScore),
+    totalScore: Math.max(left.totalScore, right.totalScore),
+    dist,
+  };
 }
 
 export function isFieldRevealed(state: ManhuntState, field: ManhuntFieldId): boolean {

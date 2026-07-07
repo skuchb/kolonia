@@ -107,6 +107,7 @@ export default function KoloniaGame() {
   } | null>(null);
   const [manhuntWinContext, setManhuntWinContext] = useState<ManhuntWinResult | null>(null);
   const [campWarStats, setCampWarStats] = useState<CampWarStats | null>(null);
+  const [gameSyncRevision, setGameSyncRevision] = useState(0);
 
   const todayPuzzle = puzzleNumber();
   const [viewPuzzle, setViewPuzzle] = useState(todayPuzzle);
@@ -291,13 +292,13 @@ export default function KoloniaGame() {
       if (!session) return;
 
       void (async () => {
-        if (googleLogin?.kind === "session" && googleLogin.isNew) {
-          await syncProfile(session.token, loadPersisted());
-        }
-
         const profile = await fetchProfile(session.token);
         if (!profile) return;
-        setPersisted((current) => mergePersistedWithProfile(current, profile));
+
+        const merged = mergePersistedWithProfile(loadPersisted(), profile);
+        setPersisted(merged);
+        setGameSyncRevision((value) => value + 1);
+        await syncProfile(session.token, merged);
       })();
     }, 0);
 
@@ -850,6 +851,7 @@ export default function KoloniaGame() {
                   lang={persisted.lang}
                   onWin={handleManhuntWin}
                   puzzle={viewPuzzle}
+                  syncRevision={gameSyncRevision}
                   targetNpc={manhuntTarget}
                   targetQuote={manhuntQuote}
                   userId={authSession?.userId ?? null}

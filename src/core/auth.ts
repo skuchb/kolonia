@@ -1,4 +1,6 @@
 import type { ModeId, ModeStats, Persisted, PlayerCamp } from "./types";
+import type { ManhuntState, ManhuntStats } from "@/src/modes/manhunt/types";
+import { applyRemoteGameState, buildRemoteGameState } from "./sync-state";
 
 export const AUTH_KEY = "kolonia_auth";
 
@@ -14,6 +16,10 @@ export interface UserProfile {
   totalXp: number;
   stats: Partial<Record<ModeId, ModeStats>>;
   lang?: Persisted["lang"];
+  modes?: Persisted["modes"];
+  archive?: Persisted["archive"];
+  manhuntDays?: Record<string, ManhuntState>;
+  manhuntStats?: ManhuntStats;
 }
 
 export function loadAuth(): AuthSession | null {
@@ -39,50 +45,21 @@ export function saveAuth(session: AuthSession | null) {
   window.localStorage.setItem(AUTH_KEY, JSON.stringify(session));
 }
 
-function mergeStats(local: ModeStats, remote: ModeStats): ModeStats {
-  const dist = { ...remote.dist };
-  for (const [attempts, count] of Object.entries(local.dist)) {
-    dist[attempts] = Math.max(dist[attempts] ?? 0, count);
-  }
-
-  return {
-    played: Math.max(local.played, remote.played),
-    won: Math.max(local.won, remote.won),
-    streak: Math.max(local.streak, remote.streak),
-    maxStreak: Math.max(local.maxStreak, remote.maxStreak),
-    lastWonPuzzle: Math.max(local.lastWonPuzzle, remote.lastWonPuzzle),
-    dist,
-  };
-}
-
 export function mergePersistedWithProfile(local: Persisted, profile: UserProfile): Persisted {
-  const stats = { ...local.stats };
-  for (const mode of ["classic", "manhunt", "quote", "map", "card"] as const) {
-    const localStats = local.stats[mode];
-    const remoteStats = profile.stats[mode];
-    if (localStats && remoteStats) {
-      stats[mode] = mergeStats(localStats, remoteStats);
-    } else if (remoteStats) {
-      stats[mode] = remoteStats;
-    }
-  }
-
-  return {
-    ...local,
-    lang: profile.lang ?? local.lang,
-    camp: profile.camp ?? local.camp,
-    totalXp: Math.max(local.totalXp ?? 0, profile.totalXp ?? 0),
-    stats,
-  };
+  return applyRemoteGameState(local, {
+    lang: profile.lang,
+    camp: profile.camp,
+    totalXp: profile.totalXp,
+    stats: profile.stats,
+    modes: profile.modes,
+    archive: profile.archive,
+    manhuntDays: profile.manhuntDays,
+    manhuntStats: profile.manhuntStats,
+  });
 }
 
-export function profileFromPersisted(state: Persisted): Pick<UserProfile, "camp" | "stats" | "lang" | "totalXp"> {
-  return {
-    camp: state.camp,
-    totalXp: state.totalXp ?? 0,
-    stats: state.stats,
-    lang: state.lang,
-  };
+export function profileFromPersisted(state: Persisted): Omit<UserProfile, "nick"> {
+  return buildRemoteGameState(state);
 }
 
 export function startGoogleLogin() {
@@ -134,7 +111,7 @@ export async function syncProfile(token: string, state: Persisted): Promise<User
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(profileFromPersisted(state)),
+    body: JSON.stringify(buildRemoteGameState(state)),
   });
 
   if (!response.ok) return null;
