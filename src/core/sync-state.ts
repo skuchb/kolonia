@@ -33,6 +33,7 @@ export function mergeModeDay(left?: ModeDay, right?: ModeDay): ModeDay | undefin
     solved: left.solved || right.solved,
     guesses: [...new Set([...left.guesses, ...right.guesses])],
     mapGuesses: mergeMapGuesses(left.mapGuesses, right.mapGuesses),
+    cardTiles: [...new Set([...(left.cardTiles ?? []), ...(right.cardTiles ?? [])])],
   };
 }
 

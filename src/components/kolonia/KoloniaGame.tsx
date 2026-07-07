@@ -45,7 +45,6 @@ import {
   loadPersisted,
   recordGuess,
   recordMapGuess,
-  resetModeDay,
   setCamp,
   setLanguage,
 } from "@/src/core/storage";
@@ -65,7 +64,7 @@ import {
   rankLabel,
 } from "@/src/i18n";
 import { quoteHints } from "@/src/modes/quote/hints";
-import { revealRandomCardTile, CARD_TILE_COUNT } from "@/src/modes/card/tiles";
+import { CARD_TILE_COUNT } from "@/src/modes/card/tiles";
 import { loadManhuntState, loadManhuntStats, manhuntWinSnapshot } from "@/src/modes/manhunt/state";
 import { buildManhuntShareText } from "@/src/modes/manhunt/share";
 import { trackManhuntShare } from "@/src/modes/manhunt/telemetry";
@@ -113,7 +112,6 @@ export default function KoloniaGame() {
   const [campWarStats, setCampWarStats] = useState<CampWarStats | null>(null);
   const [streakLeaders, setStreakLeaders] = useState<StreakLeaders | null>(null);
   const [gameSyncRevision, setGameSyncRevision] = useState(0);
-  const [cardRevealedTiles, setCardRevealedTiles] = useState<Set<number>>(() => new Set());
 
   const todayPuzzle = puzzleNumber();
   const [viewPuzzle, setViewPuzzle] = useState(todayPuzzle);
@@ -158,6 +156,7 @@ export default function KoloniaGame() {
   const quoteDay = ensureModeDay(persisted, "quote", viewPuzzle);
   const mapDay = ensureModeDay(persisted, "map", viewPuzzle);
   const cardDay = ensureModeDay(persisted, "card", viewPuzzle);
+  const cardRevealedTiles = useMemo(() => new Set(cardDay.cardTiles ?? []), [cardDay.cardTiles]);
   const modeStats = ensureModeStats(persisted, mode);
   const quoteStats = ensureModeStats(persisted, "quote");
   const accountStreak = hydrated
@@ -250,10 +249,6 @@ export default function KoloniaGame() {
     setInput("");
     setActiveSuggestion(0);
   }, [viewPuzzle]);
-
-  useEffect(() => {
-    setCardRevealedTiles(new Set());
-  }, [viewPuzzle, mode]);
 
   useEffect(() => {
     const min = minArchivePuzzle(mode);
@@ -439,13 +434,6 @@ export default function KoloniaGame() {
     }
   }
 
-  function handleCardReset() {
-    setCardRevealedTiles(new Set());
-    setPersisted((current) => resetModeDay(current, "card", viewPuzzle));
-    setInput("");
-    setActiveSuggestion(0);
-  }
-
   function submitGuess(npc?: Npc) {
     if (!targetNpc || modeDay.solved) return;
 
@@ -457,10 +445,6 @@ export default function KoloniaGame() {
     if (modeDay.guesses.includes(resolved.id)) {
       showToast(dict.ui.alreadyGuessed);
       return;
-    }
-
-    if (isAdmin && mode === "card") {
-      setCardRevealedTiles((current) => revealRandomCardTile(current));
     }
 
     const solved = resolved.id === targetNpc.id;
@@ -878,26 +862,12 @@ export default function KoloniaGame() {
               ) : null}
 
               {mode === "card" && cardTarget ? (
-                <>
-                  <CharacterCard
-                    lang={persisted.lang}
-                    npc={cardTarget}
-                    revealed={modeDay.solved}
-                    revealedTiles={cardRevealedTiles}
-                    tileReveal={isAdmin}
-                  />
-                  {isAdmin ? (
-                    <div className="mb-6 flex justify-center">
-                      <button
-                        className="border border-[var(--panel-ink)]/40 bg-[var(--panel)]/70 px-4 py-2 font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--panel-ink)] transition-colors hover:border-[var(--rust)] hover:text-[var(--rust)]"
-                        onClick={handleCardReset}
-                        type="button"
-                      >
-                        Od nowa
-                      </button>
-                    </div>
-                  ) : null}
-                </>
+                <CharacterCard
+                  lang={persisted.lang}
+                  npc={cardTarget}
+                  revealed={modeDay.solved}
+                  revealedTiles={cardRevealedTiles}
+                />
               ) : null}
 
               {mode === "manhunt" && manhuntTarget ? (
@@ -1405,13 +1375,11 @@ function CharacterCard({
   npc,
   lang,
   revealed,
-  tileReveal = false,
   revealedTiles,
 }: {
   npc: Npc;
   lang: Locale;
   revealed: boolean;
-  tileReveal?: boolean;
   revealedTiles?: ReadonlySet<number>;
 }) {
   const dict = getDictionary(lang);
@@ -1423,10 +1391,9 @@ function CharacterCard({
     { value: npc.attributes.ATR_HITPOINTS_MAX ?? npc.attributes.ATR_HITPOINTS ?? 0, top: 48.4 },
   ];
   const talents = npc.talents.filter((talent) => talent.skill > 0);
-  const showPortrait = Boolean(npc.originalId) && (revealed || tileReveal);
-  const portraitUrl = showPortrait ? `/portraits/gothic1/${npc.originalId}.jpg` : null;
+  const portraitUrl = npc.originalId ? `/portraits/gothic1/${npc.originalId}.jpg` : null;
   const displayName = stripDiacritics(npcDisplayName(npc, lang));
-  const showTileOverlay = tileReveal && !revealed && portraitUrl;
+  const showTileOverlay = !revealed && portraitUrl;
   const tiles = revealedTiles ?? EMPTY_CARD_TILES;
 
   return (

@@ -1,6 +1,7 @@
 import { detectLocale } from "@/src/i18n";
 import { isArchivePuzzle } from "./archive";
 import { puzzleNumber } from "./daily";
+import { pickRandomUnrevealedCardTile } from "@/src/modes/card/tiles";
 import { xpForSolve } from "./xp";
 import type { Locale, MapGuess, ModeDay, ModeId, ModeStats, Persisted, PlayerCamp } from "./types";
 
@@ -229,6 +230,14 @@ export function recordGuess(
     guesses: [...day.guesses, npcId],
     solved: solved || day.solved,
   };
+
+  if (mode === "card" && !day.solved) {
+    const revealed = new Set(day.cardTiles ?? []);
+    const tile = pickRandomUnrevealedCardTile(revealed);
+    if (tile !== null) {
+      nextDay.cardTiles = [...(day.cardTiles ?? []), tile];
+    }
+  }
 
   if (isArchivePuzzle(puzzle, today)) {
     return {

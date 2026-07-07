@@ -95,6 +95,7 @@ export interface ModeDay {
   puzzle: number;
   guesses: string[];
   mapGuesses?: MapGuess[];
+  cardTiles?: number[];
   solved: boolean;
 }
 
