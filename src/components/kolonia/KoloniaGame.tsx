@@ -45,6 +45,7 @@ import {
   loadPersisted,
   recordGuess,
   recordMapGuess,
+  resetModeDay,
   setCamp,
   setLanguage,
 } from "@/src/core/storage";
@@ -64,6 +65,7 @@ import {
   rankLabel,
 } from "@/src/i18n";
 import { quoteHints } from "@/src/modes/quote/hints";
+import { revealRandomCardTile, CARD_TILE_COUNT } from "@/src/modes/card/tiles";
 import { loadManhuntState, loadManhuntStats, manhuntWinSnapshot } from "@/src/modes/manhunt/state";
 import { buildManhuntShareText } from "@/src/modes/manhunt/share";
 import { trackManhuntShare } from "@/src/modes/manhunt/telemetry";
@@ -111,6 +113,7 @@ export default function KoloniaGame() {
   const [campWarStats, setCampWarStats] = useState<CampWarStats | null>(null);
   const [streakLeaders, setStreakLeaders] = useState<StreakLeaders | null>(null);
   const [gameSyncRevision, setGameSyncRevision] = useState(0);
+  const [cardRevealedTiles, setCardRevealedTiles] = useState<Set<number>>(() => new Set());
 
   const todayPuzzle = puzzleNumber();
   const [viewPuzzle, setViewPuzzle] = useState(todayPuzzle);
@@ -247,6 +250,10 @@ export default function KoloniaGame() {
     setInput("");
     setActiveSuggestion(0);
   }, [viewPuzzle]);
+
+  useEffect(() => {
+    setCardRevealedTiles(new Set());
+  }, [viewPuzzle, mode]);
 
   useEffect(() => {
     const min = minArchivePuzzle(mode);
@@ -432,6 +439,13 @@ export default function KoloniaGame() {
     }
   }
 
+  function handleCardReset() {
+    setCardRevealedTiles(new Set());
+    setPersisted((current) => resetModeDay(current, "card", viewPuzzle));
+    setInput("");
+    setActiveSuggestion(0);
+  }
+
   function submitGuess(npc?: Npc) {
     if (!targetNpc || modeDay.solved) return;
 
@@ -443,6 +457,10 @@ export default function KoloniaGame() {
     if (modeDay.guesses.includes(resolved.id)) {
       showToast(dict.ui.alreadyGuessed);
       return;
+    }
+
+    if (isAdmin && mode === "card") {
+      setCardRevealedTiles((current) => revealRandomCardTile(current));
     }
 
     const solved = resolved.id === targetNpc.id;
@@ -860,7 +878,26 @@ export default function KoloniaGame() {
               ) : null}
 
               {mode === "card" && cardTarget ? (
-                <CharacterCard npc={cardTarget} lang={persisted.lang} revealed={modeDay.solved} />
+                <>
+                  <CharacterCard
+                    lang={persisted.lang}
+                    npc={cardTarget}
+                    revealed={modeDay.solved}
+                    revealedTiles={cardRevealedTiles}
+                    tileReveal={isAdmin}
+                  />
+                  {isAdmin ? (
+                    <div className="mb-6 flex justify-center">
+                      <button
+                        className="border border-[var(--panel-ink)]/40 bg-[var(--panel)]/70 px-4 py-2 font-mono text-[10pt] uppercase tracking-[0.12em] text-[var(--panel-ink)] transition-colors hover:border-[var(--rust)] hover:text-[var(--rust)]"
+                        onClick={handleCardReset}
+                        type="button"
+                      >
+                        Od nowa
+                      </button>
+                    </div>
+                  ) : null}
+                </>
               ) : null}
 
               {mode === "manhunt" && manhuntTarget ? (
@@ -1362,7 +1399,21 @@ function QuoteDialogue({
   );
 }
 
-function CharacterCard({ npc, lang, revealed }: { npc: Npc; lang: Locale; revealed: boolean }) {
+const EMPTY_CARD_TILES = new Set<number>();
+
+function CharacterCard({
+  npc,
+  lang,
+  revealed,
+  tileReveal = false,
+  revealedTiles,
+}: {
+  npc: Npc;
+  lang: Locale;
+  revealed: boolean;
+  tileReveal?: boolean;
+  revealedTiles?: ReadonlySet<number>;
+}) {
   const dict = getDictionary(lang);
   const card = dict.ui.card;
   const attributeValues = [
@@ -1372,8 +1423,11 @@ function CharacterCard({ npc, lang, revealed }: { npc: Npc; lang: Locale; reveal
     { value: npc.attributes.ATR_HITPOINTS_MAX ?? npc.attributes.ATR_HITPOINTS ?? 0, top: 48.4 },
   ];
   const talents = npc.talents.filter((talent) => talent.skill > 0);
-  const portraitUrl = revealed && npc.originalId ? `/portraits/gothic1/${npc.originalId}.jpg` : null;
+  const showPortrait = Boolean(npc.originalId) && (revealed || tileReveal);
+  const portraitUrl = showPortrait ? `/portraits/gothic1/${npc.originalId}.jpg` : null;
   const displayName = stripDiacritics(npcDisplayName(npc, lang));
+  const showTileOverlay = tileReveal && !revealed && portraitUrl;
+  const tiles = revealedTiles ?? EMPTY_CARD_TILES;
 
   return (
     <div className="mb-6 flex justify-center">
@@ -1396,10 +1450,20 @@ function CharacterCard({ npc, lang, revealed }: { npc: Npc; lang: Locale; reveal
           </div>
         ) : null}
 
-        <div className="portrait-mask absolute left-[4%] top-[17.1%] h-[60%] w-[44.7%] bg-black/45">
+        <div className="portrait-mask absolute left-[4%] top-[17.1%] h-[60%] w-[44.7%] bg-black">
           {portraitUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img alt="" className="opacity-90 sepia-[0.25]" src={portraitUrl} />
+          ) : null}
+          {showTileOverlay ? (
+            <div className="absolute inset-0 grid grid-cols-4 grid-rows-6">
+              {Array.from({ length: CARD_TILE_COUNT }, (_, index) => (
+                <div
+                  className={tiles.has(index) ? "bg-transparent" : "bg-black"}
+                  key={index}
+                />
+              ))}
+            </div>
           ) : null}
         </div>
 

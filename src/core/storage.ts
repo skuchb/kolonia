@@ -129,6 +129,28 @@ export function ensureModeStats(state: Persisted, mode: ModeId): ModeStats {
   return state.stats[mode] ?? emptyStats();
 }
 
+export function resetModeDay(state: Persisted, mode: ModeId, puzzle = puzzleNumber()): Persisted {
+  const cleared = freshModeDay(mode, puzzle);
+  const today = puzzleNumber();
+  if (isArchivePuzzle(puzzle, today)) {
+    return {
+      ...state,
+      archive: {
+        ...state.archive,
+        [mode]: {
+          ...state.archive?.[mode],
+          [String(puzzle)]: cleared,
+        },
+      },
+    };
+  }
+
+  return {
+    ...state,
+    modes: { ...state.modes, [mode]: cleared },
+  };
+}
+
 export function recordMapGuess(
   state: Persisted,
   guess: MapGuess,
