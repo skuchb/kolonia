@@ -13,6 +13,7 @@ import {
   type AuthSession,
 } from "@/src/core/auth";
 import { fetchCampWarStats, type CampWarStats } from "@/src/core/camp-war";
+import { readClientAccountStreak } from "@/src/core/account-streak";
 import { fetchStreakLeaders, type StreakLeaders } from "@/src/core/streak-leaders";
 import { fetchDayStats, type DayStats } from "@/src/core/day-stats";
 import { dailyItem, formatCountdown, msUntilReset, puzzleNumber } from "@/src/core/daily";
@@ -156,6 +157,9 @@ export default function KoloniaGame() {
   const cardDay = ensureModeDay(persisted, "card", viewPuzzle);
   const modeStats = ensureModeStats(persisted, mode);
   const quoteStats = ensureModeStats(persisted, "quote");
+  const accountStreak = hydrated
+    ? readClientAccountStreak(persisted, loadManhuntStats(), todayPuzzle).streak
+    : 0;
   const suggestions = useMemo(
     () => autocompleteNpc(npcPool, input, modeDay.guesses),
     [input, modeDay.guesses],
@@ -311,6 +315,7 @@ export default function KoloniaGame() {
         setPersisted(merged);
         setGameSyncRevision((value) => value + 1);
         await syncProfile(session.token, merged);
+        setStreakLeaders(await fetchStreakLeaders());
       })();
     }, 0);
 
@@ -410,6 +415,8 @@ export default function KoloniaGame() {
       void fetchCampWarStats(todayPuzzle).then((stats) => {
         if (stats) setCampWarStats(stats);
       });
+
+      void fetchStreakLeaders().then((stats) => setStreakLeaders(stats));
     }
 
     const session = loadAuth();
@@ -999,8 +1006,8 @@ export default function KoloniaGame() {
               />
               <Stat
                 label={dict.ui.streakDays}
-                value={String(quoteStats.streak)}
-                bar={Math.min(quoteStats.streak / 14, 1)}
+                value={String(accountStreak)}
+                bar={Math.min(accountStreak / 14, 1)}
               />
               <Stat
                 label={dict.ui.effectiveness}

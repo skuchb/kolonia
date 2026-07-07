@@ -1,5 +1,6 @@
 import type { Locale, ModeDay, ModeId, ModeStats, PlayerCamp } from "@/src/core/types";
 import type { ManhuntState, ManhuntStats } from "@/src/modes/manhunt/types";
+import { readAccountStreak, readAccountMaxStreak, readAccountCurrentStreak } from "@/src/core/account-streak";
 import {
   mergeArchive,
   mergeManhuntDays,
@@ -53,13 +54,7 @@ export function parseUserState(raw: string): StoredUserState {
   }
 }
 
-export function readAccountStreak(state: StoredUserState): { streak: number; maxStreak: number } {
-  const manhunt = state.manhuntStats;
-  const mode = state.stats?.manhunt;
-  const streak = Math.max(manhunt?.streak ?? 0, mode?.streak ?? 0);
-  const maxStreak = Math.max(manhunt?.maxStreak ?? 0, mode?.maxStreak ?? 0, streak);
-  return { streak, maxStreak };
-}
+export { readAccountStreak, readAccountMaxStreak, readAccountCurrentStreak };
 
 export function mergeUserState(left: StoredUserState, right: StoredUserState): StoredUserState {
   const stats: Partial<Record<ModeId, ModeStats>> = {};

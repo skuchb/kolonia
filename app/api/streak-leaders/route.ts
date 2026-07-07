@@ -4,7 +4,7 @@ import type { PlayerCamp } from "@/src/core/types";
 import { getDb } from "../../../db";
 import { isStatsRateLimited } from "../../../db/rate-limit";
 import { users } from "../../../db/schema";
-import { parseUserState, readAccountStreak } from "../../../db/user-state";
+import { parseUserState, readAccountMaxStreak } from "../../../db/user-state";
 
 const LEADERS_PER_CAMP = 5;
 
@@ -50,7 +50,7 @@ export async function GET(request: Request) {
       .from(users)
       .where(isNotNull(users.camp));
 
-    const byCamp = new Map<PlayerCamp, { nick: string; streak: number; maxStreak: number }[]>();
+    const byCamp = new Map<PlayerCamp, { nick: string; maxStreak: number }[]>();
 
     for (const camp of PLAYER_CAMPS) {
       byCamp.set(camp, []);
@@ -63,21 +63,20 @@ export async function GET(request: Request) {
       const camp = (state.camp ?? row.camp) as PlayerCamp;
       if (!PLAYER_CAMPS.includes(camp)) continue;
 
-      const { streak, maxStreak } = readAccountStreak(state);
-      if (streak < 1) continue;
+      const maxStreak = readAccountMaxStreak(state);
+      if (maxStreak < 1) continue;
 
       byCamp.get(camp)?.push({
         nick: row.displayName,
-        streak,
         maxStreak,
       });
     }
 
     const camps = PLAYER_CAMPS.map((camp) => {
       const leaders = (byCamp.get(camp) ?? [])
-        .sort((a, b) => b.streak - a.streak || b.maxStreak - a.maxStreak || a.nick.localeCompare(b.nick))
+        .sort((a, b) => b.maxStreak - a.maxStreak || a.nick.localeCompare(b.nick))
         .slice(0, LEADERS_PER_CAMP)
-        .map(({ nick, streak }) => ({ nick, streak }));
+        .map(({ nick, maxStreak }) => ({ nick, streak: maxStreak }));
 
       return { camp, leaders };
     });
