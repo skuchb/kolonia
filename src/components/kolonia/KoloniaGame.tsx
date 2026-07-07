@@ -13,6 +13,7 @@ import {
   type AuthSession,
 } from "@/src/core/auth";
 import { fetchCampWarStats, type CampWarStats } from "@/src/core/camp-war";
+import { fetchStreakLeaders, type StreakLeaders } from "@/src/core/streak-leaders";
 import { fetchDayStats, type DayStats } from "@/src/core/day-stats";
 import { dailyItem, formatCountdown, msUntilReset, puzzleNumber } from "@/src/core/daily";
 import {
@@ -107,6 +108,7 @@ export default function KoloniaGame() {
   } | null>(null);
   const [manhuntWinContext, setManhuntWinContext] = useState<ManhuntWinResult | null>(null);
   const [campWarStats, setCampWarStats] = useState<CampWarStats | null>(null);
+  const [streakLeaders, setStreakLeaders] = useState<StreakLeaders | null>(null);
   const [gameSyncRevision, setGameSyncRevision] = useState(0);
 
   const todayPuzzle = puzzleNumber();
@@ -273,6 +275,16 @@ export default function KoloniaGame() {
       cancelled = true;
     };
   }, [todayPuzzle]);
+
+  useEffect(() => {
+    let cancelled = false;
+    void fetchStreakLeaders().then((stats) => {
+      if (!cancelled) setStreakLeaders(stats);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -1002,10 +1014,37 @@ export default function KoloniaGame() {
               />
             </Panel>
 
-            <Panel title={dict.ui.friendsLeague} subtitle={weekLabel.toUpperCase()}>
-              <p className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--bone-dim)]">
-                {dict.ui.f2FriendsLeague}
-              </p>
+            <Panel title={dict.ui.longestStreak}>
+              <div className="space-y-4">
+                {(streakLeaders?.camps ?? []).map((campRow) => (
+                  <div key={campRow.camp}>
+                    <div className="mb-2 font-mono text-[10pt] uppercase tracking-[0.14em] text-[var(--ember-bright)]">
+                      {playerCampLabel(persisted.lang, campRow.camp)}
+                    </div>
+                    {campRow.leaders.length > 0 ? (
+                      <ol className="space-y-1.5">
+                        {campRow.leaders.map((leader, index) => (
+                          <li
+                            className="flex items-baseline justify-between gap-3 font-mono text-xs uppercase tracking-[0.12em]"
+                            key={`${campRow.camp}-${leader.nick}`}
+                          >
+                            <span className="min-w-0 truncate text-[var(--bone)]">
+                              {index + 1}. {leader.nick}
+                            </span>
+                            <span className="shrink-0 text-[var(--bone-dim)]">
+                              {leader.streak} {dict.ui.streakDaysUnit}
+                            </span>
+                          </li>
+                        ))}
+                      </ol>
+                    ) : (
+                      <p className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--bone-dim)]">
+                        {dict.ui.streakLeadersNoData}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
             </Panel>
           </aside>
 
