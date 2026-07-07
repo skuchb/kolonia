@@ -1020,39 +1020,6 @@ export default function KoloniaGame() {
                 bar={Math.min(averageAttempts(quoteStats) / 6, 1)}
               />
             </Panel>
-
-            <Panel title={dict.ui.longestStreak}>
-              <div className="space-y-4">
-                {(streakLeaders?.camps ?? []).map((campRow) => (
-                  <div key={campRow.camp}>
-                    <div className="mb-2 font-mono text-[10pt] uppercase tracking-[0.14em] text-[var(--ember-bright)]">
-                      {playerCampLabel(persisted.lang, campRow.camp)}
-                    </div>
-                    {campRow.leaders.length > 0 ? (
-                      <ol className="space-y-1.5">
-                        {campRow.leaders.map((leader, index) => (
-                          <li
-                            className="flex items-baseline justify-between gap-3 font-mono text-xs uppercase tracking-[0.12em]"
-                            key={`${campRow.camp}-${leader.nick}`}
-                          >
-                            <span className="min-w-0 truncate text-[var(--bone)]">
-                              {index + 1}. {leader.nick}
-                            </span>
-                            <span className="shrink-0 text-[var(--bone-dim)]">
-                              {leader.streak} {dict.ui.streakDaysUnit}
-                            </span>
-                          </li>
-                        ))}
-                      </ol>
-                    ) : (
-                      <p className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--bone-dim)]">
-                        {dict.ui.streakLeadersNoData}
-                      </p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </Panel>
           </aside>
 
           <aside className="order-3 col-span-12 min-w-0 space-y-4 md:col-span-6 2xl:order-none 2xl:col-span-1 2xl:col-start-3 2xl:row-start-1">
@@ -1105,6 +1072,39 @@ export default function KoloniaGame() {
                 {dict.ui.joinCamp}
                 <span aria-hidden="true">→</span>
               </a>
+            </Panel>
+
+            <Panel title={dict.ui.longestStreak}>
+              <div className="space-y-4">
+                {(streakLeaders?.camps ?? []).map((campRow) => (
+                  <div key={campRow.camp}>
+                    <div className="mb-2 font-mono text-[10pt] uppercase tracking-[0.14em] text-[var(--ember-bright)]">
+                      {playerCampLabel(persisted.lang, campRow.camp)}
+                    </div>
+                    {campRow.leaders.length > 0 ? (
+                      <ol className="space-y-1.5">
+                        {campRow.leaders.map((leader, index) => (
+                          <li
+                            className="flex items-baseline justify-between gap-3 font-mono text-xs uppercase tracking-[0.12em]"
+                            key={`${campRow.camp}-${leader.nick}`}
+                          >
+                            <span className="min-w-0 truncate text-[var(--bone)]">
+                              {index + 1}. {leader.nick}
+                            </span>
+                            <span className="shrink-0 text-[var(--bone-dim)]">
+                              {leader.streak} {dict.ui.streakDaysUnit}
+                            </span>
+                          </li>
+                        ))}
+                      </ol>
+                    ) : (
+                      <p className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--bone-dim)]">
+                        {dict.ui.streakLeadersNoData}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
             </Panel>
           </aside>
         </div>
