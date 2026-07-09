@@ -1146,8 +1146,10 @@ export default function KoloniaGame() {
       {showSettings ? (
         <SettingsModal
           camp={playerCamp}
+          emailOptIn={persisted.emailOptIn !== false}
           lang={persisted.lang}
           onClose={() => setShowSettings(false)}
+          onEmailOptInChange={(optIn) => setPersisted((current) => ({ ...current, emailOptIn: optIn }))}
           onGoogleLogin={handleGoogleLogin}
           onLanguageChange={handleLanguageChange}
           onLogout={handleLogout}

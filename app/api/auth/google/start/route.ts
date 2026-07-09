@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   url.searchParams.set("client_id", config.clientId);
   url.searchParams.set("redirect_uri", config.redirectUri);
   url.searchParams.set("response_type", "code");
-  url.searchParams.set("scope", "openid profile");
+  url.searchParams.set("scope", "openid profile email");
   url.searchParams.set("prompt", "select_account");
   url.searchParams.set("state", state);
 

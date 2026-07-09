@@ -148,6 +148,7 @@ export interface Persisted {
   camp: PlayerCamp | null;
   totalXp: number;
   seenHelp?: boolean;
+  emailOptIn?: boolean;
   modes: Partial<Record<ModeId, ModeDay>>;
   /** Progress for puzzles before today — no XP or streak stats. */
   archive?: Partial<Record<ModeId, Record<string, ModeDay>>>;

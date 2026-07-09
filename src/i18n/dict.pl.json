@@ -92,7 +92,8 @@
       "accountBody": "Logowanie przez Google chroni serię między urządzeniami. Bez konta gra działa w pełni.",
       "googleLogin": "Zaloguj przez Google",
       "logout": "Wyloguj",
-      "loggedInAs": "Zalogowany jako"
+      "loggedInAs": "Zalogowany jako",
+      "emailOptIn": "Chcę otrzymywać wiadomości e-mail od KOLONII (nowości, przypomnienia o zagadce)."
     },
     "result": {
       "title": "Trafione!",

@@ -92,7 +92,8 @@
       "accountBody": "Google sign-in protects your streak across devices. Full game works without an account.",
       "googleLogin": "Sign in with Google",
       "logout": "Log out",
-      "loggedInAs": "Logged in as"
+      "loggedInAs": "Logged in as",
+      "emailOptIn": "I want to receive email from KOLONIA (news and puzzle reminders)."
     },
     "result": {
       "title": "Solved!",

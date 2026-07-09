@@ -18,6 +18,7 @@ export interface StoredUserState {
   archive?: Partial<Record<ModeId, Record<string, ModeDay>>>;
   manhuntDays?: Record<string, ManhuntState>;
   manhuntStats?: ManhuntStats;
+  emailOptIn?: boolean;
 }
 
 function emptyStats(): ModeStats {
@@ -69,6 +70,7 @@ export function mergeUserState(left: StoredUserState, right: StoredUserState): S
   return {
     lang: right.lang ?? left.lang,
     camp: right.camp ?? left.camp ?? null,
+    emailOptIn: right.emailOptIn ?? left.emailOptIn,
     totalXp: Math.max(left.totalXp ?? 0, right.totalXp ?? 0),
     stats,
     modes: mergeModes(left.modes ?? {}, right.modes ?? {}),

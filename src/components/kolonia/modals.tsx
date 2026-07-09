@@ -148,16 +148,20 @@ export function SettingsModal({
   lang,
   camp,
   session,
+  emailOptIn,
   onClose,
   onLanguageChange,
+  onEmailOptInChange,
   onGoogleLogin,
   onLogout,
 }: {
   lang: Locale;
   camp: PlayerCamp | null;
   session: AuthSession | null;
+  emailOptIn: boolean;
   onClose: () => void;
   onLanguageChange: (lang: Locale) => void;
+  onEmailOptInChange: (optIn: boolean) => void;
   onGoogleLogin: () => void;
   onLogout: () => void;
 }) {
@@ -203,6 +207,15 @@ export function SettingsModal({
               <p className="text-[var(--bone)]">
                 {settings.loggedInAs}: <span className="text-[var(--ember-bright)]">{session.nick}</span>
               </p>
+              <label className="flex cursor-pointer items-start gap-3 normal-case tracking-normal">
+                <input
+                  checked={emailOptIn}
+                  className="mt-1 size-4 accent-[var(--ember)]"
+                  onChange={(event) => onEmailOptInChange(event.target.checked)}
+                  type="checkbox"
+                />
+                <span className="leading-relaxed text-[var(--bone-dim)]">{settings.emailOptIn}</span>
+              </label>
               <button
                 className="border-b border-[var(--ember)]/60 pb-0.5 text-[var(--ember-bright)]"
                 onClick={onLogout}

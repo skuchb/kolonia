@@ -20,6 +20,7 @@ export interface UserProfile {
   archive?: Persisted["archive"];
   manhuntDays?: Record<string, ManhuntState>;
   manhuntStats?: ManhuntStats;
+  emailOptIn?: boolean;
 }
 
 export function loadAuth(): AuthSession | null {
@@ -55,6 +56,7 @@ export function mergePersistedWithProfile(local: Persisted, profile: UserProfile
     archive: profile.archive,
     manhuntDays: profile.manhuntDays,
     manhuntStats: profile.manhuntStats,
+    emailOptIn: profile.emailOptIn,
   });
 }
 

@@ -17,6 +17,8 @@ interface GoogleTokenInfo {
   aud?: string;
   sub?: string;
   name?: string;
+  email?: string;
+  email_verified?: string | boolean;
 }
 
 function redirectWithHash(request: Request, params: Record<string, string>) {
@@ -63,6 +65,7 @@ async function exchangeCode(code: string, request: Request) {
   return {
     googleSub: info.sub,
     displayName: info.name?.trim() || "Google user",
+    email: info.email?.trim() || null,
   };
 }
 
@@ -104,13 +107,17 @@ export async function GET(request: Request) {
       if (existing) {
         await db
           .update(users)
-          .set({ displayName })
+          .set({
+            displayName,
+            email: googleProfile.email ?? existing.email,
+          })
           .where(eq(users.id, existing.id));
       } else {
         await db.insert(users).values({
           id: userId,
           googleSub: googleProfile.googleSub,
           displayName,
+          email: googleProfile.email,
           camp: null,
           role: "user",
           stateJson: "{}",

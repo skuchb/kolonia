@@ -7,7 +7,7 @@ import { loadAuth, startGoogleLogin } from "@/src/core/auth";
 import { LAUNCH_DAY, puzzleNumber } from "@/src/core/daily";
 import { getNpcById, npcDisplayName } from "@/src/data";
 
-type Tab = "schedule" | "npcs" | "manhunt" | "quotes" | "map" | "cards" | "stats";
+type Tab = "schedule" | "npcs" | "manhunt" | "quotes" | "map" | "cards" | "stats" | "mail";
 type AdminNpc = Npc & { enabled: boolean };
 type AdminQuote = Quote & { enabled: boolean; qualityStatus?: string; adminNote?: string | null };
 
@@ -19,6 +19,7 @@ const TAB_LABELS: Record<Tab, string> = {
   map: "Mapa",
   cards: "Karta",
   stats: "Statystyki",
+  mail: "Maile",
 };
 
 const MODE_LABELS: Record<ModeId, string> = {
@@ -88,6 +89,14 @@ interface AdminStatsOverviewRow {
   avgAttempts: number;
 }
 
+interface MailRecipientStats {
+  registeredUsers: number;
+  withEmail: number;
+  optedIn: number;
+  optedOut: number;
+  recipients: number;
+}
+
 export default function AdminPanel() {
   const [session, setSession] = useState<ReturnType<typeof loadAuth>>(null);
   const [sessionChecked, setSessionChecked] = useState(false);
@@ -113,6 +122,11 @@ export default function AdminPanel() {
   const [statsLoading, setStatsLoading] = useState(false);
   const [statsDetail, setStatsDetail] = useState<AdminStatsDetail | null>(null);
   const [statsOverview, setStatsOverview] = useState<AdminStatsOverviewRow[]>([]);
+  const [mailStats, setMailStats] = useState<MailRecipientStats | null>(null);
+  const [mailLoading, setMailLoading] = useState(false);
+  const [mailSending, setMailSending] = useState(false);
+  const [mailSubject, setMailSubject] = useState("");
+  const [mailContent, setMailContent] = useState("");
 
   const headers = useMemo(() => {
     if (!session) return null;
@@ -494,6 +508,73 @@ export default function AdminPanel() {
     void loadStats();
   }, [authorized, headers, loadStats, tab]);
 
+  const loadMailStats = useCallback(async () => {
+    if (!headers) return;
+    setMailLoading(true);
+    try {
+      const response = await fetch("/api/admin/mail", { headers });
+      if (response.ok) {
+        setMailStats((await response.json()) as MailRecipientStats);
+      } else {
+        setMailStats(null);
+      }
+    } finally {
+      setMailLoading(false);
+    }
+  }, [headers]);
+
+  useEffect(() => {
+    if (!headers || !authorized || tab !== "mail") return;
+    void loadMailStats();
+  }, [authorized, headers, loadMailStats, tab]);
+
+  async function sendMail(test: boolean) {
+    if (!headers) return;
+    setMailSending(true);
+    setMessage(null);
+    try {
+      const response = await fetch("/api/admin/mail", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ subject: mailSubject, content: mailContent, test }),
+      });
+      const data = (await response.json()) as {
+        ok?: boolean;
+        sent?: number;
+        failed?: number;
+        recipients?: number;
+        to?: string;
+        error?: string;
+        message?: string;
+        detail?: string;
+      };
+
+      if (!response.ok) {
+        setMessage(
+          data.message ??
+            data.detail ??
+            (data.error === "resend_not_configured"
+              ? "Brak RESEND_API_KEY w środowisku."
+              : data.error === "no_recipients"
+                ? "Brak odbiorców z zgodą i adresem e-mail."
+                : data.error === "admin_email_missing"
+                  ? "Zaloguj się ponownie przez Google, aby zapisać adres e-mail admina."
+                  : "Nie udało się wysłać maila."),
+        );
+        return;
+      }
+
+      if (test) {
+        setMessage(`Wysłano test na ${data.to ?? "twój adres"}.`);
+      } else {
+        setMessage(`Wysłano do ${data.sent ?? 0} odbiorców${data.failed ? ` (${data.failed} błędów)` : ""}.`);
+        void loadMailStats();
+      }
+    } finally {
+      setMailSending(false);
+    }
+  }
+
   function scheduleLabel(mode: ModeId) {
     const row = statsDetail?.schedule.find((entry) => entry.mode === mode) ??
       snapshot?.dailyPuzzles.find((entry) => entry.puzzle === puzzle && entry.mode === mode);
@@ -568,7 +649,7 @@ export default function AdminPanel() {
         {message ? <p className="mb-4 border border-[var(--ember)]/40 p-3 text-sm">{message}</p> : null}
 
         <div className="mb-6 flex flex-wrap gap-2">
-          {(["schedule", "npcs", "manhunt", "quotes", "map", "cards", "stats"] as Tab[]).map((item) => (
+          {(["schedule", "npcs", "manhunt", "quotes", "map", "cards", "stats", "mail"] as Tab[]).map((item) => (
             <button
               className={`border px-3 py-2 text-xs uppercase tracking-widest ${
                 tab === item ? "border-[var(--ember)] text-[var(--ember-bright)]" : "border-[var(--hairline)]"
@@ -1550,6 +1631,98 @@ export default function AdminPanel() {
                   </table>
                 </div>
               )}
+            </div>
+          </section>
+        ) : null}
+
+        {tab === "mail" ? (
+          <section className="space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 className="text-xl">Wiadomości e-mail</h2>
+                <p className="text-sm text-[var(--bone-dim)]">
+                  Wysyłka do kont Google z zapisanym adresem i włączoną zgodą w ustawieniach.
+                </p>
+              </div>
+              <button
+                className="border border-[var(--hairline)] px-3 py-2 text-xs uppercase tracking-widest"
+                disabled={mailLoading}
+                onClick={() => void loadMailStats()}
+                type="button"
+              >
+                {mailLoading ? "Ładowanie…" : "Odśwież"}
+              </button>
+            </div>
+
+            {mailStats ? (
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="border border-[var(--hairline)] p-4">
+                  <div className="text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">Konta</div>
+                  <div className="mt-1 font-mono text-3xl text-[var(--ember-bright)]">{mailStats.registeredUsers}</div>
+                </div>
+                <div className="border border-[var(--hairline)] p-4">
+                  <div className="text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">Z adresem e-mail</div>
+                  <div className="mt-1 font-mono text-3xl text-[var(--ember-bright)]">{mailStats.withEmail}</div>
+                </div>
+                <div className="border border-[var(--ember)]/40 bg-[var(--ember)]/5 p-4">
+                  <div className="text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">Odbiorcy</div>
+                  <div className="mt-1 font-mono text-3xl text-[var(--ember-bright)]">{mailStats.recipients}</div>
+                </div>
+                <div className="border border-[var(--hairline)] p-4">
+                  <div className="text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">Bez zgody</div>
+                  <div className="mt-1 font-mono text-3xl text-[var(--bone-dim)]">{mailStats.optedOut}</div>
+                </div>
+              </div>
+            ) : mailLoading ? (
+              <p className="text-sm text-[var(--bone-dim)]">Ładowanie statystyk odbiorców…</p>
+            ) : null}
+
+            <div className="space-y-4 border border-[var(--hairline)] p-4">
+              <label className="block space-y-2">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">Temat</span>
+                <input
+                  className="w-full border border-[var(--hairline)] bg-black px-3 py-2 text-[var(--bone)]"
+                  onChange={(event) => setMailSubject(event.target.value)}
+                  placeholder="Np. Nowa zagadka czeka w Kolonii"
+                  type="text"
+                  value={mailSubject}
+                />
+              </label>
+
+              <label className="block space-y-2">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">Treść</span>
+                <textarea
+                  className="min-h-40 w-full border border-[var(--hairline)] bg-black px-3 py-2 text-[var(--bone)]"
+                  onChange={(event) => setMailContent(event.target.value)}
+                  placeholder="Skazańcy! Dziś w Kolonii czeka nowa zagadka…"
+                  value={mailContent}
+                />
+              </label>
+
+              <p className="text-sm text-[var(--bone-dim)]">
+                Mail użyje szablonu KOLONII (ciemne tło, pomarańczowy nagłówek). Każdy odbiorca dostaje osobną wiadomość.
+              </p>
+
+              <div className="flex flex-wrap gap-3">
+                <button
+                  className="border border-[var(--hairline)] px-4 py-2 text-xs uppercase tracking-widest hover:border-[var(--ember)]"
+                  disabled={mailSending || !mailSubject.trim() || !mailContent.trim()}
+                  onClick={() => void sendMail(true)}
+                  type="button"
+                >
+                  {mailSending ? "Wysyłanie…" : "Wyślij test do mnie"}
+                </button>
+                <button
+                  className="border border-[var(--ember)] bg-[var(--ember)]/10 px-4 py-2 text-xs uppercase tracking-widest text-[var(--ember-bright)] hover:bg-[var(--ember)]/20 disabled:opacity-40"
+                  disabled={mailSending || !mailSubject.trim() || !mailContent.trim() || !mailStats?.recipients}
+                  onClick={() => void sendMail(false)}
+                  type="button"
+                >
+                  {mailSending
+                    ? "Wysyłanie…"
+                    : `Wyślij do ${mailStats?.recipients ?? 0} odbiorców`}
+                </button>
+              </div>
             </div>
           </section>
         ) : null}

@@ -92,7 +92,8 @@
       "accountBody": "Google-Anmeldung schützt deine Serie auf allen Geräten. Das Spiel funktioniert vollständig ohne Konto.",
       "googleLogin": "Mit Google anmelden",
       "logout": "Abmelden",
-      "loggedInAs": "Angemeldet als"
+      "loggedInAs": "Angemeldet als",
+      "emailOptIn": "Ich möchte E-Mails von KOLONIA erhalten (Neuigkeiten und Rätsel-Erinnerungen)."
     },
     "result": {
       "title": "Gelöst!",
