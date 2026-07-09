@@ -1,5 +1,32 @@
 import { parseUserState } from "./user-state";
 
+const EMAIL_RE = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/;
+const FROM_RE = /^[^<]+<[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+>$/;
+
+export function normalizeEmail(value: string | null | undefined): string | null {
+  const email = value?.trim();
+  if (!email || !EMAIL_RE.test(email)) return null;
+  return email;
+}
+
+export function normalizeResendFrom(value: string | null | undefined): string | null {
+  const from = value?.trim();
+  if (!from) return null;
+  if (EMAIL_RE.test(from) || FROM_RE.test(from)) return from;
+  return null;
+}
+
+export function parseResendError(raw: string | undefined): string {
+  if (!raw?.trim()) return "Nie udało się wysłać maila.";
+  try {
+    const parsed = JSON.parse(raw) as { message?: string };
+    if (parsed.message?.trim()) return parsed.message.trim();
+  } catch {
+    // Resend sometimes returns plain text.
+  }
+  return raw.trim().slice(0, 300);
+}
+
 export function isEmailOptIn(stateJson: string): boolean {
   return parseUserState(stateJson).emailOptIn !== false;
 }
@@ -12,6 +39,17 @@ export interface MailRecipientStats {
   recipients: number;
 }
 
+export interface MailAddressRow {
+  displayName: string;
+  email: string;
+  camp: string | null;
+  optedIn: boolean;
+}
+
+export interface MailAdminSnapshot extends MailRecipientStats {
+  addresses: MailAddressRow[];
+}
+
 export function summarizeMailRecipients(
   rows: Array<{ email: string | null; stateJson: string }>,
 ): MailRecipientStats {
@@ -20,7 +58,8 @@ export function summarizeMailRecipients(
   let optedOut = 0;
 
   for (const row of rows) {
-    if (!row.email) continue;
+    const email = normalizeEmail(row.email);
+    if (!email) continue;
     withEmail += 1;
     if (isEmailOptIn(row.stateJson)) {
       optedIn += 1;
@@ -43,11 +82,39 @@ export function filterMailRecipients(
 ): string[] {
   const emails: string[] = [];
   for (const row of rows) {
-    if (!row.email) continue;
+    const email = normalizeEmail(row.email);
+    if (!email) continue;
     if (!isEmailOptIn(row.stateJson)) continue;
-    emails.push(row.email);
+    emails.push(email);
   }
   return emails;
+}
+
+export function listMailAddresses(
+  rows: Array<{ displayName: string; email: string | null; camp: string | null; stateJson: string }>,
+): MailAddressRow[] {
+  const addresses: MailAddressRow[] = [];
+  for (const row of rows) {
+    const email = normalizeEmail(row.email);
+    if (!email) continue;
+    addresses.push({
+      displayName: row.displayName,
+      email,
+      camp: row.camp,
+      optedIn: isEmailOptIn(row.stateJson),
+    });
+  }
+  addresses.sort((left, right) => left.displayName.localeCompare(right.displayName, "pl"));
+  return addresses;
+}
+
+export function buildMailAdminSnapshot(
+  rows: Array<{ displayName: string; email: string | null; camp: string | null; stateJson: string }>,
+): MailAdminSnapshot {
+  return {
+    ...summarizeMailRecipients(rows),
+    addresses: listMailAddresses(rows),
+  };
 }
 
 function escapeHtml(text: string): string {
@@ -115,7 +182,9 @@ export interface ResendConfig {
 export function readResendConfig(): ResendConfig | null {
   const apiKey = process.env.RESEND_API_KEY?.trim();
   if (!apiKey) return null;
-  const from = process.env.RESEND_FROM?.trim() || "KOLONIA <noreply@kolonia.app>";
+  const from =
+    normalizeResendFrom(process.env.RESEND_FROM) ?? normalizeResendFrom("KOLONIA <noreply@kolonia.app>");
+  if (!from) return null;
   return { apiKey, from };
 }
 
@@ -125,6 +194,11 @@ export async function sendResendEmail(
   subject: string,
   html: string,
 ): Promise<{ ok: boolean; error?: string }> {
+  const recipients = to.map((email) => normalizeEmail(email)).filter((email): email is string => Boolean(email));
+  if (recipients.length === 0) {
+    return { ok: false, error: "Brak prawidłowego adresu odbiorcy." };
+  }
+
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -133,7 +207,7 @@ export async function sendResendEmail(
     },
     body: JSON.stringify({
       from: config.from,
-      to,
+      to: recipients,
       subject,
       html,
     }),
@@ -141,7 +215,7 @@ export async function sendResendEmail(
 
   if (!response.ok) {
     const error = await response.text();
-    return { ok: false, error: error.slice(0, 500) };
+    return { ok: false, error: parseResendError(error) };
   }
 
   return { ok: true };
@@ -159,7 +233,12 @@ export async function sendResendBatch(
   const errors: string[] = [];
 
   for (let offset = 0; offset < recipients.length; offset += batchSize) {
-    const chunk = recipients.slice(offset, offset + batchSize);
+    const chunk = recipients
+      .slice(offset, offset + batchSize)
+      .map((email) => normalizeEmail(email))
+      .filter((email): email is string => Boolean(email));
+    if (chunk.length === 0) continue;
+
     const payload = chunk.map((email) => ({
       from: config.from,
       to: [email],
@@ -178,7 +257,7 @@ export async function sendResendBatch(
 
     if (!response.ok) {
       failed += chunk.length;
-      errors.push((await response.text()).slice(0, 300));
+      errors.push(parseResendError(await response.text()));
       continue;
     }
 

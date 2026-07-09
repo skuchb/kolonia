@@ -89,12 +89,20 @@ interface AdminStatsOverviewRow {
   avgAttempts: number;
 }
 
+interface MailAddressRow {
+  displayName: string;
+  email: string;
+  camp: string | null;
+  optedIn: boolean;
+}
+
 interface MailRecipientStats {
   registeredUsers: number;
   withEmail: number;
   optedIn: number;
   optedOut: number;
   recipients: number;
+  addresses: MailAddressRow[];
 }
 
 export default function AdminPanel() {
@@ -1675,6 +1683,49 @@ export default function AdminPanel() {
               </div>
             ) : mailLoading ? (
               <p className="text-sm text-[var(--bone-dim)]">Ładowanie statystyk odbiorców…</p>
+            ) : null}
+
+            {mailStats && mailStats.addresses.length > 0 ? (
+              <div className="space-y-3">
+                <h3 className="text-lg">Adresy e-mail ({mailStats.addresses.length})</h3>
+                <p className="text-sm text-[var(--bone-dim)]">
+                  Test idzie na adres powiązany z Twoim kontem Google (wiersz z Twoim nickiem). Nadawca:{" "}
+                  <span className="font-mono text-[var(--ember-bright)]">RESEND_FROM</span> w formacie{" "}
+                  <span className="font-mono">KOLONIA &lt;noreply@twoja-domena.pl&gt;</span>.
+                </p>
+                <div className="overflow-x-auto border border-[var(--hairline)]">
+                  <table className="min-w-full text-left text-sm">
+                    <thead className="bg-black/40 font-mono text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">
+                      <tr>
+                        <th className="px-3 py-2">Gracz</th>
+                        <th className="px-3 py-2">E-mail</th>
+                        <th className="px-3 py-2">Obóz</th>
+                        <th className="px-3 py-2">Zgoda</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[var(--hairline)]">
+                      {mailStats.addresses.map((row) => (
+                        <tr key={row.email}>
+                          <td className="px-3 py-2">{row.displayName}</td>
+                          <td className="px-3 py-2 font-mono text-[var(--ember-bright)]">{row.email}</td>
+                          <td className="px-3 py-2 text-[var(--bone-dim)]">{row.camp ?? "—"}</td>
+                          <td className="px-3 py-2">
+                            {row.optedIn ? (
+                              <span className="text-[var(--ember-bright)]">Tak</span>
+                            ) : (
+                              <span className="text-[var(--bone-dim)]">Nie</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ) : mailStats && mailStats.withEmail === 0 ? (
+              <p className="text-sm text-[var(--bone-dim)]">
+                Brak zapisanych adresów. Użytkownicy muszą zalogować się ponownie przez Google.
+              </p>
             ) : null}
 
             <div className="space-y-4 border border-[var(--hairline)] p-4">

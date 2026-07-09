@@ -24,4 +24,5 @@ if (!shouldSeedRemoteD1()) {
   process.exit(0);
 }
 
+run("running D1 migrations", ["run", "d1:migrate:remote"]);
 run("importing CMS catalog to D1", ["run", "seed:d1:remote"]);

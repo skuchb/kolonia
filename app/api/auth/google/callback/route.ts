@@ -7,6 +7,7 @@ import {
   signToken,
 } from "../../../../../db/auth";
 import { getDb } from "../../../../../db";
+import { normalizeEmail } from "../../../../../db/mail";
 import { users } from "../../../../../db/schema";
 
 interface GoogleTokenResponse {
@@ -65,7 +66,7 @@ async function exchangeCode(code: string, request: Request) {
   return {
     googleSub: info.sub,
     displayName: info.name?.trim() || "Google user",
-    email: info.email?.trim() || null,
+    email: normalizeEmail(info.email),
   };
 }
 

@@ -26,22 +26,21 @@ Skopiuj **`database_id`** z outputu (UUID).
 
 Alternatywa: Cloudflare Dashboard → **D1** → **kolonia-db** → skopiuj **Database ID**.
 
-### 4. Migracje i seed (jednorazowo, na produkcji)
+### 4. Migracje i seed (produkcja)
+
+**Migracje D1** uruchamiają się **automatycznie** przy każdym deployu (`npm run build` → `post-deploy-migrate` przed seedem CMS). Skrypt śledzi zastosowane pliki w tabeli `schema_migrations` i pomija już wykonane.
+
+Przy pierwszym deployu po włączeniu auto-migrate na istniejącej bazie (tabele już utworzone ręcznie) skrypt traktuje błędy typu „already exists” jako sygnał, że migracja była wcześniej zastosowana, i zapisuje ją w rejestrze.
+
+Ręcznie (opcjonalnie, lokalnie lub gdy build nie ma tokena CF):
 
 ```bash
-npx wrangler d1 execute kolonia-db --remote --file=drizzle/0000_lucky_blur.sql
-npx wrangler d1 execute kolonia-db --remote --file=drizzle/0001_dry_young_avengers.sql
-npx wrangler d1 execute kolonia-db --remote --file=drizzle/0002_telemetry_event.sql
-npx wrangler d1 execute kolonia-db --remote --file=drizzle/0003_cms_admin.sql
+npm run d1:migrate:remote
 npm run seed:content
-npm run seed:d1
+npm run seed:d1:remote
 ```
 
-(`seed:d1` domyślnie seeduje lokalnie; dla remote użyj `--remote` zamiast `--local` w `tools/seed-d1.mjs` albo wykonaj wygenerowany `data-src/seed-d1.sql` ręcznie:)
-
-```bash
-npx wrangler d1 execute kolonia-db --remote --file=data-src/seed-d1.sql
-```
+Nowa migracja: `npm run db:generate`, commit pliku z `drizzle/`, push — kolejny deploy zastosuje ją sam.
 
 ### 5. Commit + push + redeploy
 
