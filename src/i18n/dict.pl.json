@@ -96,7 +96,7 @@
       "emailOptIn": "Chcę otrzymywać wiadomości e-mail od KOLONII (nowości).",
       "push": "Powiadomienia",
       "pushOptIn": "Przypomnij mi codziennie o nowej zagadce.",
-      "pushNeedsNative": "Android wymaga zgody systemowej. Dotknij przycisk poniżej — otworzą się ustawienia KOLONII. Potem wróć i zaznacz checkbox ponownie.",
+      "pushNeedsNative": "Powiadomienia są wyłączone. Włącz je w ustawieniach aplikacji KOLONIA, potem zaznacz checkbox ponownie.",
       "pushDenied": "Powiadomienia są zablokowane w przeglądarce. W Chrome: ikona kłódki przy adresie → Powiadomienia → Zezwól.",
       "pushOpenSettings": "Otwórz ustawienia powiadomień",
       "pushDismissed": "Nie potwierdzono zgody. Zaznacz ponownie, aby zobaczyć pytanie systemowe.",

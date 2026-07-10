@@ -40,6 +40,9 @@ import {
   getAndroidNotificationSettingsHref,
   isAndroidDevice,
   isPushSupported,
+  needsAndroidNativePermissionPrompt,
+  PUSH_PENDING_KEY,
+  requestNativeAndroidNotificationPermission,
   requestPushPermission,
   syncPushSubscription,
 } from "@/src/core/push";
@@ -574,18 +577,7 @@ export default function KoloniaGame() {
     });
   }
 
-  async function handlePushOptInChange(optIn: boolean) {
-    setPushMessage(null);
-    setPushNeedsSettings(false);
-    if (!optIn) {
-      await syncPushSubscription(persisted.lang, false);
-      const next = { ...persisted, pushOptIn: false };
-      setPersisted(next);
-      const session = loadAuth();
-      if (session) void syncProfile(session.token, next);
-      return;
-    }
-
+  async function completePushOptInAfterPermission() {
     const { permission, instantDeny } = await requestPushPermission();
     if (permission !== "granted") {
       setPersisted((current) => ({ ...current, pushOptIn: false }));
@@ -607,6 +599,7 @@ export default function KoloniaGame() {
       setPersisted(next);
       const session = loadAuth();
       if (session) void syncProfile(session.token, next);
+      setPushMessage(null);
       return;
     }
 
@@ -618,6 +611,48 @@ export default function KoloniaGame() {
       setPushMessage(result === "denied" ? dict.ui.settings.pushDenied : dict.ui.settings.pushFailed);
     }
   }
+
+  async function resumePendingPushOptIn() {
+    if (window.sessionStorage.getItem(PUSH_PENDING_KEY) !== "1") return;
+    if (document.visibilityState !== "visible") return;
+
+    window.sessionStorage.removeItem(PUSH_PENDING_KEY);
+    await completePushOptInAfterPermission();
+  }
+
+  async function handlePushOptInChange(optIn: boolean) {
+    setPushMessage(null);
+    setPushNeedsSettings(false);
+    if (!optIn) {
+      window.sessionStorage.removeItem(PUSH_PENDING_KEY);
+      await syncPushSubscription(persisted.lang, false);
+      const next = { ...persisted, pushOptIn: false };
+      setPersisted(next);
+      const session = loadAuth();
+      if (session) void syncProfile(session.token, next);
+      return;
+    }
+
+    if (needsAndroidNativePermissionPrompt()) {
+      setPersisted((current) => ({ ...current, pushOptIn: true }));
+      requestNativeAndroidNotificationPermission();
+      return;
+    }
+
+    await completePushOptInAfterPermission();
+  }
+
+  useEffect(() => {
+    const onResume = () => {
+      void resumePendingPushOptIn();
+    };
+    window.addEventListener("pageshow", onResume);
+    document.addEventListener("visibilitychange", onResume);
+    return () => {
+      window.removeEventListener("pageshow", onResume);
+      document.removeEventListener("visibilitychange", onResume);
+    };
+  }, [persisted.lang]);
 
   function closeHelp() {
     setHelpManualOpen(false);
