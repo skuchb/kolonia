@@ -96,7 +96,7 @@
       "emailOptIn": "I want to receive email from KOLONIA (news).",
       "push": "Notifications",
       "pushOptIn": "Remind me daily about the new puzzle.",
-      "pushNeedsNative": "Notifications are disabled. Enable them in KOLONIA app settings, then try again.",
+      "pushNeedsNative": "Close and reopen the KOLONIA app — you should see the notification prompt on launch. Then check the box. Or: Phone Settings → Apps → KOLONIA → Notifications → Allow.",
       "pushDenied": "Notifications are blocked in the browser. In Chrome: lock icon → Notifications → Allow.",
       "pushOpenSettings": "Open notification settings",
       "pushDismissed": "Permission was not confirmed. Toggle again to see the system prompt.",

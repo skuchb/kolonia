@@ -37,12 +37,9 @@ import {
 } from "@/src/core/feedback";
 import { syncProgressToServer } from "@/src/core/progress";
 import {
-  getAndroidNotificationSettingsHref,
   isAndroidDevice,
+  isStandaloneDisplay,
   isPushSupported,
-  needsAndroidNativePermissionPrompt,
-  PUSH_PENDING_KEY,
-  requestNativeAndroidNotificationPermission,
   requestPushPermission,
   syncPushSubscription,
 } from "@/src/core/push";
@@ -105,12 +102,7 @@ export default function KoloniaGame() {
   const [helpManualOpen, setHelpManualOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [pushMessage, setPushMessage] = useState<string | null>(null);
-  const [pushNeedsSettings, setPushNeedsSettings] = useState(false);
   const pushSupported = isPushSupported();
-  const pushSettingsHref = useMemo(
-    () => (pushNeedsSettings && isAndroidDevice() ? getAndroidNotificationSettingsHref() : null),
-    [pushNeedsSettings],
-  );
   const [authSession, setAuthSession] = useState<AuthSession | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [resultContext, setResultContext] = useState<{
@@ -582,10 +574,10 @@ export default function KoloniaGame() {
     if (permission !== "granted") {
       setPersisted((current) => ({ ...current, pushOptIn: false }));
       if (permission === "denied") {
-        const needsNative = instantDeny || (isAndroidDevice() && Notification.permission === "denied");
-        setPushNeedsSettings(needsNative);
+        const needsManual =
+          instantDeny || (isAndroidDevice() && isStandaloneDisplay());
         setPushMessage(
-          needsNative ? dict.ui.settings.pushNeedsNative : dict.ui.settings.pushDenied,
+          needsManual ? dict.ui.settings.pushNeedsNative : dict.ui.settings.pushDenied,
         );
       } else {
         setPushMessage(dict.ui.settings.pushDismissed);
@@ -604,55 +596,25 @@ export default function KoloniaGame() {
     }
 
     setPersisted((current) => ({ ...current, pushOptIn: false }));
-    if (result === "denied" && isAndroidDevice()) {
-      setPushNeedsSettings(true);
-      setPushMessage(dict.ui.settings.pushNeedsNative);
-    } else {
-      setPushMessage(result === "denied" ? dict.ui.settings.pushDenied : dict.ui.settings.pushFailed);
-    }
+    setPushMessage(result === "denied" ? dict.ui.settings.pushDenied : dict.ui.settings.pushFailed);
   }
 
-  async function resumePendingPushOptIn() {
-    if (window.sessionStorage.getItem(PUSH_PENDING_KEY) !== "1") return;
-    if (document.visibilityState !== "visible") return;
-
-    window.sessionStorage.removeItem(PUSH_PENDING_KEY);
-    await completePushOptInAfterPermission();
-  }
-
-  async function handlePushOptInChange(optIn: boolean) {
-    setPushMessage(null);
-    setPushNeedsSettings(false);
+  function handlePushOptInChange(optIn: boolean) {
     if (!optIn) {
-      window.sessionStorage.removeItem(PUSH_PENDING_KEY);
-      await syncPushSubscription(persisted.lang, false);
-      const next = { ...persisted, pushOptIn: false };
-      setPersisted(next);
-      const session = loadAuth();
-      if (session) void syncProfile(session.token, next);
+      setPushMessage(null);
+      void (async () => {
+        await syncPushSubscription(persisted.lang, false);
+        const next = { ...persisted, pushOptIn: false };
+        setPersisted(next);
+        const session = loadAuth();
+        if (session) void syncProfile(session.token, next);
+      })();
       return;
     }
 
-    if (needsAndroidNativePermissionPrompt()) {
-      setPersisted((current) => ({ ...current, pushOptIn: true }));
-      requestNativeAndroidNotificationPermission();
-      return;
-    }
-
-    await completePushOptInAfterPermission();
+    // Request permission before any setState — required for Android user-gesture.
+    void completePushOptInAfterPermission();
   }
-
-  useEffect(() => {
-    const onResume = () => {
-      void resumePendingPushOptIn();
-    };
-    window.addEventListener("pageshow", onResume);
-    document.addEventListener("visibilitychange", onResume);
-    return () => {
-      window.removeEventListener("pageshow", onResume);
-      document.removeEventListener("visibilitychange", onResume);
-    };
-  }, [persisted.lang]);
 
   function closeHelp() {
     setHelpManualOpen(false);
@@ -1244,17 +1206,14 @@ export default function KoloniaGame() {
           lang={persisted.lang}
           onClose={() => {
             setPushMessage(null);
-            setPushNeedsSettings(false);
             setShowSettings(false);
           }}
           onEmailOptInChange={(optIn) => setPersisted((current) => ({ ...current, emailOptIn: optIn }))}
           onGoogleLogin={handleGoogleLogin}
           onLanguageChange={handleLanguageChange}
           onLogout={handleLogout}
-          onPushOptInChange={(optIn) => void handlePushOptInChange(optIn)}
+          onPushOptInChange={handlePushOptInChange}
           pushMessage={pushMessage}
-          pushNeedsSettings={pushNeedsSettings}
-          pushSettingsHref={pushSettingsHref}
           pushOptIn={persisted.pushOptIn === true}
           pushSupported={pushSupported}
           session={authSession}

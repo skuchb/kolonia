@@ -62,48 +62,6 @@ function authHeaders(): HeadersInit {
   return headers;
 }
 
-const KOLONIA_PACKAGE = "app.kolonia.game";
-const CHROME_PACKAGE = "com.android.chrome";
-export const PUSH_PENDING_KEY = "kolonia_push_pending";
-
-/** Android TWA needs native POST_NOTIFICATIONS before the web Notification API works. */
-export function needsAndroidNativePermissionPrompt(): boolean {
-  return isAndroidDevice() && isStandaloneDisplay() && Notification.permission !== "granted";
-}
-
-/**
- * Launch native permission dialog. Must run synchronously inside a click handler (no await before).
- */
-export function requestNativeAndroidNotificationPermission(): void {
-  const fallback = encodeURIComponent(`${window.location.origin}/`);
-  const href =
-    `intent://notifications#Intent;scheme=kolonia;package=${KOLONIA_PACKAGE};` +
-    `action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;` +
-    `S.browser_fallback_url=${fallback};end`;
-
-  window.sessionStorage.setItem(PUSH_PENDING_KEY, "1");
-
-  const link = document.createElement("a");
-  link.href = href;
-  link.rel = "noopener noreferrer";
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-}
-
-/** Href for opening system notification settings (fallback after user denied native prompt). */
-export function getAndroidNotificationSettingsHref(): string {
-  const origin =
-    typeof window !== "undefined" ? window.location.origin.replace(/\/$/, "") : "https://kolonia.app";
-  const pkg = isStandaloneDisplay() ? KOLONIA_PACKAGE : CHROME_PACKAGE;
-  const fallback = encodeURIComponent(`${origin}/`);
-
-  return (
-    `intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;` +
-    `scheme=package;package=${pkg};S.browser_fallback_url=${fallback};end`
-  );
-}
-
 /** Call as the first await from a click handler — before any other async work. */
 export async function requestPushPermission(): Promise<PushPermissionResult> {
   if (!isPushSupported()) return { permission: "denied", instantDeny: false };
