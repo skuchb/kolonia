@@ -62,6 +62,40 @@ function authHeaders(): HeadersInit {
   return headers;
 }
 
+const KOLONIA_PACKAGE = "app.kolonia.game";
+export const PUSH_PENDING_KEY = "kolonia_push_pending";
+
+function nativePermissionIntentHref(): string {
+  const host =
+    typeof window !== "undefined" ? window.location.host : "kolonia.app";
+  const component = `${KOLONIA_PACKAGE}/.RequestNotificationPermissionActivity`;
+  // Explicit component, no browser_fallback_url — avoids page refresh and app chooser.
+  return (
+    `intent://${host}/request-notification-permission#Intent;` +
+    `scheme=https;package=${KOLONIA_PACKAGE};component=${component};` +
+    `action=android.intent.action.VIEW;end`
+  );
+}
+
+export function needsAndroidNativePermissionPrompt(): boolean {
+  return isAndroidDevice() && isStandaloneDisplay() && Notification.permission !== "granted";
+}
+
+/** Launch native POST_NOTIFICATIONS dialog. Call synchronously from a click handler. */
+export function requestNativeAndroidNotificationPermission(): void {
+  window.sessionStorage.setItem(PUSH_PENDING_KEY, "1");
+  const link = document.createElement("a");
+  link.href = nativePermissionIntentHref();
+  link.rel = "noopener noreferrer";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
+export function getAndroidNotificationPermissionHref(): string {
+  return nativePermissionIntentHref();
+}
+
 /** Call as the first await from a click handler — before any other async work. */
 export async function requestPushPermission(): Promise<PushPermissionResult> {
   if (!isPushSupported()) return { permission: "denied", instantDeny: false };

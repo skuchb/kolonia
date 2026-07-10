@@ -96,9 +96,9 @@
       "emailOptIn": "Chcę otrzymywać wiadomości e-mail od KOLONII (nowości).",
       "push": "Powiadomienia",
       "pushOptIn": "Przypomnij mi codziennie o nowej zagadce.",
-      "pushNeedsNative": "Zamknij i uruchom aplikację KOLONIA ponownie — przy starcie pojawi się pytanie o powiadomienia. Potem zaznacz checkbox. Ręcznie: Ustawienia telefonu → Aplikacje → KOLONIA → Powiadomienia → Włącz.",
+      "pushNeedsNative": "Dotknij przycisk poniżej, aby zezwolić na powiadomienia. Potem wróć tutaj — checkbox włączy się sam.",
       "pushDenied": "Powiadomienia są zablokowane w przeglądarce. W Chrome: ikona kłódki przy adresie → Powiadomienia → Zezwól.",
-      "pushOpenSettings": "Otwórz ustawienia powiadomień",
+      "pushOpenSettings": "Zezwól na powiadomienia",
       "pushDismissed": "Nie potwierdzono zgody. Zaznacz ponownie, aby zobaczyć pytanie systemowe.",
       "pushFailed": "Nie udało się włączyć powiadomień push."
     },

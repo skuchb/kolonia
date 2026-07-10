@@ -37,9 +37,13 @@ import {
 } from "@/src/core/feedback";
 import { syncProgressToServer } from "@/src/core/progress";
 import {
+  getAndroidNotificationPermissionHref,
   isAndroidDevice,
   isStandaloneDisplay,
   isPushSupported,
+  needsAndroidNativePermissionPrompt,
+  PUSH_PENDING_KEY,
+  requestNativeAndroidNotificationPermission,
   requestPushPermission,
   syncPushSubscription,
 } from "@/src/core/push";
@@ -102,7 +106,9 @@ export default function KoloniaGame() {
   const [helpManualOpen, setHelpManualOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [pushMessage, setPushMessage] = useState<string | null>(null);
+  const [pushNeedsNative, setPushNeedsNative] = useState(false);
   const pushSupported = isPushSupported();
+  const pushPermissionHref = pushNeedsNative ? getAndroidNotificationPermissionHref() : null;
   const [authSession, setAuthSession] = useState<AuthSession | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [resultContext, setResultContext] = useState<{
@@ -574,10 +580,11 @@ export default function KoloniaGame() {
     if (permission !== "granted") {
       setPersisted((current) => ({ ...current, pushOptIn: false }));
       if (permission === "denied") {
-        const needsManual =
+        const needsNative =
           instantDeny || (isAndroidDevice() && isStandaloneDisplay());
+        setPushNeedsNative(needsNative);
         setPushMessage(
-          needsManual ? dict.ui.settings.pushNeedsNative : dict.ui.settings.pushDenied,
+          needsNative ? dict.ui.settings.pushNeedsNative : dict.ui.settings.pushDenied,
         );
       } else {
         setPushMessage(dict.ui.settings.pushDismissed);
@@ -592,6 +599,7 @@ export default function KoloniaGame() {
       const session = loadAuth();
       if (session) void syncProfile(session.token, next);
       setPushMessage(null);
+      setPushNeedsNative(false);
       return;
     }
 
@@ -599,9 +607,19 @@ export default function KoloniaGame() {
     setPushMessage(result === "denied" ? dict.ui.settings.pushDenied : dict.ui.settings.pushFailed);
   }
 
+  async function resumePendingPushOptIn() {
+    if (window.sessionStorage.getItem(PUSH_PENDING_KEY) !== "1") return;
+    if (document.visibilityState !== "visible") return;
+
+    window.sessionStorage.removeItem(PUSH_PENDING_KEY);
+    await completePushOptInAfterPermission();
+  }
+
   function handlePushOptInChange(optIn: boolean) {
     if (!optIn) {
       setPushMessage(null);
+      setPushNeedsNative(false);
+      window.sessionStorage.removeItem(PUSH_PENDING_KEY);
       void (async () => {
         await syncPushSubscription(persisted.lang, false);
         const next = { ...persisted, pushOptIn: false };
@@ -612,9 +630,26 @@ export default function KoloniaGame() {
       return;
     }
 
-    // Request permission before any setState — required for Android user-gesture.
+    if (needsAndroidNativePermissionPrompt()) {
+      setPersisted((current) => ({ ...current, pushOptIn: true }));
+      requestNativeAndroidNotificationPermission();
+      return;
+    }
+
     void completePushOptInAfterPermission();
   }
+
+  useEffect(() => {
+    const onResume = () => {
+      void resumePendingPushOptIn();
+    };
+    window.addEventListener("pageshow", onResume);
+    document.addEventListener("visibilitychange", onResume);
+    return () => {
+      window.removeEventListener("pageshow", onResume);
+      document.removeEventListener("visibilitychange", onResume);
+    };
+  }, [persisted.lang]);
 
   function closeHelp() {
     setHelpManualOpen(false);
@@ -1206,6 +1241,7 @@ export default function KoloniaGame() {
           lang={persisted.lang}
           onClose={() => {
             setPushMessage(null);
+            setPushNeedsNative(false);
             setShowSettings(false);
           }}
           onEmailOptInChange={(optIn) => setPersisted((current) => ({ ...current, emailOptIn: optIn }))}
@@ -1214,6 +1250,7 @@ export default function KoloniaGame() {
           onLogout={handleLogout}
           onPushOptInChange={handlePushOptInChange}
           pushMessage={pushMessage}
+          pushNativeHref={pushPermissionHref}
           pushOptIn={persisted.pushOptIn === true}
           pushSupported={pushSupported}
           session={authSession}
