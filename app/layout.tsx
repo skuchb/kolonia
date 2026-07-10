@@ -1,18 +1,34 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Analytics from "@/src/components/kolonia/Analytics";
+import PwaRegister from "@/src/components/kolonia/PwaRegister";
 import { siteUrl } from "@/src/core/site";
 import "./globals.css";
 
 const metadataBase = siteUrl();
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#12100e",
+  colorScheme: "dark",
+};
 
 export const metadata: Metadata = {
   title: "KOLONIA — codzienna zagadka z Górniczej Doliny",
   description:
     "Codzienna gra-zagadka dla fanów Gothica (2001). Klasyczny, cytat, mapa i karta — ta sama zagadka dla wszystkich, reset o północy.",
   metadataBase: new URL(metadataBase),
+  manifest: "/manifest.webmanifest",
+  applicationName: "KOLONIA",
+  appleWebApp: {
+    capable: true,
+    title: "KOLONIA",
+    statusBarStyle: "black-translucent",
+  },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
+    apple: "/icons/icon-192.png",
   },
   openGraph: {
     type: "website",
@@ -51,6 +67,7 @@ export default function RootLayout({
     <html lang="pl">
       <body>
         {children}
+        <PwaRegister />
         <Analytics />
       </body>
     </html>

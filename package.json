@@ -13,6 +13,7 @@
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate",
     "build:data": "node tools/build-data.mjs",
+    "generate:pwa-icons": "node tools/generate-pwa-icons.mjs",
     "seed:content": "node tools/seed-content.mjs",
     "seed:d1": "node tools/seed-d1.mjs",
     "seed:d1:remote": "node tools/seed-d1.mjs --remote",

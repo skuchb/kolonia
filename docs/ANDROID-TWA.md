@@ -1,0 +1,70 @@
+# Android (TWA) — KOLONIA
+
+Aplikacja Android to **Trusted Web Activity** — pełnoekranowa powłoka Chrome wokół `https://kolonia.app`.
+
+## Wymagania w repo (gotowe)
+
+- `public/manifest.webmanifest` — manifest PWA
+- `public/icons/` — ikony 192, 512, maskable 512
+- `public/.well-known/assetlinks.json` — powiązanie z apką (uzupełnij fingerprint)
+- `public/sw.js` — minimalny service worker (install + offline fallback)
+
+Sprawdź po deployu:
+
+```text
+https://kolonia.app/manifest.webmanifest
+https://kolonia.app/.well-known/assetlinks.json
+```
+
+## 1. Wygeneruj projekt Android (Bubblewrap)
+
+```powershell
+npm install -g @bubblewrap/cli
+mkdir ..\kolonia-android
+cd ..\kolonia-android
+bubblewrap init --manifest https://kolonia.app/manifest.webmanifest
+```
+
+Sugerowane wartości:
+
+| Pole | Wartość |
+|------|---------|
+| Package name | `app.kolonia.game` |
+| App name | `KOLONIA` |
+| Theme / background | `#12100e` |
+
+Zapisz keystore i hasła — bez nich nie zaktualizujesz aplikacji w Play Store.
+
+## 2. Digital Asset Links
+
+Po `bubblewrap init` skopiuj **SHA-256 certificate fingerprint** i wklej do `public/.well-known/assetlinks.json`:
+
+```json
+"sha256_cert_fingerprints": [
+  "AA:BB:CC:..."
+]
+```
+
+Commit, push, deploy. W Play Console zweryfikuj domenę `kolonia.app`.
+
+## 3. Build i test
+
+```powershell
+bubblewrap build
+bubblewrap install
+```
+
+## 4. Ikony PWA (regeneracja)
+
+```powershell
+npm run generate:pwa-icons
+```
+
+## 5. Play Console
+
+- Wgraj `app-release-bundle.aab`
+- Store listing: screenshoty, ikona 512×512, feature graphic 1024×500
+- Polityka prywatności: URL na stronie (wymagane przy logowaniu Google)
+- Data safety: e-mail opcjonalny (Google), nick, postęp gry
+
+OAuth Google **nie wymaga** osobnego klienta Android — TWA ładuje produkcyjną stronę z istniejącym redirect URI.
