@@ -75,12 +75,9 @@ export function needsAndroidNativePermissionPrompt(): boolean {
  * Launch native permission dialog. Must run synchronously inside a click handler (no await before).
  */
 export function requestNativeAndroidNotificationPermission(): void {
-  const host = window.location.host;
   const fallback = encodeURIComponent(`${window.location.origin}/`);
-  const component = `${KOLONIA_PACKAGE}/.RequestNotificationPermissionActivity`;
   const href =
-    `intent://${host}/request-notification-permission#Intent;` +
-    `scheme=https;package=${KOLONIA_PACKAGE};component=${component};` +
+    `intent://notifications#Intent;scheme=kolonia;package=${KOLONIA_PACKAGE};` +
     `action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;` +
     `S.browser_fallback_url=${fallback};end`;
 
