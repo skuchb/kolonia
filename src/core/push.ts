@@ -1,5 +1,7 @@
 import type { Locale } from "./types";
 
+export type PushSubscribeResult = "ok" | "denied" | "dismissed" | "unsupported" | "failed";
+
 export function isPushSupported(): boolean {
   return (
     typeof window !== "undefined" &&
@@ -27,28 +29,38 @@ async function fetchVapidPublicKey(): Promise<string | null> {
   return data.publicKey?.trim() || null;
 }
 
-function authHeaders(): HeadersInit | undefined {
+function authHeaders(): HeadersInit {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
   try {
     const raw = window.localStorage.getItem("kolonia_auth");
-    if (!raw) return undefined;
+    if (!raw) return headers;
     const parsed = JSON.parse(raw) as { token?: string };
-    if (!parsed.token) return undefined;
-    return { Authorization: `Bearer ${parsed.token}`, "Content-Type": "application/json" };
+    if (parsed.token) headers.Authorization = `Bearer ${parsed.token}`;
   } catch {
-    return { "Content-Type": "application/json" };
+    // Anonymous push subscription is allowed.
   }
+  return headers;
 }
 
-export async function subscribeToPush(lang: Locale): Promise<"ok" | "denied" | "unsupported" | "failed"> {
-  if (!isPushSupported()) return "unsupported";
+/** Call as the first await from a click handler — before any other async work. */
+export async function requestPushPermission(): Promise<NotificationPermission> {
+  if (!isPushSupported()) return "denied";
+  if (Notification.permission !== "default") return Notification.permission;
+  return Notification.requestPermission();
+}
 
-  const permission = await Notification.requestPermission();
-  if (permission !== "granted") return "denied";
+export async function subscribeToPush(lang: Locale): Promise<PushSubscribeResult> {
+  if (!isPushSupported()) return "unsupported";
+  if (Notification.permission !== "granted") {
+    return Notification.permission === "denied" ? "denied" : "dismissed";
+  }
 
   const publicKey = await fetchVapidPublicKey();
   if (!publicKey) return "failed";
 
+  await navigator.serviceWorker.register("/sw.js").catch(() => undefined);
   const registration = await navigator.serviceWorker.ready;
+
   const existing = await registration.pushManager.getSubscription();
   const subscription =
     existing ??
@@ -76,6 +88,7 @@ export async function subscribeToPush(lang: Locale): Promise<"ok" | "denied" | "
 export async function unsubscribeFromPush(): Promise<void> {
   if (!isPushSupported()) return;
 
+  await navigator.serviceWorker.register("/sw.js").catch(() => undefined);
   const registration = await navigator.serviceWorker.ready;
   const subscription = await registration.pushManager.getSubscription();
   if (!subscription) return;
@@ -95,10 +108,17 @@ export async function unsubscribeFromPush(): Promise<void> {
   await subscription.unsubscribe().catch(() => undefined);
 }
 
-export async function syncPushSubscription(lang: Locale, enabled: boolean): Promise<"ok" | "denied" | "unsupported" | "failed"> {
+export async function syncPushSubscription(
+  lang: Locale,
+  enabled: boolean,
+  permission: NotificationPermission = Notification.permission,
+): Promise<PushSubscribeResult> {
   if (!enabled) {
     await unsubscribeFromPush();
     return "ok";
+  }
+  if (permission !== "granted") {
+    return permission === "denied" ? "denied" : "dismissed";
   }
   return subscribeToPush(lang);
 }

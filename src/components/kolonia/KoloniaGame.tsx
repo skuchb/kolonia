@@ -36,7 +36,7 @@ import {
   quoteFeedback,
 } from "@/src/core/feedback";
 import { syncProgressToServer } from "@/src/core/progress";
-import { isPushSupported, syncPushSubscription } from "@/src/core/push";
+import { isPushSupported, requestPushPermission, syncPushSubscription } from "@/src/core/push";
 import { buildShareText, shareResult } from "@/src/core/share";
 import {
   averageAttempts,
@@ -574,7 +574,16 @@ export default function KoloniaGame() {
       return;
     }
 
-    const result = await syncPushSubscription(persisted.lang, true);
+    const permission = await requestPushPermission();
+    if (permission !== "granted") {
+      setPersisted((current) => ({ ...current, pushOptIn: false }));
+      setPushMessage(
+        permission === "denied" ? dict.ui.settings.pushDenied : dict.ui.settings.pushDismissed,
+      );
+      return;
+    }
+
+    const result = await syncPushSubscription(persisted.lang, true, permission);
     if (result === "ok") {
       const next = { ...persisted, pushOptIn: true };
       setPersisted(next);

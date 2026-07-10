@@ -96,7 +96,8 @@
       "emailOptIn": "Ich möchte E-Mails von KOLONIA erhalten (Neuigkeiten und Rätsel-Erinnerungen).",
       "push": "Benachrichtigungen",
       "pushOptIn": "Erinnere mich täglich ans neue Rätsel (Push auf dem Handy).",
-      "pushDenied": "Benachrichtigungen sind im Browser oder in den Telefoneinstellungen blockiert.",
+      "pushDenied": "Benachrichtigungen sind blockiert. Android: Einstellungen → Apps → KOLONIA → Benachrichtigungen → Erlauben.",
+      "pushDismissed": "Berechtigung nicht bestätigt. Schalter erneut aktivieren, um die Systemabfrage zu sehen.",
       "pushFailed": "Push-Benachrichtigungen konnten nicht aktiviert werden."
     },
     "result": {
