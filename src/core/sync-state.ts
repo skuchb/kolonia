@@ -181,6 +181,7 @@ export interface RemoteGameState {
   camp?: Persisted["camp"];
   lang?: Persisted["lang"];
   emailOptIn?: Persisted["emailOptIn"];
+  pushOptIn?: Persisted["pushOptIn"];
 }
 
 export function mergePersistedWithRemote(local: Persisted, remote: RemoteGameState): Persisted {
@@ -200,6 +201,7 @@ export function mergePersistedWithRemote(local: Persisted, remote: RemoteGameSta
     lang: remote.lang ?? local.lang,
     camp: remote.camp ?? local.camp,
     emailOptIn: remote.emailOptIn ?? local.emailOptIn,
+    pushOptIn: remote.pushOptIn ?? local.pushOptIn,
     totalXp: Math.max(local.totalXp ?? 0, remote.totalXp ?? 0),
     stats,
     modes: mergeModes(local.modes, remote.modes ?? {}),
@@ -212,6 +214,7 @@ export function buildRemoteGameState(state: Persisted): RemoteGameState {
   return {
     lang: state.lang,
     emailOptIn: state.emailOptIn,
+    pushOptIn: state.pushOptIn,
     camp: state.camp,
     totalXp: state.totalXp ?? 0,
     stats: state.stats,

@@ -35,6 +35,7 @@ function toProfile(user: { displayName: string; stateJson: string }, totalXp: nu
     manhuntDays: state.manhuntDays ?? {},
     manhuntStats: state.manhuntStats,
     emailOptIn: state.emailOptIn,
+    pushOptIn: state.pushOptIn,
   };
 }
 

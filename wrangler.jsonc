@@ -28,6 +28,12 @@
 
   ],
 
+  "triggers": {
+
+    "crons": ["0 * * * *"]
+
+  },
+
   // Publiczne zmienne — commituj do gita. Przetrwają każdy deploy z wrangler.jsonc.
 
   "vars": {
@@ -42,7 +48,7 @@
 
   "secrets": {
 
-    "required": ["AUTH_SECRET", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "RESEND_API_KEY"]
+    "required": ["AUTH_SECRET", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "RESEND_API_KEY", "VAPID_PUBLIC_KEY", "VAPID_PRIVATE_KEY"]
 
   }
 

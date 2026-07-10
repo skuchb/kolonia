@@ -93,7 +93,11 @@
       "googleLogin": "Zaloguj przez Google",
       "logout": "Wyloguj",
       "loggedInAs": "Zalogowany jako",
-      "emailOptIn": "Chcę otrzymywać wiadomości e-mail od KOLONII (nowości, przypomnienia o zagadce)."
+      "emailOptIn": "Chcę otrzymywać wiadomości e-mail od KOLONII (nowości, przypomnienia o zagadce).",
+      "push": "Powiadomienia",
+      "pushOptIn": "Przypomnij mi codziennie o nowej zagadce (push na telefonie).",
+      "pushDenied": "Powiadomienia są zablokowane w ustawieniach przeglądarki lub telefonu.",
+      "pushFailed": "Nie udało się włączyć powiadomień push."
     },
     "result": {
       "title": "Trafione!",

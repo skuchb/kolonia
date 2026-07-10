@@ -68,3 +68,17 @@ npm run generate:pwa-icons
 - Data safety: e-mail opcjonalny (Google), nick, postęp gry
 
 OAuth Google **nie wymaga** osobnego klienta Android — TWA ładuje produkcyjną stronę z istniejącym redirect URI.
+
+## Push (Web Push / VAPID)
+
+1. Wygeneruj klucze:
+   ```powershell
+   npm run generate:vapid-keys
+   ```
+2. Ustaw sekrety:
+   ```powershell
+   npx wrangler secret put VAPID_PUBLIC_KEY
+   npx wrangler secret put VAPID_PRIVATE_KEY
+   ```
+3. Po deployu włącz powiadomienia w **Ustawienia** w grze (checkbox push).
+4. Cron worker wysyła przypomnienie codziennie o **8:00** czasu warszawskiego.

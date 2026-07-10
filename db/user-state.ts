@@ -19,6 +19,7 @@ export interface StoredUserState {
   manhuntDays?: Record<string, ManhuntState>;
   manhuntStats?: ManhuntStats;
   emailOptIn?: boolean;
+  pushOptIn?: boolean;
 }
 
 function emptyStats(): ModeStats {
@@ -55,6 +56,10 @@ export function parseUserState(raw: string): StoredUserState {
   }
 }
 
+export function isPushOptIn(stateJson: string): boolean {
+  return parseUserState(stateJson).pushOptIn === true;
+}
+
 export { readAccountStreak, readAccountMaxStreak, readAccountCurrentStreak };
 
 export function mergeUserState(left: StoredUserState, right: StoredUserState): StoredUserState {
@@ -71,6 +76,7 @@ export function mergeUserState(left: StoredUserState, right: StoredUserState): S
     lang: right.lang ?? left.lang,
     camp: right.camp ?? left.camp ?? null,
     emailOptIn: right.emailOptIn ?? left.emailOptIn,
+    pushOptIn: right.pushOptIn ?? left.pushOptIn,
     totalXp: Math.max(left.totalXp ?? 0, right.totalXp ?? 0),
     stats,
     modes: mergeModes(left.modes ?? {}, right.modes ?? {}),

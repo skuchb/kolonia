@@ -93,7 +93,11 @@
       "googleLogin": "Sign in with Google",
       "logout": "Log out",
       "loggedInAs": "Logged in as",
-      "emailOptIn": "I want to receive email from KOLONIA (news and puzzle reminders)."
+      "emailOptIn": "I want to receive email from KOLONIA (news and puzzle reminders).",
+      "push": "Notifications",
+      "pushOptIn": "Remind me daily about the new puzzle (phone push).",
+      "pushDenied": "Notifications are blocked in your browser or phone settings.",
+      "pushFailed": "Could not enable push notifications."
     },
     "result": {
       "title": "Solved!",

@@ -122,3 +122,18 @@ export const adminAuditLog = sqliteTable("admin_audit_log", {
   detailsJson: text("details_json"),
   ts: integer("ts").notNull(),
 });
+
+export const pushSubscriptions = sqliteTable(
+  "push_subscriptions",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    userId: text("user_id"),
+    endpoint: text("endpoint").notNull(),
+    p256dh: text("p256dh").notNull(),
+    auth: text("auth").notNull(),
+    lang: text("lang").notNull().default("pl"),
+    createdAt: integer("created_at").notNull(),
+    updatedAt: integer("updated_at").notNull(),
+  },
+  (table) => [uniqueIndex("push_subscriptions_endpoint_unique").on(table.endpoint)],
+);

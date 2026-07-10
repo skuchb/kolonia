@@ -93,7 +93,11 @@
       "googleLogin": "Mit Google anmelden",
       "logout": "Abmelden",
       "loggedInAs": "Angemeldet als",
-      "emailOptIn": "Ich möchte E-Mails von KOLONIA erhalten (Neuigkeiten und Rätsel-Erinnerungen)."
+      "emailOptIn": "Ich möchte E-Mails von KOLONIA erhalten (Neuigkeiten und Rätsel-Erinnerungen).",
+      "push": "Benachrichtigungen",
+      "pushOptIn": "Erinnere mich täglich ans neue Rätsel (Push auf dem Handy).",
+      "pushDenied": "Benachrichtigungen sind im Browser oder in den Telefoneinstellungen blockiert.",
+      "pushFailed": "Push-Benachrichtigungen konnten nicht aktiviert werden."
     },
     "result": {
       "title": "Gelöst!",

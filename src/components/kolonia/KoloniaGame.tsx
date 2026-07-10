@@ -36,6 +36,7 @@ import {
   quoteFeedback,
 } from "@/src/core/feedback";
 import { syncProgressToServer } from "@/src/core/progress";
+import { isPushSupported, syncPushSubscription } from "@/src/core/push";
 import { buildShareText, shareResult } from "@/src/core/share";
 import {
   averageAttempts,
@@ -94,6 +95,8 @@ export default function KoloniaGame() {
   const [activeSuggestion, setActiveSuggestion] = useState(0);
   const [helpManualOpen, setHelpManualOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [pushMessage, setPushMessage] = useState<string | null>(null);
+  const pushSupported = isPushSupported();
   const [authSession, setAuthSession] = useState<AuthSession | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [resultContext, setResultContext] = useState<{
@@ -558,6 +561,30 @@ export default function KoloniaGame() {
       if (session) void syncProfile(session.token, next);
       return next;
     });
+  }
+
+  async function handlePushOptInChange(optIn: boolean) {
+    setPushMessage(null);
+    if (!optIn) {
+      await syncPushSubscription(persisted.lang, false);
+      const next = { ...persisted, pushOptIn: false };
+      setPersisted(next);
+      const session = loadAuth();
+      if (session) void syncProfile(session.token, next);
+      return;
+    }
+
+    const result = await syncPushSubscription(persisted.lang, true);
+    if (result === "ok") {
+      const next = { ...persisted, pushOptIn: true };
+      setPersisted(next);
+      const session = loadAuth();
+      if (session) void syncProfile(session.token, next);
+      return;
+    }
+
+    setPersisted((current) => ({ ...current, pushOptIn: false }));
+    setPushMessage(result === "denied" ? dict.ui.settings.pushDenied : dict.ui.settings.pushFailed);
   }
 
   function closeHelp() {
@@ -1148,11 +1175,18 @@ export default function KoloniaGame() {
           camp={playerCamp}
           emailOptIn={persisted.emailOptIn !== false}
           lang={persisted.lang}
-          onClose={() => setShowSettings(false)}
+          onClose={() => {
+            setPushMessage(null);
+            setShowSettings(false);
+          }}
           onEmailOptInChange={(optIn) => setPersisted((current) => ({ ...current, emailOptIn: optIn }))}
           onGoogleLogin={handleGoogleLogin}
           onLanguageChange={handleLanguageChange}
           onLogout={handleLogout}
+          onPushOptInChange={(optIn) => void handlePushOptInChange(optIn)}
+          pushMessage={pushMessage}
+          pushOptIn={persisted.pushOptIn === true}
+          pushSupported={pushSupported}
           session={authSession}
         />
       ) : null}
