@@ -37,13 +37,9 @@ import {
 } from "@/src/core/feedback";
 import { syncProgressToServer } from "@/src/core/progress";
 import {
-  getAndroidNotificationPermissionHref,
+  getAndroidNotificationSettingsHref,
   isAndroidDevice,
-  isStandaloneDisplay,
   isPushSupported,
-  needsAndroidNativePermissionPrompt,
-  PUSH_PENDING_KEY,
-  requestNativeAndroidNotificationPermission,
   requestPushPermission,
   syncPushSubscription,
 } from "@/src/core/push";
@@ -106,9 +102,12 @@ export default function KoloniaGame() {
   const [helpManualOpen, setHelpManualOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [pushMessage, setPushMessage] = useState<string | null>(null);
-  const [pushNeedsNative, setPushNeedsNative] = useState(false);
+  const [pushNeedsSettings, setPushNeedsSettings] = useState(false);
   const pushSupported = isPushSupported();
-  const pushPermissionHref = pushNeedsNative ? getAndroidNotificationPermissionHref() : null;
+  const pushSettingsHref = useMemo(
+    () => (pushNeedsSettings && isAndroidDevice() ? getAndroidNotificationSettingsHref() : null),
+    [pushNeedsSettings],
+  );
   const [authSession, setAuthSession] = useState<AuthSession | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [resultContext, setResultContext] = useState<{
@@ -575,14 +574,24 @@ export default function KoloniaGame() {
     });
   }
 
-  async function completePushOptInAfterPermission() {
+  async function handlePushOptInChange(optIn: boolean) {
+    setPushMessage(null);
+    setPushNeedsSettings(false);
+    if (!optIn) {
+      await syncPushSubscription(persisted.lang, false);
+      const next = { ...persisted, pushOptIn: false };
+      setPersisted(next);
+      const session = loadAuth();
+      if (session) void syncProfile(session.token, next);
+      return;
+    }
+
     const { permission, instantDeny } = await requestPushPermission();
     if (permission !== "granted") {
       setPersisted((current) => ({ ...current, pushOptIn: false }));
       if (permission === "denied") {
-        const needsNative =
-          instantDeny || (isAndroidDevice() && isStandaloneDisplay());
-        setPushNeedsNative(needsNative);
+        const needsNative = instantDeny || (isAndroidDevice() && Notification.permission === "denied");
+        setPushNeedsSettings(needsNative);
         setPushMessage(
           needsNative ? dict.ui.settings.pushNeedsNative : dict.ui.settings.pushDenied,
         );
@@ -598,58 +607,17 @@ export default function KoloniaGame() {
       setPersisted(next);
       const session = loadAuth();
       if (session) void syncProfile(session.token, next);
-      setPushMessage(null);
-      setPushNeedsNative(false);
       return;
     }
 
     setPersisted((current) => ({ ...current, pushOptIn: false }));
-    setPushMessage(result === "denied" ? dict.ui.settings.pushDenied : dict.ui.settings.pushFailed);
-  }
-
-  async function resumePendingPushOptIn() {
-    if (window.sessionStorage.getItem(PUSH_PENDING_KEY) !== "1") return;
-    if (document.visibilityState !== "visible") return;
-
-    window.sessionStorage.removeItem(PUSH_PENDING_KEY);
-    await completePushOptInAfterPermission();
-  }
-
-  function handlePushOptInChange(optIn: boolean) {
-    if (!optIn) {
-      setPushMessage(null);
-      setPushNeedsNative(false);
-      window.sessionStorage.removeItem(PUSH_PENDING_KEY);
-      void (async () => {
-        await syncPushSubscription(persisted.lang, false);
-        const next = { ...persisted, pushOptIn: false };
-        setPersisted(next);
-        const session = loadAuth();
-        if (session) void syncProfile(session.token, next);
-      })();
-      return;
+    if (result === "denied" && isAndroidDevice()) {
+      setPushNeedsSettings(true);
+      setPushMessage(dict.ui.settings.pushNeedsNative);
+    } else {
+      setPushMessage(result === "denied" ? dict.ui.settings.pushDenied : dict.ui.settings.pushFailed);
     }
-
-    if (needsAndroidNativePermissionPrompt()) {
-      setPersisted((current) => ({ ...current, pushOptIn: true }));
-      requestNativeAndroidNotificationPermission();
-      return;
-    }
-
-    void completePushOptInAfterPermission();
   }
-
-  useEffect(() => {
-    const onResume = () => {
-      void resumePendingPushOptIn();
-    };
-    window.addEventListener("pageshow", onResume);
-    document.addEventListener("visibilitychange", onResume);
-    return () => {
-      window.removeEventListener("pageshow", onResume);
-      document.removeEventListener("visibilitychange", onResume);
-    };
-  }, [persisted.lang]);
 
   function closeHelp() {
     setHelpManualOpen(false);
@@ -1241,16 +1209,17 @@ export default function KoloniaGame() {
           lang={persisted.lang}
           onClose={() => {
             setPushMessage(null);
-            setPushNeedsNative(false);
+            setPushNeedsSettings(false);
             setShowSettings(false);
           }}
           onEmailOptInChange={(optIn) => setPersisted((current) => ({ ...current, emailOptIn: optIn }))}
           onGoogleLogin={handleGoogleLogin}
           onLanguageChange={handleLanguageChange}
           onLogout={handleLogout}
-          onPushOptInChange={handlePushOptInChange}
+          onPushOptInChange={(optIn) => void handlePushOptInChange(optIn)}
           pushMessage={pushMessage}
-          pushNativeHref={pushPermissionHref}
+          pushNeedsSettings={pushNeedsSettings}
+          pushSettingsHref={pushSettingsHref}
           pushOptIn={persisted.pushOptIn === true}
           pushSupported={pushSupported}
           session={authSession}
