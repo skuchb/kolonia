@@ -62,11 +62,51 @@ function authHeaders(): HeadersInit {
   return headers;
 }
 
+const KOLONIA_PACKAGE = "app.kolonia.game";
+const CHROME_PACKAGE = "com.android.chrome";
+
+/** Href for an <a> tag — works better in TWA than window.location intent hacks. */
+export function getAndroidNotificationSettingsHref(): string {
+  const origin =
+    typeof window !== "undefined" ? window.location.origin.replace(/\/$/, "") : "https://kolonia.app";
+  const host = origin.replace(/^https?:\/\//, "");
+  const pkg = isStandaloneDisplay() ? KOLONIA_PACKAGE : CHROME_PACKAGE;
+  const fallback = encodeURIComponent(`${origin}/`);
+
+  if (isStandaloneDisplay()) {
+    return (
+      `intent://${host}/open-notification-settings#Intent;` +
+      `scheme=https;package=${pkg};action=android.intent.action.VIEW;` +
+      `category=android.intent.category.BROWSABLE;` +
+      `S.browser_fallback_url=${fallback};end`
+    );
+  }
+
+  return (
+    `intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;` +
+    `scheme=package;package=${pkg};S.browser_fallback_url=${fallback};end`
+  );
+}
+
 /** Opens Android notification settings for KOLONIA (TWA) or Chrome (browser). */
 export function openAndroidNotificationSettings(): void {
   if (!isAndroidDevice()) return;
-  const appPackage = isStandaloneDisplay() ? "app.kolonia.game" : "com.android.chrome";
-  window.location.href = `intent:#Intent;action=android.settings.APP_NOTIFICATION_SETTINGS;S.android.provider.extra.APP_PACKAGE=${appPackage};end`;
+
+  const href = getAndroidNotificationSettingsHref();
+  const link = document.createElement("a");
+  link.href = href;
+  link.rel = "noopener noreferrer";
+  link.style.display = "none";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  // Fallback: load the deep-link path (native Activity after APK update, or static help page).
+  if (isStandaloneDisplay()) {
+    window.setTimeout(() => {
+      window.location.assign(`${window.location.origin}/open-notification-settings`);
+    }, 400);
+  }
 }
 
 /** Call as the first await from a click handler — before any other async work. */

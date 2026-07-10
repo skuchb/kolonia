@@ -37,9 +37,9 @@ import {
 } from "@/src/core/feedback";
 import { syncProgressToServer } from "@/src/core/progress";
 import {
+  getAndroidNotificationSettingsHref,
   isAndroidDevice,
   isPushSupported,
-  openAndroidNotificationSettings,
   requestPushPermission,
   syncPushSubscription,
 } from "@/src/core/push";
@@ -104,6 +104,10 @@ export default function KoloniaGame() {
   const [pushMessage, setPushMessage] = useState<string | null>(null);
   const [pushNeedsSettings, setPushNeedsSettings] = useState(false);
   const pushSupported = isPushSupported();
+  const pushSettingsHref = useMemo(
+    () => (pushNeedsSettings && isAndroidDevice() ? getAndroidNotificationSettingsHref() : null),
+    [pushNeedsSettings],
+  );
   const [authSession, setAuthSession] = useState<AuthSession | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [resultContext, setResultContext] = useState<{
@@ -1212,10 +1216,10 @@ export default function KoloniaGame() {
           onGoogleLogin={handleGoogleLogin}
           onLanguageChange={handleLanguageChange}
           onLogout={handleLogout}
-          onOpenPushSettings={() => openAndroidNotificationSettings()}
           onPushOptInChange={(optIn) => void handlePushOptInChange(optIn)}
           pushMessage={pushMessage}
           pushNeedsSettings={pushNeedsSettings}
+          pushSettingsHref={pushSettingsHref}
           pushOptIn={persisted.pushOptIn === true}
           pushSupported={pushSupported}
           session={authSession}

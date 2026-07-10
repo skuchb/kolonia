@@ -153,11 +153,11 @@ export function SettingsModal({
   pushOptIn,
   pushMessage,
   pushNeedsSettings,
+  pushSettingsHref,
   onClose,
   onLanguageChange,
   onEmailOptInChange,
   onPushOptInChange,
-  onOpenPushSettings,
   onGoogleLogin,
   onLogout,
 }: {
@@ -169,11 +169,11 @@ export function SettingsModal({
   pushOptIn: boolean;
   pushMessage: string | null;
   pushNeedsSettings: boolean;
+  pushSettingsHref: string | null;
   onClose: () => void;
   onLanguageChange: (lang: Locale) => void;
   onEmailOptInChange: (optIn: boolean) => void;
   onPushOptInChange: (optIn: boolean) => void;
-  onOpenPushSettings: () => void;
   onGoogleLogin: () => void;
   onLogout: () => void;
 }) {
@@ -226,14 +226,14 @@ export function SettingsModal({
             {pushMessage ? (
               <p className="mt-2 normal-case tracking-normal text-[var(--ember-bright)]">{pushMessage}</p>
             ) : null}
-            {pushNeedsSettings ? (
-              <button
-                className="mt-3 min-h-10 border border-[var(--hairline)] px-3 py-2 font-mono text-[10pt] normal-case tracking-normal text-[var(--bone)] hover:border-[var(--bone)]/40"
-                onClick={onOpenPushSettings}
-                type="button"
+            {pushNeedsSettings && pushSettingsHref ? (
+              <a
+                className="mt-3 inline-flex min-h-10 items-center border border-[var(--hairline)] px-3 py-2 font-mono text-[10pt] normal-case tracking-normal text-[var(--bone)] hover:border-[var(--bone)]/40"
+                href={pushSettingsHref}
+                rel="noopener noreferrer"
               >
                 {settings.pushOpenSettings}
-              </button>
+              </a>
             ) : null}
           </section>
         ) : null}
