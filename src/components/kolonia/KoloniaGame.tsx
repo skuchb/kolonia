@@ -36,7 +36,13 @@ import {
   quoteFeedback,
 } from "@/src/core/feedback";
 import { syncProgressToServer } from "@/src/core/progress";
-import { isPushSupported, requestPushPermission, syncPushSubscription } from "@/src/core/push";
+import {
+  isAndroidDevice,
+  isPushSupported,
+  openAndroidNotificationSettings,
+  requestPushPermission,
+  syncPushSubscription,
+} from "@/src/core/push";
 import { buildShareText, shareResult } from "@/src/core/share";
 import {
   averageAttempts,
@@ -96,6 +102,7 @@ export default function KoloniaGame() {
   const [helpManualOpen, setHelpManualOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [pushMessage, setPushMessage] = useState<string | null>(null);
+  const [pushNeedsSettings, setPushNeedsSettings] = useState(false);
   const pushSupported = isPushSupported();
   const [authSession, setAuthSession] = useState<AuthSession | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -565,6 +572,7 @@ export default function KoloniaGame() {
 
   async function handlePushOptInChange(optIn: boolean) {
     setPushMessage(null);
+    setPushNeedsSettings(false);
     if (!optIn) {
       await syncPushSubscription(persisted.lang, false);
       const next = { ...persisted, pushOptIn: false };
@@ -574,12 +582,18 @@ export default function KoloniaGame() {
       return;
     }
 
-    const permission = await requestPushPermission();
+    const { permission, instantDeny } = await requestPushPermission();
     if (permission !== "granted") {
       setPersisted((current) => ({ ...current, pushOptIn: false }));
-      setPushMessage(
-        permission === "denied" ? dict.ui.settings.pushDenied : dict.ui.settings.pushDismissed,
-      );
+      if (permission === "denied") {
+        const needsNative = instantDeny || (isAndroidDevice() && Notification.permission === "denied");
+        setPushNeedsSettings(needsNative);
+        setPushMessage(
+          needsNative ? dict.ui.settings.pushNeedsNative : dict.ui.settings.pushDenied,
+        );
+      } else {
+        setPushMessage(dict.ui.settings.pushDismissed);
+      }
       return;
     }
 
@@ -593,7 +607,12 @@ export default function KoloniaGame() {
     }
 
     setPersisted((current) => ({ ...current, pushOptIn: false }));
-    setPushMessage(result === "denied" ? dict.ui.settings.pushDenied : dict.ui.settings.pushFailed);
+    if (result === "denied" && isAndroidDevice()) {
+      setPushNeedsSettings(true);
+      setPushMessage(dict.ui.settings.pushNeedsNative);
+    } else {
+      setPushMessage(result === "denied" ? dict.ui.settings.pushDenied : dict.ui.settings.pushFailed);
+    }
   }
 
   function closeHelp() {
@@ -1186,14 +1205,17 @@ export default function KoloniaGame() {
           lang={persisted.lang}
           onClose={() => {
             setPushMessage(null);
+            setPushNeedsSettings(false);
             setShowSettings(false);
           }}
           onEmailOptInChange={(optIn) => setPersisted((current) => ({ ...current, emailOptIn: optIn }))}
           onGoogleLogin={handleGoogleLogin}
           onLanguageChange={handleLanguageChange}
           onLogout={handleLogout}
+          onOpenPushSettings={() => openAndroidNotificationSettings()}
           onPushOptInChange={(optIn) => void handlePushOptInChange(optIn)}
           pushMessage={pushMessage}
+          pushNeedsSettings={pushNeedsSettings}
           pushOptIn={persisted.pushOptIn === true}
           pushSupported={pushSupported}
           session={authSession}

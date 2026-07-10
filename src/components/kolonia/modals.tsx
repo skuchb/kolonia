@@ -152,10 +152,12 @@ export function SettingsModal({
   pushSupported,
   pushOptIn,
   pushMessage,
+  pushNeedsSettings,
   onClose,
   onLanguageChange,
   onEmailOptInChange,
   onPushOptInChange,
+  onOpenPushSettings,
   onGoogleLogin,
   onLogout,
 }: {
@@ -166,10 +168,12 @@ export function SettingsModal({
   pushSupported: boolean;
   pushOptIn: boolean;
   pushMessage: string | null;
+  pushNeedsSettings: boolean;
   onClose: () => void;
   onLanguageChange: (lang: Locale) => void;
   onEmailOptInChange: (optIn: boolean) => void;
   onPushOptInChange: (optIn: boolean) => void;
+  onOpenPushSettings: () => void;
   onGoogleLogin: () => void;
   onLogout: () => void;
 }) {
@@ -221,6 +225,15 @@ export function SettingsModal({
             </label>
             {pushMessage ? (
               <p className="mt-2 normal-case tracking-normal text-[var(--ember-bright)]">{pushMessage}</p>
+            ) : null}
+            {pushNeedsSettings ? (
+              <button
+                className="mt-3 min-h-10 border border-[var(--hairline)] px-3 py-2 font-mono text-[10pt] normal-case tracking-normal text-[var(--bone)] hover:border-[var(--bone)]/40"
+                onClick={onOpenPushSettings}
+                type="button"
+              >
+                {settings.pushOpenSettings}
+              </button>
             ) : null}
           </section>
         ) : null}

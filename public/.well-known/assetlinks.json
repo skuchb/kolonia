@@ -1,10 +1,8 @@
-[
-  {
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target": {
-      "namespace": "android_app",
-      "package_name": "app.kolonia.game",
-      "sha256_cert_fingerprints": []
-    }
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "app.kolonia.game",
+    "sha256_cert_fingerprints": ["63:55:B0:0E:A3:1B:8D:3C:A5:98:AB:E8:10:29:97:21:04:72:83:A1:65:AD:48:13:B7:8F:EE:DB:30:B2:98:5D"]
   }
-]
+}]

@@ -96,7 +96,9 @@
       "emailOptIn": "Chcę otrzymywać wiadomości e-mail od KOLONII (nowości).",
       "push": "Powiadomienia",
       "pushOptIn": "Przypomnij mi codziennie o nowej zagadce.",
-      "pushDenied": "Powiadomienia są zablokowane. Android: Ustawienia → Aplikacje → KOLONIA → Powiadomienia → Włącz. Chrome: ikona kłódki przy adresie → Powiadomienia.",
+      "pushNeedsNative": "Android wymaga zgody systemowej na powiadomienia. Otwórz ustawienia, włącz powiadomienia dla KOLONII, wróć i zaznacz ponownie.",
+      "pushDenied": "Powiadomienia są zablokowane w przeglądarce. W Chrome: ikona kłódki przy adresie → Powiadomienia → Zezwól.",
+      "pushOpenSettings": "Otwórz ustawienia powiadomień",
       "pushDismissed": "Nie potwierdzono zgody. Zaznacz ponownie, aby zobaczyć pytanie systemowe.",
       "pushFailed": "Nie udało się włączyć powiadomień push."
     },

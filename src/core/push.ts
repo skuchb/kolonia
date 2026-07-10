@@ -2,6 +2,26 @@ import type { Locale } from "./types";
 
 export type PushSubscribeResult = "ok" | "denied" | "dismissed" | "unsupported" | "failed";
 
+export type PushPermissionResult = {
+  permission: NotificationPermission;
+  /** Web API returned denied without showing a prompt (common on Android 13+ TWA). */
+  instantDeny: boolean;
+};
+
+export function isAndroidDevice(): boolean {
+  return typeof navigator !== "undefined" && /Android/i.test(navigator.userAgent);
+}
+
+/** Installed PWA or TWA (not the Chrome tab UI). */
+export function isStandaloneDisplay(): boolean {
+  if (typeof window === "undefined") return false;
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.matchMedia("(display-mode: minimal-ui)").matches ||
+    (navigator as Navigator & { standalone?: boolean }).standalone === true
+  );
+}
+
 export function isPushSupported(): boolean {
   return (
     typeof window !== "undefined" &&
@@ -42,11 +62,26 @@ function authHeaders(): HeadersInit {
   return headers;
 }
 
+/** Opens Android notification settings for KOLONIA (TWA) or Chrome (browser). */
+export function openAndroidNotificationSettings(): void {
+  if (!isAndroidDevice()) return;
+  const appPackage = isStandaloneDisplay() ? "app.kolonia.game" : "com.android.chrome";
+  window.location.href = `intent:#Intent;action=android.settings.APP_NOTIFICATION_SETTINGS;S.android.provider.extra.APP_PACKAGE=${appPackage};end`;
+}
+
 /** Call as the first await from a click handler — before any other async work. */
-export async function requestPushPermission(): Promise<NotificationPermission> {
-  if (!isPushSupported()) return "denied";
-  if (Notification.permission !== "default") return Notification.permission;
-  return Notification.requestPermission();
+export async function requestPushPermission(): Promise<PushPermissionResult> {
+  if (!isPushSupported()) return { permission: "denied", instantDeny: false };
+
+  const prior = Notification.permission;
+  if (prior !== "default") return { permission: prior, instantDeny: false };
+
+  const started = performance.now();
+  const permission = await Notification.requestPermission();
+  const instantDeny =
+    permission === "denied" && isAndroidDevice() && performance.now() - started < 250;
+
+  return { permission, instantDeny };
 }
 
 export async function subscribeToPush(lang: Locale): Promise<PushSubscribeResult> {

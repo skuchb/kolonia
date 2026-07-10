@@ -96,7 +96,9 @@
       "emailOptIn": "I want to receive email from KOLONIA (news).",
       "push": "Notifications",
       "pushOptIn": "Remind me daily about the new puzzle.",
-      "pushDenied": "Notifications are blocked. Android: Settings → Apps → KOLONIA → Notifications → Allow. Chrome: lock icon → Notifications.",
+      "pushNeedsNative": "Android needs system notification permission. Open settings, allow notifications for KOLONIA, return and try again.",
+      "pushDenied": "Notifications are blocked in the browser. In Chrome: lock icon → Notifications → Allow.",
+      "pushOpenSettings": "Open notification settings",
       "pushDismissed": "Permission was not confirmed. Toggle again to see the system prompt.",
       "pushFailed": "Could not enable push notifications."
     },

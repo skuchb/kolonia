@@ -39,11 +39,18 @@ Zapisz keystore i hasła — bez nich nie zaktualizujesz aplikacji w Play Store.
 
 Po `bubblewrap init` skopiuj **SHA-256 certificate fingerprint** i wklej do `public/.well-known/assetlinks.json`:
 
+```powershell
+cd ..\kolonia-android
+bubblewrap fingerprint list
+```
+
 ```json
 "sha256_cert_fingerprints": [
   "AA:BB:CC:..."
 ]
 ```
+
+**Bez poprawnego fingerprintu TWA działa w trybie Custom Tabs** — powiadomienia push wymagają zgody Chrome, a nie aplikacji KOLONIA. Po uzupełnieniu fingerprintu i deployu przeinstaluj apkę.
 
 Commit, push, deploy. W Play Console zweryfikuj domenę `kolonia.app`.
 
@@ -81,4 +88,5 @@ OAuth Google **nie wymaga** osobnego klienta Android — TWA ładuje produkcyjn�
    npx wrangler secret put VAPID_PRIVATE_KEY
    ```
 3. Po deployu włącz powiadomienia w **Ustawienia** w grze (checkbox push).
-4. Cron worker wysyła przypomnienie codziennie o **8:00** czasu warszawskiego.
+4. **Android 13+:** przy pierwszym uruchomieniu apki pojawi się systemowe pytanie o powiadomienia — zaakceptuj, potem włącz checkbox w grze.
+5. Cron worker wysyła przypomnienie codziennie o **8:00** czasu warszawskiego.
