@@ -96,9 +96,8 @@
       "emailOptIn": "I want to receive email from KOLONIA (news).",
       "push": "Notifications",
       "pushOptIn": "Remind me daily about the new puzzle.",
-      "pushNeedsNative": "If you don't see the system prompt, tap the button below. After allowing, return here — notifications will enable automatically.",
-      "pushDenied": "Notifications are blocked. Android: Settings → Apps → KOLONIA → Notifications → Allow.",
-      "pushOpenSettings": "Allow notifications",
+      "pushTwaBlocked": "No system prompt appeared. Uninstall the KOLONIA app, clear Chrome data for kolonia.app, reinstall, and try again. Or: Settings → Apps → KOLONIA → Notifications → Allow.",
+      "pushDenied": "Notifications are blocked. Android: Settings → Apps → KOLONIA → Notifications → Allow. Chrome: lock icon → Notifications.",
       "pushDismissed": "Permission was not confirmed. Toggle again to see the system prompt.",
       "pushFailed": "Could not enable push notifications."
     },

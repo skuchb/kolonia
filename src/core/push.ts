@@ -4,13 +4,9 @@ export type PushSubscribeResult = "ok" | "denied" | "dismissed" | "unsupported" 
 
 export type PushPermissionResult = {
   permission: NotificationPermission;
+  /** Web API returned denied without showing a prompt (TWA delegation not connected). */
   instantDeny: boolean;
 };
-
-const KOLONIA_PACKAGE = "app.kolonia.game";
-const NATIVE_PERMISSION_ACTIVITY = `${KOLONIA_PACKAGE}/app.kolonia.game.OpenNotificationSettingsActivity`;
-
-export const PUSH_PENDING_KEY = "kolonia_push_pending";
 
 export function isAndroidDevice(): boolean {
   return typeof navigator !== "undefined" && /Android/i.test(navigator.userAgent);
@@ -33,36 +29,6 @@ export function isPushSupported(): boolean {
     "PushManager" in window &&
     "Notification" in window
   );
-}
-
-/**
- * Chrome intent URI — must use intent://host/#Intent;… (not intent:#Intent).
- * Activity must declare BROWSABLE in manifest. See developer.chrome.com/docs/android/intents
- */
-export function getNativeNotificationPermissionHref(): string {
-  return (
-    `intent://notifications/#Intent;` +
-    `scheme=kolonia;` +
-    `package=${KOLONIA_PACKAGE};` +
-    `component=${NATIVE_PERMISSION_ACTIVITY};` +
-    `action=android.intent.action.VIEW;` +
-    `category=android.intent.category.BROWSABLE;` +
-    `end`
-  );
-}
-
-/** Call synchronously from a click handler — before any await. */
-export function launchNativeNotificationPermission(): void {
-  const link = document.createElement("a");
-  link.href = getNativeNotificationPermissionHref();
-  link.rel = "noopener noreferrer";
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-}
-
-export function shouldUseNativePermissionFlow(): boolean {
-  return isAndroidDevice() && isStandaloneDisplay();
 }
 
 function urlBase64ToUint8Array(value: string): Uint8Array {
@@ -96,7 +62,11 @@ function authHeaders(): HeadersInit {
   return headers;
 }
 
-/** First await inside a click handler (after native flow on Android). */
+/**
+ * Must be the first await in a click handler (user gesture required).
+ * In a verified TWA, Chrome delegates to NotificationPermissionRequestActivity
+ * and shows the native Android POST_NOTIFICATIONS dialog.
+ */
 export async function requestPushPermission(): Promise<PushPermissionResult> {
   if (!isPushSupported()) return { permission: "denied", instantDeny: false };
 

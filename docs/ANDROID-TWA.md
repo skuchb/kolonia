@@ -92,42 +92,30 @@ OAuth Google **nie wymaga** osobnego klienta Android — TWA ładuje produkcyjn�
 
 ### Powiadomienia w apce Android (TWA)
 
-TWA wymaga **dwóch warstw zgody** na Androidzie 13+:
+**Nie używaj intent URL z warstwy web** — Chrome w TWA blokuje lub źle interpretuje takie linki.
 
-| Warstwa | Co to | Jak działa |
-|---------|-------|------------|
-| `POST_NOTIFICATIONS` | Uprawnienie systemowe Android | Dialog natywny w apce |
-| `Notification.permission` | Zgoda w warstwie web (Chrome/TWA) | `Notification.requestPermission()` |
+Oficjalna ścieżka (delegacja powiadomień):
 
-**Poprawna konfiguracja (już w projekcie):**
+1. APK ma `DelegationService` + `NotificationPermissionRequestActivity` + `POST_NOTIFICATIONS`
+2. `assetlinks.json` i `assetStatements` muszą być poprawne (TWA bez paska adresu)
+3. Checkbox w grze wywołuje **`Notification.requestPermission()`** w handlerze kliknięcia
+4. Chrome uruchamia natywny dialog Androida przez `NotificationPermissionRequestActivity`
 
-- `DelegationService` + `NotificationPermissionRequestActivity` w `AndroidManifest.xml`
-- `POST_NOTIFICATIONS` w manifeście
-- `enableNotifications: true` w `twa-manifest.json`
-- `assetlinks.json` z fingerprintem keystore
-
-**Flow po checkboxie (APK v6+):**
-
-1. Checkbox → natywny dialog „Zezwolić na powiadomienia?” (bez wyboru Kolonia/Kolonia.app)
-2. Po „Zezwól” → powrót do gry → automatyczna subskrypcja push
-3. Jeśli dialog się nie pojawi → przycisk „Zezwól na powiadomienia” (ten sam mechanizm)
-
-**Ważne — czysta instalacja po problemach:**
+**Czysta instalacja po problemach:**
 
 ```powershell
-# Odinstaluj starą apkę z telefonu, potem:
+# Odinstaluj apkę z telefonu, potem:
 cd ..\kolonia-android
-bubblewrap update
 bubblewrap build
 bubblewrap install
 ```
 
-Przy pierwszym uruchomieniu apka może też zapytać o powiadomienia (backup w `LauncherActivity`).
+Dodatkowo: wyczyść dane Chrome dla `kolonia.app` (Ustawienia → Aplikacje → Chrome → Pamięć → Wyczyść cache).
 
-**Weryfikacja asset links na telefonie** (opcjonalnie, przez adb):
+**Weryfikacja asset links (adb):**
 
 ```text
 adb shell pm get-app-links app.kolonia.game
 ```
 
-Status `verified` dla `kolonia.app` = TWA działa w pełnym trybie z delegacją powiadomień.
+Status `verified` dla `kolonia.app` = pełny tryb TWA z delegacją.

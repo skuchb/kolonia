@@ -96,9 +96,8 @@
       "emailOptIn": "Chcę otrzymywać wiadomości e-mail od KOLONII (nowości).",
       "push": "Powiadomienia",
       "pushOptIn": "Przypomnij mi codziennie o nowej zagadce.",
-      "pushNeedsNative": "Jeśli nie widzisz pytania systemowego, dotknij przycisku poniżej. Po zezwoleniu wróć tutaj — powiadomienia włączą się automatycznie.",
-      "pushDenied": "Powiadomienia są zablokowane. Android: Ustawienia → Aplikacje → KOLONIA → Powiadomienia → Włącz.",
-      "pushOpenSettings": "Zezwól na powiadomienia",
+      "pushTwaBlocked": "Brak pytania systemowego. Odinstaluj apkę KOLONIA, wyczyść dane Chrome dla kolonia.app, zainstaluj apkę ponownie i spróbuj jeszcze raz. Ręcznie: Ustawienia → Aplikacje → KOLONIA → Powiadomienia → Włącz.",
+      "pushDenied": "Powiadomienia są zablokowane. Android: Ustawienia → Aplikacje → KOLONIA → Powiadomienia → Włącz. Chrome: ikona kłódki → Powiadomienia.",
       "pushDismissed": "Nie potwierdzono zgody. Zaznacz ponownie, aby zobaczyć pytanie systemowe.",
       "pushFailed": "Nie udało się włączyć powiadomień push."
     },
