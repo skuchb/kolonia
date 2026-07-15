@@ -36,16 +36,17 @@ export function isPushSupported(): boolean {
 }
 
 /**
- * Launches OpenNotificationSettingsActivity via explicit Android component.
- * No https deep link — avoids Kolonia vs Kolonia.app chooser.
- * No browser_fallback_url — avoids page refresh / Not Found.
+ * Chrome intent URI — must use intent://host/#Intent;… (not intent:#Intent).
+ * Activity must declare BROWSABLE in manifest. See developer.chrome.com/docs/android/intents
  */
 export function getNativeNotificationPermissionHref(): string {
   return (
-    `intent:#Intent;` +
+    `intent://notifications/#Intent;` +
+    `scheme=kolonia;` +
+    `package=${KOLONIA_PACKAGE};` +
     `component=${NATIVE_PERMISSION_ACTIVITY};` +
-    `action=android.intent.action.MAIN;` +
-    `category=android.intent.category.DEFAULT;` +
+    `action=android.intent.action.VIEW;` +
+    `category=android.intent.category.BROWSABLE;` +
     `end`
   );
 }
