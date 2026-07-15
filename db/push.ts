@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import type { D1Database } from "@cloudflare/workers-types";
 import { drizzle } from "drizzle-orm/d1";
 import webpush from "web-push";
@@ -208,4 +208,26 @@ export async function sendDailyPuzzlePushes(
   }
 
   return { sent, failed, removed, skipped: false };
+}
+
+export async function listPushSubscriptionsForAdmin(d1: D1Database): Promise<
+  Array<{
+    id: number;
+    endpointPreview: string;
+    lang: string;
+    updatedAt: number;
+  }>
+> {
+  const db = drizzleDb(d1);
+  const rows = await db
+    .select()
+    .from(pushSubscriptions)
+    .orderBy(desc(pushSubscriptions.updatedAt));
+
+  return rows.map((row) => ({
+    id: row.id,
+    endpointPreview: row.endpoint.length > 56 ? `${row.endpoint.slice(0, 56)}…` : row.endpoint,
+    lang: row.lang,
+    updatedAt: row.updatedAt,
+  }));
 }

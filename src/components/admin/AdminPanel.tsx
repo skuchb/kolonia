@@ -7,7 +7,7 @@ import { loadAuth, startGoogleLogin } from "@/src/core/auth";
 import { LAUNCH_DAY, puzzleNumber } from "@/src/core/daily";
 import { getNpcById, npcDisplayName } from "@/src/data";
 
-type Tab = "schedule" | "npcs" | "manhunt" | "quotes" | "map" | "cards" | "stats" | "mail";
+type Tab = "schedule" | "npcs" | "manhunt" | "quotes" | "map" | "cards" | "stats" | "mail" | "push";
 type AdminNpc = Npc & { enabled: boolean };
 type AdminQuote = Quote & { enabled: boolean; qualityStatus?: string; adminNote?: string | null };
 
@@ -20,6 +20,7 @@ const TAB_LABELS: Record<Tab, string> = {
   cards: "Karta",
   stats: "Statystyki",
   mail: "Maile",
+  push: "Push",
 };
 
 const MODE_LABELS: Record<ModeId, string> = {
@@ -105,6 +106,18 @@ interface MailRecipientStats {
   addresses: MailAddressRow[];
 }
 
+interface PushSubscriptionRow {
+  id: number;
+  endpointPreview: string;
+  lang: string;
+  updatedAt: number;
+}
+
+interface PushAdminStats {
+  count: number;
+  subscriptions: PushSubscriptionRow[];
+}
+
 export default function AdminPanel() {
   const [session, setSession] = useState<ReturnType<typeof loadAuth>>(null);
   const [sessionChecked, setSessionChecked] = useState(false);
@@ -135,6 +148,9 @@ export default function AdminPanel() {
   const [mailSending, setMailSending] = useState(false);
   const [mailSubject, setMailSubject] = useState("");
   const [mailContent, setMailContent] = useState("");
+  const [pushStats, setPushStats] = useState<PushAdminStats | null>(null);
+  const [pushLoading, setPushLoading] = useState(false);
+  const [pushSending, setPushSending] = useState(false);
 
   const headers = useMemo(() => {
     if (!session) return null;
@@ -536,6 +552,59 @@ export default function AdminPanel() {
     void loadMailStats();
   }, [authorized, headers, loadMailStats, tab]);
 
+  const loadPushStats = useCallback(async () => {
+    if (!headers) return;
+    setPushLoading(true);
+    try {
+      const response = await fetch("/api/admin/push-test", { headers });
+      if (response.ok) {
+        setPushStats((await response.json()) as PushAdminStats);
+      } else {
+        setPushStats(null);
+      }
+    } finally {
+      setPushLoading(false);
+    }
+  }, [headers]);
+
+  useEffect(() => {
+    if (!headers || !authorized || tab !== "push") return;
+    void loadPushStats();
+  }, [authorized, headers, loadPushStats, tab]);
+
+  async function sendTestPush() {
+    if (!headers) return;
+    setPushSending(true);
+    setMessage(null);
+    try {
+      const response = await fetch("/api/admin/push-test", { method: "POST", headers });
+      const data = (await response.json()) as {
+        sent?: number;
+        failed?: number;
+        removed?: number;
+        skipped?: boolean;
+        error?: string;
+      };
+
+      if (!response.ok) {
+        setMessage(data.error ?? "Nie udało się wysłać powiadomień push.");
+        return;
+      }
+
+      if (data.skipped) {
+        setMessage("Wysyłka pominięta (brak VAPID lub poza oknem czasowym — użyto force, więc to raczej brak VAPID).");
+        return;
+      }
+
+      setMessage(
+        `Wysłano push: ${data.sent ?? 0} OK${data.failed ? `, ${data.failed} błędów` : ""}${data.removed ? `, ${data.removed} wygasłych usuniętych` : ""}.`,
+      );
+      void loadPushStats();
+    } finally {
+      setPushSending(false);
+    }
+  }
+
   async function sendMail(test: boolean) {
     if (!headers) return;
     setMailSending(true);
@@ -657,7 +726,7 @@ export default function AdminPanel() {
         {message ? <p className="mb-4 border border-[var(--ember)]/40 p-3 text-sm">{message}</p> : null}
 
         <div className="mb-6 flex flex-wrap gap-2">
-          {(["schedule", "npcs", "manhunt", "quotes", "map", "cards", "stats", "mail"] as Tab[]).map((item) => (
+          {(["schedule", "npcs", "manhunt", "quotes", "map", "cards", "stats", "mail", "push"] as Tab[]).map((item) => (
             <button
               className={`border px-3 py-2 text-xs uppercase tracking-widest ${
                 tab === item ? "border-[var(--ember)] text-[var(--ember-bright)]" : "border-[var(--hairline)]"
@@ -1774,6 +1843,83 @@ export default function AdminPanel() {
                     : `Wyślij do ${mailStats?.recipients ?? 0} odbiorców`}
                 </button>
               </div>
+            </div>
+          </section>
+        ) : null}
+
+        {tab === "push" ? (
+          <section className="space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 className="text-xl">Powiadomienia push</h2>
+                <p className="text-sm text-[var(--bone-dim)]">
+                  Subskrypcje zarejestrowane po zgodzie systemowej w apce Android. Cron codziennie o 14:00 (Warszawa).
+                </p>
+              </div>
+              <button
+                className="border border-[var(--hairline)] px-3 py-2 text-xs uppercase tracking-widest"
+                disabled={pushLoading}
+                onClick={() => void loadPushStats()}
+                type="button"
+              >
+                {pushLoading ? "Ładowanie…" : "Odśwież"}
+              </button>
+            </div>
+
+            {pushStats ? (
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="border border-[var(--ember)]/40 bg-[var(--ember)]/5 p-4">
+                  <div className="text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">Subskrypcje</div>
+                  <div className="mt-1 font-mono text-3xl text-[var(--ember-bright)]">{pushStats.count}</div>
+                </div>
+              </div>
+            ) : pushLoading ? (
+              <p className="text-sm text-[var(--bone-dim)]">Ładowanie subskrypcji…</p>
+            ) : null}
+
+            {pushStats && pushStats.subscriptions.length > 0 ? (
+              <div className="overflow-x-auto border border-[var(--hairline)]">
+                <table className="w-full min-w-[640px] text-left text-sm">
+                  <thead className="border-b border-[var(--hairline)] bg-black/40 font-mono text-[10px] uppercase tracking-widest text-[var(--bone-dim)]">
+                    <tr>
+                      <th className="px-3 py-2">ID</th>
+                      <th className="px-3 py-2">Endpoint</th>
+                      <th className="px-3 py-2">Język</th>
+                      <th className="px-3 py-2">Ostatnia aktualizacja</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pushStats.subscriptions.map((row) => (
+                      <tr className="border-b border-[var(--hairline)]/60" key={row.id}>
+                        <td className="px-3 py-2 font-mono">{row.id}</td>
+                        <td className="px-3 py-2 font-mono text-xs text-[var(--bone-dim)]">{row.endpointPreview}</td>
+                        <td className="px-3 py-2">{row.lang}</td>
+                        <td className="px-3 py-2 font-mono text-xs">
+                          {new Date(row.updatedAt).toLocaleString("pl-PL", { timeZone: "Europe/Warsaw" })}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : pushStats && pushStats.count === 0 ? (
+              <p className="text-sm text-[var(--bone-dim)]">
+                Brak subskrypcji. Otwórz apkę Android z włączonymi powiadomieniami i poczekaj kilka sekund.
+              </p>
+            ) : null}
+
+            <div className="border border-[var(--hairline)] p-4">
+              <p className="mb-4 text-sm text-[var(--bone-dim)]">
+                Wyślij natychmiast powiadomienie testowe („Nowa zagadka…”) do wszystkich subskrypcji — niezależnie od godziny crona.
+              </p>
+              <button
+                className="border border-[var(--ember)] bg-[var(--ember)]/10 px-4 py-2 text-xs uppercase tracking-widest text-[var(--ember-bright)] hover:bg-[var(--ember)]/20 disabled:opacity-50"
+                disabled={pushSending || !pushStats?.count}
+                onClick={() => void sendTestPush()}
+                type="button"
+              >
+                {pushSending ? "Wysyłanie…" : "Wyślij test push teraz"}
+              </button>
             </div>
           </section>
         ) : null}
