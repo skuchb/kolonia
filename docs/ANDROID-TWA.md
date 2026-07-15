@@ -61,6 +61,24 @@ bubblewrap build
 bubblewrap install
 ```
 
+**Build failed — typowe przyczyny:**
+
+| Błąd | Rozwiązanie |
+|------|-------------|
+| `Dependency requires at least JVM runtime version 11` | Użyj JDK z Android Studio: `$env:JAVA_HOME = "C:\Program Files\Android\Android Studio\jbr"` |
+| `SDK location not found` | Utwórz `local.properties`: `sdk.dir=C\:\\Users\\TWOJ_USER\\AppData\\Local\\Android\\Sdk` |
+| `'var' is not allowed` / błąd kompilacji Java | Zaktualizuj repo — `NotificationPermissionHelper` nie używa już `var` (Java 8) |
+
+Alternatywa bez bubblewrap (z katalogu `kolonia-android`):
+
+```powershell
+$env:JAVA_HOME = "C:\Program Files\Android\Android Studio\jbr"
+.\gradlew.bat assembleRelease
+adb install -r app\build\outputs\apk\release\app-release-unsigned.apk
+```
+
+(bubblewrap podpisuje APK automatycznie; przy `gradlew` potrzebny keystore z `app/build.gradle` / konfiguracji bubblewrap)
+
 ## 4. Ikony PWA (regeneracja)
 
 ```powershell
@@ -87,19 +105,25 @@ OAuth Google **nie wymaga** osobnego klienta Android — TWA ładuje produkcyjn�
    npx wrangler secret put VAPID_PUBLIC_KEY
    npx wrangler secret put VAPID_PRIVATE_KEY
    ```
-3. Po deployu włącz powiadomienia w **Ustawienia** w grze (checkbox push).
-4. Cron worker wysyła przypomnienie codziennie o **8:00** czasu warszawskiego.
+3. Po deployu powiadomienia push w apce Android włączają się po zgodzie systemowej przy starcie; wyłączenie: Ustawienia → Aplikacje → KOLONIA → Powiadomienia.
+4. Cron worker wysyła przypomnienie codziennie o **14:00** czasu warszawskiego (testowo; zmiana: `DAILY_PUSH_HOUR_WARSAW` w `wrangler.jsonc`).
 
 ### Powiadomienia w apce Android (TWA)
 
+**Apka Android pyta o powiadomienia przy pierwszym uruchomieniu** (`NotificationGateActivity` jako ikona apki → dialog → `LauncherActivity` z intentem `ACTION_VIEW`).
+
+Overlay nad TWA nie pokazywał dialogu. Gate jako launcher działa, ale TWA trzeba startować przez `ACTION_VIEW` + URL — inaczej apka się zamyka po zgodzie.
+
+Warstwa web **nie ma opcji powiadomień w ustawieniach gry** — po zgodzie systemowej strona automatycznie rejestruje subskrypcję push.
+
 **Nie używaj intent URL z warstwy web** — Chrome w TWA blokuje lub źle interpretuje takie linki.
 
-Oficjalna ścieżka (delegacja powiadomień):
+Wymagania techniczne:
 
 1. APK ma `DelegationService` + `NotificationPermissionRequestActivity` + `POST_NOTIFICATIONS`
-2. `assetlinks.json` i `assetStatements` muszą być poprawne (TWA bez paska adresu)
-3. Checkbox w grze wywołuje **`Notification.requestPermission()`** w handlerze kliknięcia
-4. Chrome uruchamia natywny dialog Androida przez `NotificationPermissionRequestActivity`
+2. `NotificationGateActivity` (MAIN/LAUNCHER) pyta o `POST_NOTIFICATIONS`, potem startuje `LauncherActivity` przez `ACTION_VIEW` + `launchUrl`
+3. `assetlinks.json` i `assetStatements` muszą być poprawne (TWA bez paska adresu)
+4. Web nasłuchuje `Notification.permission` i subskrybuje push po zgodzie systemowej
 
 **Czysta instalacja po problemach:**
 

@@ -93,13 +93,7 @@
       "googleLogin": "Mit Google anmelden",
       "logout": "Abmelden",
       "loggedInAs": "Angemeldet als",
-      "emailOptIn": "Ich möchte E-Mails von KOLONIA erhalten (Neuigkeiten).",
-      "push": "Benachrichtigungen",
-      "pushOptIn": "Erinnere mich täglich ans neue Rätsel.",
-      "pushTwaBlocked": "Keine Systemabfrage. App deinstallieren, Chrome-Daten für kolonia.app löschen, neu installieren. Oder: Einstellungen → Apps → KOLONIA → Benachrichtigungen → Erlauben.",
-      "pushDenied": "Benachrichtigungen blockiert. Android: Einstellungen → Apps → KOLONIA → Benachrichtigungen → Erlauben. Chrome: Schloss-Symbol → Benachrichtigungen.",
-      "pushDismissed": "Berechtigung nicht bestätigt. Schalter erneut aktivieren, um die Systemabfrage zu sehen.",
-      "pushFailed": "Push-Benachrichtigungen konnten nicht aktiviert werden."
+      "emailOptIn": "Ich möchte E-Mails von KOLONIA erhalten (Neuigkeiten)."
     },
     "result": {
       "title": "Gelöst!",

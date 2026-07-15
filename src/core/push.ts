@@ -4,7 +4,6 @@ export type PushSubscribeResult = "ok" | "denied" | "dismissed" | "unsupported" 
 
 export type PushPermissionResult = {
   permission: NotificationPermission;
-  /** Web API returned denied without showing a prompt (TWA delegation not connected). */
   instantDeny: boolean;
 };
 
@@ -20,6 +19,11 @@ export function isStandaloneDisplay(): boolean {
     window.matchMedia("(display-mode: minimal-ui)").matches ||
     (navigator as Navigator & { standalone?: boolean }).standalone === true
   );
+}
+
+/** Android app installed from Play / APK — native layer owns the permission dialog. */
+export function isAndroidTwa(): boolean {
+  return isAndroidDevice() && isStandaloneDisplay();
 }
 
 export function isPushSupported(): boolean {
@@ -62,11 +66,7 @@ function authHeaders(): HeadersInit {
   return headers;
 }
 
-/**
- * Must be the first await in a click handler (user gesture required).
- * In a verified TWA, Chrome delegates to NotificationPermissionRequestActivity
- * and shows the native Android POST_NOTIFICATIONS dialog.
- */
+/** Browser / PWA prompt — not used on Android TWA (see LauncherActivity). */
 export async function requestPushPermission(): Promise<PushPermissionResult> {
   if (!isPushSupported()) return { permission: "denied", instantDeny: false };
 
@@ -76,7 +76,7 @@ export async function requestPushPermission(): Promise<PushPermissionResult> {
   const started = performance.now();
   const permission = await Notification.requestPermission();
   const instantDeny =
-    permission === "denied" && isAndroidDevice() && performance.now() - started < 250;
+    permission === "denied" && isAndroidDevice() && performance.now() - started < 500;
 
   return { permission, instantDeny };
 }

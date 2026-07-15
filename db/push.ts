@@ -7,7 +7,16 @@ import { puzzleNumber, TIMEZONE } from "@/src/core/daily";
 import { siteUrl } from "@/src/core/site";
 import { pushSubscriptions } from "./schema";
 
-const DAILY_PUSH_HOUR_WARSAW = 8;
+const DEFAULT_DAILY_PUSH_HOUR_WARSAW = 14;
+
+function readDailyPushHourWarsaw(): number {
+  const raw = process.env.DAILY_PUSH_HOUR_WARSAW?.trim();
+  const parsed = raw ? Number.parseInt(raw, 10) : DEFAULT_DAILY_PUSH_HOUR_WARSAW;
+  if (!Number.isFinite(parsed) || parsed < 0 || parsed > 23) {
+    return DEFAULT_DAILY_PUSH_HOUR_WARSAW;
+  }
+  return parsed;
+}
 
 const DAILY_PUSH_COPY: Record<Locale, { title: string; body: string }> = {
   pl: {
@@ -142,7 +151,7 @@ function warsawHour(now = new Date()): number {
 }
 
 export function shouldSendDailyPush(now = new Date()): boolean {
-  return warsawHour(now) === DAILY_PUSH_HOUR_WARSAW;
+  return warsawHour(now) === readDailyPushHourWarsaw();
 }
 
 export async function sendDailyPuzzlePushes(d1: D1Database): Promise<{

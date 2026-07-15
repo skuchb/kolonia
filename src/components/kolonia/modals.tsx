@@ -149,13 +149,9 @@ export function SettingsModal({
   camp,
   session,
   emailOptIn,
-  pushSupported,
-  pushOptIn,
-  pushMessage,
   onClose,
   onLanguageChange,
   onEmailOptInChange,
-  onPushOptInChange,
   onGoogleLogin,
   onLogout,
 }: {
@@ -163,13 +159,9 @@ export function SettingsModal({
   camp: PlayerCamp | null;
   session: AuthSession | null;
   emailOptIn: boolean;
-  pushSupported: boolean;
-  pushOptIn: boolean;
-  pushMessage: string | null;
   onClose: () => void;
   onLanguageChange: (lang: Locale) => void;
   onEmailOptInChange: (optIn: boolean) => void;
-  onPushOptInChange: (optIn: boolean) => void;
   onGoogleLogin: () => void;
   onLogout: () => void;
 }) {
@@ -204,24 +196,6 @@ export function SettingsModal({
           <section>
             <h3 className="mb-2 text-[var(--bone)]">{settings.camp}</h3>
             <p className="text-[var(--bone-dim)]">{playerCampLabel(lang, camp)}</p>
-          </section>
-        ) : null}
-
-        {pushSupported ? (
-          <section>
-            <h3 className="mb-2 text-[var(--bone)]">{settings.push}</h3>
-            <label className="flex cursor-pointer items-start gap-3 normal-case tracking-normal">
-              <input
-                checked={pushOptIn}
-                className="mt-1 size-4 accent-[var(--ember)]"
-                onChange={(event) => onPushOptInChange(event.target.checked)}
-                type="checkbox"
-              />
-              <span className="leading-relaxed text-[var(--bone-dim)]">{settings.pushOptIn}</span>
-            </label>
-            {pushMessage ? (
-              <p className="mt-2 normal-case tracking-normal text-[var(--ember-bright)]">{pushMessage}</p>
-            ) : null}
           </section>
         ) : null}
 

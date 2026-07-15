@@ -37,10 +37,8 @@ import {
 } from "@/src/core/feedback";
 import { syncProgressToServer } from "@/src/core/progress";
 import {
-  isAndroidDevice,
-  isStandaloneDisplay,
+  isAndroidTwa,
   isPushSupported,
-  requestPushPermission,
   syncPushSubscription,
 } from "@/src/core/push";
 import { buildShareText, shareResult } from "@/src/core/share";
@@ -101,8 +99,6 @@ export default function KoloniaGame() {
   const [activeSuggestion, setActiveSuggestion] = useState(0);
   const [helpManualOpen, setHelpManualOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [pushMessage, setPushMessage] = useState<string | null>(null);
-  const pushSupported = isPushSupported();
   const [authSession, setAuthSession] = useState<AuthSession | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [resultContext, setResultContext] = useState<{
@@ -569,53 +565,57 @@ export default function KoloniaGame() {
     });
   }
 
-  async function completePushOptInAfterPermission() {
-    const { permission, instantDeny } = await requestPushPermission();
-    if (permission !== "granted") {
-      setPersisted((current) => ({ ...current, pushOptIn: false }));
-      if (permission === "denied") {
-        if (instantDeny && isAndroidDevice() && isStandaloneDisplay()) {
-          setPushMessage(dict.ui.settings.pushTwaBlocked);
-        } else {
-          setPushMessage(dict.ui.settings.pushDenied);
-        }
-      } else {
-        setPushMessage(dict.ui.settings.pushDismissed);
+  useEffect(() => {
+    if (!hydrated || !isAndroidTwa() || !isPushSupported()) return;
+
+    async function syncTwaPushFromNativePermission() {
+      const permission = Notification.permission;
+
+      if (permission === "granted") {
+        const result = await syncPushSubscription(persisted.lang, true, "granted");
+        if (result !== "ok") return;
+
+        setPersisted((current) => {
+          if (current.pushOptIn === true) return current;
+          const next = { ...current, pushOptIn: true };
+          const session = loadAuth();
+          if (session) void syncProfile(session.token, next);
+          return next;
+        });
+        return;
       }
-      return;
-    }
 
-    const result = await syncPushSubscription(persisted.lang, true, permission);
-    if (result === "ok") {
-      const next = { ...persisted, pushOptIn: true };
-      setPersisted(next);
-      const session = loadAuth();
-      if (session) void syncProfile(session.token, next);
-      setPushMessage(null);
-      return;
-    }
-
-    setPersisted((current) => ({ ...current, pushOptIn: false }));
-    setPushMessage(result === "denied" ? dict.ui.settings.pushDenied : dict.ui.settings.pushFailed);
-  }
-
-  function handlePushOptInChange(optIn: boolean) {
-    setPushMessage(null);
-
-    if (!optIn) {
-      void (async () => {
+      if (permission === "denied") {
         await syncPushSubscription(persisted.lang, false);
-        const next = { ...persisted, pushOptIn: false };
-        setPersisted(next);
-        const session = loadAuth();
-        if (session) void syncProfile(session.token, next);
-      })();
-      return;
+        setPersisted((current) => (current.pushOptIn ? { ...current, pushOptIn: false } : current));
+      }
     }
 
-    // requestPushPermission() must start in this click handler (user gesture).
-    void completePushOptInAfterPermission();
-  }
+    void syncTwaPushFromNativePermission();
+
+    const onResume = () => {
+      if (document.visibilityState === "visible") {
+        void syncTwaPushFromNativePermission();
+      }
+    };
+
+    document.addEventListener("visibilitychange", onResume);
+    window.addEventListener("pageshow", onResume);
+    window.addEventListener("focus", onResume);
+
+    const interval = window.setInterval(() => {
+      void syncTwaPushFromNativePermission();
+    }, 500);
+    const stopPoll = window.setTimeout(() => window.clearInterval(interval), 15000);
+
+    return () => {
+      document.removeEventListener("visibilitychange", onResume);
+      window.removeEventListener("pageshow", onResume);
+      window.removeEventListener("focus", onResume);
+      window.clearInterval(interval);
+      window.clearTimeout(stopPoll);
+    };
+  }, [hydrated, persisted.lang, setPersisted]);
 
   function closeHelp() {
     setHelpManualOpen(false);
@@ -1205,18 +1205,11 @@ export default function KoloniaGame() {
           camp={playerCamp}
           emailOptIn={persisted.emailOptIn !== false}
           lang={persisted.lang}
-          onClose={() => {
-            setPushMessage(null);
-            setShowSettings(false);
-          }}
+          onClose={() => setShowSettings(false)}
           onEmailOptInChange={(optIn) => setPersisted((current) => ({ ...current, emailOptIn: optIn }))}
           onGoogleLogin={handleGoogleLogin}
           onLanguageChange={handleLanguageChange}
           onLogout={handleLogout}
-          onPushOptInChange={handlePushOptInChange}
-          pushMessage={pushMessage}
-          pushOptIn={persisted.pushOptIn === true}
-          pushSupported={pushSupported}
           session={authSession}
         />
       ) : null}
