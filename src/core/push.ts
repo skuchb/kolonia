@@ -4,15 +4,19 @@ export type PushSubscribeResult = "ok" | "denied" | "dismissed" | "unsupported" 
 
 export type PushPermissionResult = {
   permission: NotificationPermission;
-  /** Web API returned denied without showing a prompt (common on Android 13+ TWA). */
   instantDeny: boolean;
 };
+
+const KOLONIA_PACKAGE = "app.kolonia.game";
+const NATIVE_PERMISSION_ACTIVITY = `${KOLONIA_PACKAGE}/app.kolonia.game.OpenNotificationSettingsActivity`;
+
+export const PUSH_PENDING_KEY = "kolonia_push_pending";
 
 export function isAndroidDevice(): boolean {
   return typeof navigator !== "undefined" && /Android/i.test(navigator.userAgent);
 }
 
-/** Installed PWA or TWA (not the Chrome tab UI). */
+/** Installed TWA / PWA — not a Chrome tab. */
 export function isStandaloneDisplay(): boolean {
   if (typeof window === "undefined") return false;
   return (
@@ -29,6 +33,35 @@ export function isPushSupported(): boolean {
     "PushManager" in window &&
     "Notification" in window
   );
+}
+
+/**
+ * Launches OpenNotificationSettingsActivity via explicit Android component.
+ * No https deep link — avoids Kolonia vs Kolonia.app chooser.
+ * No browser_fallback_url — avoids page refresh / Not Found.
+ */
+export function getNativeNotificationPermissionHref(): string {
+  return (
+    `intent:#Intent;` +
+    `component=${NATIVE_PERMISSION_ACTIVITY};` +
+    `action=android.intent.action.MAIN;` +
+    `category=android.intent.category.DEFAULT;` +
+    `end`
+  );
+}
+
+/** Call synchronously from a click handler — before any await. */
+export function launchNativeNotificationPermission(): void {
+  const link = document.createElement("a");
+  link.href = getNativeNotificationPermissionHref();
+  link.rel = "noopener noreferrer";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
+export function shouldUseNativePermissionFlow(): boolean {
+  return isAndroidDevice() && isStandaloneDisplay();
 }
 
 function urlBase64ToUint8Array(value: string): Uint8Array {
@@ -62,33 +95,7 @@ function authHeaders(): HeadersInit {
   return headers;
 }
 
-const KOLONIA_PACKAGE = "app.kolonia.game";
-const CHROME_PACKAGE = "com.android.chrome";
-
-/** Href for the settings button — explicit component, no app chooser. */
-export function getAndroidNotificationSettingsHref(): string {
-  const origin =
-    typeof window !== "undefined" ? window.location.origin.replace(/\/$/, "") : "https://kolonia.app";
-  const host = origin.replace(/^https?:\/\//, "");
-  const pkg = isStandaloneDisplay() ? KOLONIA_PACKAGE : CHROME_PACKAGE;
-
-  if (isStandaloneDisplay()) {
-    const component = `${KOLONIA_PACKAGE}/.OpenNotificationSettingsActivity`;
-    return (
-      `intent://${host}/open-notification-settings#Intent;` +
-      `scheme=https;package=${KOLONIA_PACKAGE};component=${component};` +
-      `action=android.intent.action.VIEW;end`
-    );
-  }
-
-  const fallback = encodeURIComponent(`${origin}/`);
-  return (
-    `intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;` +
-    `scheme=package;package=${pkg};S.browser_fallback_url=${fallback};end`
-  );
-}
-
-/** Call as the first await from a click handler — before any other async work. */
+/** First await inside a click handler (after native flow on Android). */
 export async function requestPushPermission(): Promise<PushPermissionResult> {
   if (!isPushSupported()) return { permission: "denied", instantDeny: false };
 

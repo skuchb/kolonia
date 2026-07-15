@@ -88,5 +88,46 @@ OAuth Google **nie wymaga** osobnego klienta Android — TWA ładuje produkcyjn�
    npx wrangler secret put VAPID_PRIVATE_KEY
    ```
 3. Po deployu włącz powiadomienia w **Ustawienia** w grze (checkbox push).
-4. **Android 13+:** przy pierwszym uruchomieniu apki pojawi się systemowe pytanie o powiadomienia — zaakceptuj, potem włącz checkbox w grze.
-5. Cron worker wysyła przypomnienie codziennie o **8:00** czasu warszawskiego.
+4. Cron worker wysyła przypomnienie codziennie o **8:00** czasu warszawskiego.
+
+### Powiadomienia w apce Android (TWA)
+
+TWA wymaga **dwóch warstw zgody** na Androidzie 13+:
+
+| Warstwa | Co to | Jak działa |
+|---------|-------|------------|
+| `POST_NOTIFICATIONS` | Uprawnienie systemowe Android | Dialog natywny w apce |
+| `Notification.permission` | Zgoda w warstwie web (Chrome/TWA) | `Notification.requestPermission()` |
+
+**Poprawna konfiguracja (już w projekcie):**
+
+- `DelegationService` + `NotificationPermissionRequestActivity` w `AndroidManifest.xml`
+- `POST_NOTIFICATIONS` w manifeście
+- `enableNotifications: true` w `twa-manifest.json`
+- `assetlinks.json` z fingerprintem keystore
+
+**Flow po checkboxie (APK v6+):**
+
+1. Checkbox → natywny dialog „Zezwolić na powiadomienia?” (bez wyboru Kolonia/Kolonia.app)
+2. Po „Zezwól” → powrót do gry → automatyczna subskrypcja push
+3. Jeśli dialog się nie pojawi → przycisk „Zezwól na powiadomienia” (ten sam mechanizm)
+
+**Ważne — czysta instalacja po problemach:**
+
+```powershell
+# Odinstaluj starą apkę z telefonu, potem:
+cd ..\kolonia-android
+bubblewrap update
+bubblewrap build
+bubblewrap install
+```
+
+Przy pierwszym uruchomieniu apka może też zapytać o powiadomienia (backup w `LauncherActivity`).
+
+**Weryfikacja asset links na telefonie** (opcjonalnie, przez adb):
+
+```text
+adb shell pm get-app-links app.kolonia.game
+```
+
+Status `verified` dla `kolonia.app` = TWA działa w pełnym trybie z delegacją powiadomień.

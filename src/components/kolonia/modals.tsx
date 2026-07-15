@@ -152,8 +152,7 @@ export function SettingsModal({
   pushSupported,
   pushOptIn,
   pushMessage,
-  pushNeedsSettings,
-  pushSettingsHref,
+  pushNativeHref,
   onClose,
   onLanguageChange,
   onEmailOptInChange,
@@ -168,8 +167,7 @@ export function SettingsModal({
   pushSupported: boolean;
   pushOptIn: boolean;
   pushMessage: string | null;
-  pushNeedsSettings: boolean;
-  pushSettingsHref: string | null;
+  pushNativeHref: string | null;
   onClose: () => void;
   onLanguageChange: (lang: Locale) => void;
   onEmailOptInChange: (optIn: boolean) => void;
@@ -226,10 +224,10 @@ export function SettingsModal({
             {pushMessage ? (
               <p className="mt-2 normal-case tracking-normal text-[var(--ember-bright)]">{pushMessage}</p>
             ) : null}
-            {pushNeedsSettings && pushSettingsHref ? (
+            {pushNativeHref ? (
               <a
                 className="mt-3 inline-flex min-h-10 items-center border border-[var(--hairline)] px-3 py-2 font-mono text-[10pt] normal-case tracking-normal text-[var(--bone)] hover:border-[var(--bone)]/40"
-                href={pushSettingsHref}
+                href={pushNativeHref}
                 rel="noopener noreferrer"
               >
                 {settings.pushOpenSettings}
