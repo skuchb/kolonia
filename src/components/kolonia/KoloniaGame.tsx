@@ -39,7 +39,7 @@ import { syncProgressToServer } from "@/src/core/progress";
 import {
   isAndroidTwa,
   isPushSupported,
-  syncPushSubscription,
+  syncTwaPushSubscription,
 } from "@/src/core/push";
 import { buildShareText, shareResult } from "@/src/core/share";
 import {
@@ -568,27 +568,35 @@ export default function KoloniaGame() {
   useEffect(() => {
     if (!hydrated || !isAndroidTwa() || !isPushSupported()) return;
 
+    let cancelled = false;
+    let intervalId: number | undefined;
+
     async function syncTwaPushFromNativePermission() {
-      const permission = Notification.permission;
+      if (cancelled) return;
 
-      if (permission === "granted") {
-        const result = await syncPushSubscription(persisted.lang, true, "granted");
-        if (result !== "ok") return;
-
-        setPersisted((current) => {
-          if (current.pushOptIn === true) return current;
-          const next = { ...current, pushOptIn: true };
-          const session = loadAuth();
-          if (session) void syncProfile(session.token, next);
-          return next;
-        });
+      const result = await syncTwaPushSubscription(persisted.lang);
+      if (result === "denied") {
+        if (intervalId !== undefined) {
+          window.clearInterval(intervalId);
+          intervalId = undefined;
+        }
+        setPersisted((current) => (current.pushOptIn ? { ...current, pushOptIn: false } : current));
         return;
       }
+      if (result !== "ok") return;
 
-      if (permission === "denied") {
-        await syncPushSubscription(persisted.lang, false);
-        setPersisted((current) => (current.pushOptIn ? { ...current, pushOptIn: false } : current));
+      if (intervalId !== undefined) {
+        window.clearInterval(intervalId);
+        intervalId = undefined;
       }
+
+      setPersisted((current) => {
+        if (current.pushOptIn === true) return current;
+        const next = { ...current, pushOptIn: true };
+        const session = loadAuth();
+        if (session) void syncProfile(session.token, next);
+        return next;
+      });
     }
 
     void syncTwaPushFromNativePermission();
@@ -603,16 +611,19 @@ export default function KoloniaGame() {
     window.addEventListener("pageshow", onResume);
     window.addEventListener("focus", onResume);
 
-    const interval = window.setInterval(() => {
+    intervalId = window.setInterval(() => {
       void syncTwaPushFromNativePermission();
-    }, 500);
-    const stopPoll = window.setTimeout(() => window.clearInterval(interval), 15000);
+    }, 3000);
+    const stopPoll = window.setTimeout(() => {
+      if (intervalId !== undefined) window.clearInterval(intervalId);
+    }, 5 * 60 * 1000);
 
     return () => {
+      cancelled = true;
       document.removeEventListener("visibilitychange", onResume);
       window.removeEventListener("pageshow", onResume);
       window.removeEventListener("focus", onResume);
-      window.clearInterval(interval);
+      if (intervalId !== undefined) window.clearInterval(intervalId);
       window.clearTimeout(stopPoll);
     };
   }, [hydrated, persisted.lang, setPersisted]);

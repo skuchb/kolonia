@@ -66,7 +66,7 @@ function authHeaders(): HeadersInit {
   return headers;
 }
 
-/** Browser / PWA prompt — not used on Android TWA (see LauncherActivity). */
+/** Browser / PWA prompt — on TWA may sync web permission after native POST_NOTIFICATIONS grant. */
 export async function requestPushPermission(): Promise<PushPermissionResult> {
   if (!isPushSupported()) return { permission: "denied", instantDeny: false };
 
@@ -79,6 +79,23 @@ export async function requestPushPermission(): Promise<PushPermissionResult> {
     permission === "denied" && isAndroidDevice() && performance.now() - started < 500;
 
   return { permission, instantDeny };
+}
+
+async function postSubscriptionToServer(subscription: PushSubscription, lang: Locale): Promise<PushSubscribeResult> {
+  const payload = subscription.toJSON();
+  if (!payload.endpoint || !payload.keys?.p256dh || !payload.keys.auth) return "failed";
+
+  const response = await fetch("/api/push/subscribe", {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify({
+      endpoint: payload.endpoint,
+      keys: payload.keys,
+      lang,
+    }),
+  });
+
+  return response.ok ? "ok" : "failed";
 }
 
 export async function subscribeToPush(lang: Locale): Promise<PushSubscribeResult> {
@@ -101,20 +118,33 @@ export async function subscribeToPush(lang: Locale): Promise<PushSubscribeResult
       applicationServerKey: urlBase64ToUint8Array(publicKey),
     }));
 
-  const payload = subscription.toJSON();
-  if (!payload.endpoint || !payload.keys?.p256dh || !payload.keys.auth) return "failed";
+  return postSubscriptionToServer(subscription, lang);
+}
 
-  const response = await fetch("/api/push/subscribe", {
-    method: "POST",
-    headers: authHeaders(),
-    body: JSON.stringify({
-      endpoint: payload.endpoint,
-      keys: payload.keys,
-      lang,
-    }),
-  });
+/**
+ * TWA: native POST_NOTIFICATIONS can be granted while Notification.permission still lags.
+ * Re-sync permission, reuse an existing PushSubscription, or create a new one.
+ */
+export async function syncTwaPushSubscription(lang: Locale): Promise<PushSubscribeResult> {
+  if (!isPushSupported() || !isAndroidTwa()) return "unsupported";
 
-  return response.ok ? "ok" : "failed";
+  await navigator.serviceWorker.register("/sw.js").catch(() => undefined);
+  const registration = await navigator.serviceWorker.ready;
+
+  const existing = await registration.pushManager.getSubscription();
+  if (existing) {
+    return postSubscriptionToServer(existing, lang);
+  }
+
+  let permission = Notification.permission;
+  if (permission !== "granted") {
+    permission = (await requestPushPermission()).permission;
+  }
+  if (permission !== "granted") {
+    return permission === "denied" ? "denied" : "dismissed";
+  }
+
+  return subscribeToPush(lang);
 }
 
 export async function unsubscribeFromPush(): Promise<void> {

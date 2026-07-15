@@ -154,13 +154,16 @@ export function shouldSendDailyPush(now = new Date()): boolean {
   return warsawHour(now) === readDailyPushHourWarsaw();
 }
 
-export async function sendDailyPuzzlePushes(d1: D1Database): Promise<{
+export async function sendDailyPuzzlePushes(
+  d1: D1Database,
+  options: { force?: boolean } = {},
+): Promise<{
   sent: number;
   failed: number;
   removed: number;
   skipped: boolean;
 }> {
-  if (!shouldSendDailyPush()) {
+  if (!options.force && !shouldSendDailyPush()) {
     return { sent: 0, failed: 0, removed: 0, skipped: true };
   }
 
